@@ -123,21 +123,32 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
 
             case R.id.menu_feedback:
 
+                // Criação do AlertDialog para cadastrar o e-mail
                 AlertDialog.Builder emaildialog;
 
+                /*
+                 * se o preferencesTheme retornar o valor "true",
+                 * o emaildialog receberá o tema escuro.
+                 * Caso contrário, receberá o tema claro*/
                 if (preferencesTheme.getNightModeState())
                     emaildialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
                 else
                     emaildialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
 
+                // Adição do icone e o título do email dialog
                 emaildialog.setIcon(R.drawable.iconapp);
                 emaildialog.setTitle(getString(R.string.email_title));
+
+
                 final EditText emailtext = new EditText(this);
                 final AppCompatActivity activity = this;
 
+                //
                 emailtext.setInputType(InputType.TYPE_CLASS_TEXT);
                 emailtext.setSingleLine(false);
                 emailtext.setHint(getString(R.string.email_textHint));
+                emailtext.setHintTextColor((preferencesTheme.getNightModeState()) ? getResources().getColor(R.color.nightcolortexthint) : getResources().getColor(R.color.colortexthint));
+                emailtext.setTextColor((preferencesTheme.getNightModeState()) ? getResources().getColor(R.color.nightcolorPrimaryText) : getResources().getColor(R.color.colorPrimaryText));
                 emailtext.setGravity(Gravity.START | Gravity.TOP);
                 emailtext.setHorizontalScrollBarEnabled(false);
                 emaildialog.setView(emailtext);
@@ -150,7 +161,6 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
 
                             long random = (long) (Math.random() * 1.0E14D + 1.0E9D);
                             String subject = getString(R.string.email_subject).concat("#").concat(Long.toString(random));
-
 
                             SimpleDateFormat dateFormat;
 
