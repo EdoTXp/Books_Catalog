@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
+    tools:context=".activities.TelaImpostacoes">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarSize="0dp"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_language"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:drawableStart="@drawable/baseline_language_24"
+                android:text="@string/action_choose_Language"
+                android:textColor="?attr/textcolor"
+                android:textSize="20sp"
+                app:drawableTint="?attr/textcolor" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbarSize="0dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RadioGroup
+                        android:id="@+id/rg_language"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_english"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:buttonTint="?attr/colorAccent"
+                            android:checked="true"
+                            android:text="@string/english"
+                            android:textColor="?attr/textcolor"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_italy"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:buttonTint="?attr/colorAccent"
+                            android:text="@string/italy"
+                            android:textColor="?attr/textcolor"
+                            android:textSize="16sp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_portuguese"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:buttonTint="?attr/colorAccent"
+                            android:text="@string/portuguese"
+                            android:textColor="?attr/textcolor"
+                            android:textSize="16sp" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <View
+                android:id="@+id/div_2"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/txt_dark_mode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/menu_darkMode"
+                android:textColor="?attr/textcolor"
+                android:textSize="20sp" />
+
+            <Switch
+                android:id="@+id/swt_dark_mode"
+                android:layout_width="142dp"
+                android:layout_height="48dp"
+                android:layout_margin="16dp"
+                android:checked="false"
+                android:showText="false"
+                android:splitTrack="false"
+                android:text="@string/menu_lightMode"
+                android:textColor="?attr/textcolor"
+                android:textOff="@string/menu_lightMode"
+                android:textOn="@string/menu_darkMode"
+                android:thumbTint="?attr/colorAccent"
+                tools:checked="false" />
+
+            <View
+                android:id="@+id/div_3"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/txt_user_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:drawableStart="@android:drawable/ic_menu_close_clear_cancel"
+                android:text="@string/menu_data"
+                android:textColor="?attr/textcolor"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/btn_clear_data"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttonSave_height"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/layout_border"
+                android:drawableEnd="@android:drawable/ic_menu_delete"
+                android:text="@string/btn_clear_data"
+                android:textColor="?attr/textcolor"
+                android:textSize="20sp" />
+
+            <View
+                android:id="@+id/div_4"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="32dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@android:color/darker_gray" />
+
+            <Button
+                android:id="@+id/btn_salvar_settings"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/buttonSave_height"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/layout_border"
+                android:drawableEnd="@android:drawable/ic_menu_save"
+                android:text="@string/btn_Salvar"
+                android:textAlignment="center"
+                android:textColor="?attr/textcolor"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

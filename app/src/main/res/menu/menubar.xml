@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_settings"
+        android:actionLayout="@layout/activity_tela_principal"
+        android:icon="@android:drawable/ic_menu_manage"
+
+        android:title="@string/menu_settings" />
+    <item
+        android:id="@+id/menu_feedback"
+        android:title="@string/menu_feedback"
+        />
+    <item
+        android:id="@+id/menu_app_version"
+        android:actionLayout="@layout/activity_tela_principal"
+        android:icon="@android:drawable/ic_menu_info_details"
+        android:title="@string/menu_app_version"
+        />
+</menu>

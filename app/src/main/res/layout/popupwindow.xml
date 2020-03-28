@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/popupwindow"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/backgroundcolor"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="290dp"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textViewWindowPopUp"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:text="@string/WindowPopUpTitle"
+                android:textAlignment="center"
+                android:textColor="?attr/textcolor"
+                android:textSize="28sp" />
+
+            <Button
+                android:id="@+id/btnShareWindowPopUp"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="12dp"
+                android:drawableStart="@android:drawable/ic_menu_share"
+                android:text="@string/WindowPopUpShare"
+                android:textAlignment="center"
+                android:background="@drawable/layout_border"
+                android:textColor="?attr/textcolor"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnSearchWindowPopUp"
+                android:layout_width="match_parent"
+                android:layout_height="68dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="12dp"
+                android:drawableStart="@android:drawable/ic_menu_search"
+                android:text="@android:string/search_go"
+                android:textAlignment="center"
+                android:textColor="?attr/textcolor"
+                android:background="@drawable/layout_border"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

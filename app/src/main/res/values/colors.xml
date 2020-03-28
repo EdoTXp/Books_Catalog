@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- color of default theme -->
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryText">#00324B</color>
+    <color name="colorAccent">#00A567</color>
+    <color name="colortexthint">#777777</color>
+    <color name="whitebackground">#FCFCFC</color>
+
+    <color name="nightcolorPrimary">#121212</color>
+    <color name="nightcolorSecundary">#181818</color>
+    <color name="nightcolorPrimaryText">#B8B8B8</color>
+    <color name="nightcolorAccent">#D8D8D8</color>
+    <color name="nightcolortexthint">#D8D7D7</color>
+    <color name="darkbackground">#080808</color>
+
+</resources>

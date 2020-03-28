@@ -1,0 +1,40 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <!-- Day / Light mode -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryText</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="backgroundcolor">@color/whitebackground</item>
+        <item name="linebordercolor">@color/colorPrimary</item>
+        <item name="textcolor">@color/colorPrimaryText</item>
+        <item name="textcolorhint">@color/colortexthint</item>
+        <item name="tintcolor">@color/colorPrimaryText</item>
+        <item name="borderbackground">@color/whitebackground</item>
+        <item name="buttonbackground">@color/whitebackground</item>
+        <item name="android:windowAnimationStyle">@style/WindowsAnimationTransition</item>
+    </style>
+
+    <!-- Night / Dark mode -->
+    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/nightcolorPrimary</item>
+        <item name="colorPrimaryDark">@color/nightcolorSecundary</item>
+        <item name="colorAccent">@color/nightcolorAccent</item>
+        <item name="backgroundcolor">@color/darkbackground</item>
+        <item name="linebordercolor">@color/colorPrimary</item>
+        <item name="textcolor">@color/nightcolorPrimaryText</item>
+        <item name="textcolorhint">@color/nightcolortexthint</item>
+        <item name="tintcolor">@color/nightcolorPrimaryText</item>
+        <item name="borderbackground">@color/darkbackground</item>
+        <item name="buttonbackground">@color/darkbackground</item>
+        <item name="android:windowAnimationStyle">@style/WindowsAnimationTransition</item>
+    </style>
+
+
+    <style name="WindowsAnimationTransition">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+</resources>
