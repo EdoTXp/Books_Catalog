@@ -147,8 +147,11 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
                 emailtext.setInputType(InputType.TYPE_CLASS_TEXT);
                 emailtext.setSingleLine(false);
                 emailtext.setHint(getString(R.string.email_textHint));
+
+                //TODO trovare altri modi per settare il colore
                 emailtext.setHintTextColor((preferencesTheme.getNightModeState()) ? getResources().getColor(R.color.nightcolortexthint) : getResources().getColor(R.color.colortexthint));
                 emailtext.setTextColor((preferencesTheme.getNightModeState()) ? getResources().getColor(R.color.nightcolorPrimaryText) : getResources().getColor(R.color.colorPrimaryText));
+
                 emailtext.setGravity(Gravity.START | Gravity.TOP);
                 emailtext.setHorizontalScrollBarEnabled(false);
                 emaildialog.setView(emailtext);
