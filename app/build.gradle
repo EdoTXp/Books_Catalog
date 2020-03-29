@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ */
+
 apply plugin: 'com.android.application'
 
 android {
@@ -7,9 +11,9 @@ android {
         applicationId "com.BiblioLivro.criarlivros"
         minSdkVersion 22
         targetSdkVersion 29
-        versionCode 1
+        versionCode 6
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        versionName = 'From Dark to Light'
+        versionName = '6.0.2.205 From Dark to Light'
     }
     buildTypes {
         release {

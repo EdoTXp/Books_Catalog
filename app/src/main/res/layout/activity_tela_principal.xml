@@ -24,7 +24,7 @@
         android:id="@+id/scrollView_telaPrincipal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbarSize="0dp"
+        android:scrollbars="none"
         tools:ignore="UselessParent">
 
         <LinearLayout
@@ -81,7 +81,7 @@
             <HorizontalScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbarSize="0dp">
+                android:scrollbars="none">
 
                 <RadioGroup
                     android:id="@+id/rdgPesquisarPor"
