@@ -10,6 +10,8 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,62 +23,90 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.BiblioLivro.criarlivros.R;
 import com.BiblioLivro.criarlivros.activities.WindowPopUp;
 import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
+import com.BiblioLivro.criarlivros.model.BookItem;
+import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
 
-public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdapter.BookViewHolder> implements View.OnClickListener, View.OnLongClickListener {
+public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdapter.BookViewHolder> {
 
-    private ArrayList<Integer> Id;
-    private ArrayList<String> Titulo, Autor;
-    private ArrayList<Integer> Ano;
     private Context mcontext;
-    private int itemCount;
-    private int Position;
+    private View view;
+    private ArrayList<BookItem> bookItems;
 
 
-    public BookComponentAdapter(Context context, ArrayList<Integer> id, ArrayList<String> titolo, ArrayList<String> autor, ArrayList<Integer> ano, int count) {
+    /**
+     * @param context   onde vai ser inserido o BookComponentAdapter
+     * @param bookitems ArrayList de bookitem (int: Id, String: Título, String: Autor, int: Ano)
+     */
+    public BookComponentAdapter(Context context, ArrayList<BookItem> bookitems) {
         mcontext = context;
-        Id = id;
-        Titulo = titolo;
-        Autor = autor;
-        Ano = ano;
-        itemCount = count;
+        bookItems = bookitems;
     }
 
     @NonNull
     @Override
     public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mcontext);
-        View view = inflater.inflate(R.layout.book_component, parent, false);
-        view.setOnLongClickListener(this);
+        view = inflater.inflate(R.layout.book_component, parent, false);
         return new BookViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
-        Position = holder.getLayoutPosition();
 
         adaptTextViewOnScreen(holder.txtTitulo);
         adaptTextViewOnScreen(holder.txtAutor);
 
-        holder.txtId.setText(String.valueOf(Id.get(position)));
-        holder.txtTitulo.setText(Titulo.get(position));
-        holder.txtAutor.setText(Autor.get(position));
-        holder.txtAno.setText(String.valueOf(Ano.get(position)));
+        holder.txtId.setText(String.valueOf(bookItems.get(position).getId()));
+        holder.txtTitulo.setText(bookItems.get(position).getNomelivro());
+        holder.txtAutor.setText(bookItems.get(position).getNomeautor());
+        holder.txtAno.setText(String.valueOf(bookItems.get(position).getAnolivro()));
 
-        holder.imgEdit.setOnClickListener(this);
-        holder.imgExcluir.setOnClickListener(this);
+        final int Position = holder.getAdapterPosition();
+
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                GestorVibrator.Vibrate(100L, (AppCompatActivity) v.getContext());
+
+                String Share = v.getResources().getString(R.string.txt_id).concat(": ").concat(String.valueOf(bookItems.get(Position).getId()).concat("\n")
+                        .concat(v.getResources().getString(R.string.txt_titulo)).concat(": ").concat(bookItems.get(Position).getNomelivro()).concat("\n")
+                        .concat(v.getResources().getString(R.string.txt_autor)).concat(": ").concat(bookItems.get(Position).getNomeautor()).concat("\n")
+                        .concat(v.getResources().getString(R.string.txt_ano)).concat(": ").concat(String.valueOf(bookItems.get(Position).getAnolivro())));
+                String URL = v.getResources().getString(R.string.Google_Search).concat(bookItems.get(Position).getNomelivro()).concat(", ").concat(bookItems.get(Position).getNomeautor());
+
+                WindowPopUp windowPopUp = new WindowPopUp();
+                windowPopUp.showPopUpWindow(v, URL, Share, (AppCompatActivity) v.getContext());
+                return true;
+            }
+        });
+
+        //TODO Aggiungere il codice per gli eventi di edit
+        holder.imgEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), "Click edit", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        holder.imgExcluir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeAt(Position);
+            }
+        });
     }
 
+    // este metodo adapta o texto a diferentes formatos de telas
     private void adaptTextViewOnScreen(@NotNull TextView textView) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) mcontext).getWindowManager()
                 .getDefaultDisplay()
                 .getMetrics(displayMetrics);
-
         ViewGroup.LayoutParams params = textView.getLayoutParams();
         if (displayMetrics.widthPixels > 480) {
             params.width = mcontext.getResources().getDimensionPixelSize(R.dimen.TextViewResolution1920);
@@ -87,11 +117,33 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return itemCount;
+    /* Este método serve para remover cada item atraves sua posição. Removendo da lista, do database,
+    e atualizando o recycleView
+     */
+    private void removeAt(int position) {
+        try {
+            Animation anim = AnimationUtils.loadAnimation(view.getContext(),
+                    android.R.anim.slide_out_right);
+            anim.setDuration(300);
+            view.startAnimation(anim);
+            DatabaseHelper db = new DatabaseHelper(view.getContext());
+
+            db.deletar(bookItems.get(position).getId());
+            bookItems.remove(position);
+            notifyItemRemoved(position);
+            notifyItemRangeChanged(position, bookItems.size());
+            Toast.makeText(view.getContext(), R.string.success_msg, Toast.LENGTH_LONG).show();
+        } catch (Exception e) {
+            Toast.makeText(view.getContext(), R.string.error_msg +
+                    "\n" +
+                    e.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 
+    @Override
+    public int getItemCount() {
+        return bookItems.size();
+    }
 
     static class BookViewHolder extends RecyclerView.ViewHolder {
 
@@ -110,32 +162,4 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
         }
     }
 
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.img_bookedit:
-                Toast.makeText(v.getContext(), "Click edit", Toast.LENGTH_LONG).show();
-                break;
-            case R.id.img_bookdelete:
-                Toast.makeText(v.getContext(), "Click remove", Toast.LENGTH_LONG).show();
-                break;
-        }
-    }
-
-    @Override
-    public boolean onLongClick(View v) {
-        GestorVibrator.Vibrate(100L, (AppCompatActivity) v.getContext());
-
-        String Share = v.getResources().getString(R.string.txt_id).concat(": ").concat(String.valueOf(Id.get(Position))).concat("\n")
-                .concat(v.getResources().getString(R.string.txt_titulo)).concat(": ").concat(Titulo.get(Position)).concat("\n")
-                .concat(v.getResources().getString(R.string.txt_autor)).concat(": ").concat(Autor.get(Position)).concat("\n")
-                .concat(v.getResources().getString(R.string.txt_ano)).concat(": ").concat(String.valueOf(Ano.get(Position)));
-
-        String URL = v.getResources().getString(R.string.Google_Search).concat(Titulo.get(Position)).concat(", ").concat(Autor.get(Position));
-
-        WindowPopUp windowPopUp = new WindowPopUp();
-        windowPopUp.showPopUpWindow(v, URL, Share, (AppCompatActivity) v.getContext());
-        return false;
-    }
 }

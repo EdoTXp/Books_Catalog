@@ -10,13 +10,13 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.BiblioLivro.criarlivros.customview.BookComponentAdapter;
-import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
 import com.BiblioLivro.criarlivros.R;
+import com.BiblioLivro.criarlivros.customview.BookComponentAdapter;
+import com.BiblioLivro.criarlivros.model.BookItem;
+import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
 import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
 
 import java.util.ArrayList;
@@ -92,20 +92,14 @@ public class TelaPesquisar extends AppCompatActivity {
 
                     RecyclerView recyclerView = findViewById(R.id.rv_pesquisar);
 
-                    //TODO Criar uma classe BookItem para preencher todos os valores recebidos da Lista
-                    ArrayList<Integer> id = new ArrayList<>();
-                    ArrayList<String> titulo = new ArrayList<>();
-                    ArrayList<String> autor = new ArrayList<>();
-                    ArrayList<Integer> ano = new ArrayList<>();
 
+                    ArrayList<BookItem> bookItems = new ArrayList<>();
                     for (ContentValues cv : lista) {
-                        id.add(cv.getAsInteger("id"));
-                        titulo.add(cv.getAsString("titulo"));
-                        autor.add(cv.getAsString("autor"));
-                        ano.add(cv.getAsInteger("ano"));
+                        BookItem bookItem = new BookItem(cv.getAsInteger("id"), cv.getAsString("titulo"), cv.getAsString("autor"), cv.getAsInteger("ano"));
+                        bookItems.add(bookItem);
                     }
 
-                    BookComponentAdapter bookadapter = new BookComponentAdapter(this, id, titulo, autor, ano, lista.size());
+                    BookComponentAdapter bookadapter = new BookComponentAdapter(this, bookItems);
                     recyclerView.setAdapter(bookadapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

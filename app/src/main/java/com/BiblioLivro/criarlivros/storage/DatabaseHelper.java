@@ -46,6 +46,11 @@ public class DatabaseHelper extends SQLiteOpenHelper
         return db.insert("catalogo", null, cv);
     }
 
+    public void deletar(int position) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete("catalogo", "id LIKE ?", new String[]{"%" + position + "%"});
+    }
+
     public List<ContentValues> pesquisarPorTitulo(String titulo)
     {
         String sql = "SELECT * FROM catalogo WHERE titulo LIKE ?";
