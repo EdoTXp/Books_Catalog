@@ -61,7 +61,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
         adaptTextViewOnScreen(holder.txtTitulo);
         adaptTextViewOnScreen(holder.txtAutor);
 
-        holder.txtId.setText(String.valueOf(bookItems.get(position).getId()));
+        holder.txtId.setText(String.valueOf(position + 1));
         holder.txtTitulo.setText(bookItems.get(position).getNomelivro());
         holder.txtAutor.setText(bookItems.get(position).getNomeautor());
         holder.txtAno.setText(String.valueOf(bookItems.get(position).getAnolivro()));
@@ -101,7 +101,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
         });
     }
 
-    // este metodo adapta o texto a diferentes formatos de telas
+    // este método adapta o texto a diferentes formatos de telas
     private void adaptTextViewOnScreen(@NotNull TextView textView) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) mcontext).getWindowManager()
@@ -117,7 +117,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
         }
     }
 
-    /* Este método serve para remover cada item atraves sua posição. Removendo da lista, do database,
+    /* Este método serve para remover cada item através sua posição. Removendo da lista e do database
     e atualizando o recycleView
      */
     private void removeAt(int position) {

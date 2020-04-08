@@ -7,23 +7,20 @@ package com.BiblioLivro.criarlivros.activities;
 import android.app.NotificationManager;
 import android.content.ContentValues;
 import android.graphics.Color;
-
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
-import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
+import com.BiblioLivro.criarlivros.R;
 import com.BiblioLivro.criarlivros.gestores.GestorNotification;
 import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
-import com.BiblioLivro.criarlivros.R;
+import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
 import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
 
 import java.util.Objects;
@@ -102,7 +99,7 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
 
 
     private void printNotification() {
-        // begin Print Notification
+
         String text = getString(R.string.Notification_Text_1).concat(" " + edtTitulo.getText().toString()).concat(" " + getString(R.string.Notification_Text_2));
 
         GestorNotification notification = new GestorNotification(this, R.drawable.iconapp,
@@ -121,7 +118,7 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         }
 
         notification.printNotification();
-        // end Print Notification
+
     }
 
 }

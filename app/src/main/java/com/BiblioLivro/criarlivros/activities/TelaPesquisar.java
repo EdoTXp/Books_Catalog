@@ -7,8 +7,10 @@ package com.BiblioLivro.criarlivros.activities;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,12 +20,16 @@ import com.BiblioLivro.criarlivros.customview.BookComponentAdapter;
 import com.BiblioLivro.criarlivros.model.BookItem;
 import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
 import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class TelaPesquisar extends AppCompatActivity {
+public class TelaPesquisar extends AppCompatActivity implements View.OnClickListener {
+
+    private FloatingActionButton upButton;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +37,7 @@ public class TelaPesquisar extends AppCompatActivity {
         SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
         if (preferencesTheme.getNightModeState()) {
             setTheme(R.style.DarkTheme);
-        }
-        else setTheme(R.style.AppTheme);
+        } else setTheme(R.style.AppTheme);
 
 
         super.onCreate(savedInstanceState);
@@ -41,8 +46,10 @@ public class TelaPesquisar extends AppCompatActivity {
         setTitle(R.string.title_activity_tela_pesquisar);
 
 
+        upButton = findViewById(R.id.floatingActionButtonUp);
+        upButton.setOnClickListener(this);
         /*
-         * Intent recebe dois paramentros:
+         * Intent recebe dois parâmentros:
          * o Tipo: recebe o id do RadioGroup passado na TelaPrincipal e na Notificação o id: R.id.rbPesquisarPorTodos
          * a chave: O valor do texto recebido na TelaPrincipal e no caso da notificação, um texto vazio
          * */
@@ -50,7 +57,7 @@ public class TelaPesquisar extends AppCompatActivity {
 
         if (it != null) {
 
-            // preenchimento dos parametros para passar pra buscar no database
+            // preenchimento dos parâmetros para passar à busca no database.
             int tipo = it.getIntExtra("tipo", 0);
             String chave = it.getStringExtra("chave");
 
@@ -63,7 +70,7 @@ public class TelaPesquisar extends AppCompatActivity {
 
             /*
              * realização da busca por ano
-             * se o ano não encontrar nenhum valor inteiro será feita uma busca por todos os objectos da lista
+             * se o ano não encontrar nenhum valor inteiro será feita uma busca por todos os objetos da lista
              * */
             else if (tipo == R.id.rbPesquisarPorAno) {
                 try {
@@ -77,7 +84,7 @@ public class TelaPesquisar extends AppCompatActivity {
                 lista = new DatabaseHelper(this).pesquisarPorAutor(chave);
             }
 
-            //realização da busca por todos os objectos
+            //realização da busca por todos os objetos
             else if (tipo == R.id.rbPesquisarPorTodos) {
                 lista = new DatabaseHelper(this).pesquisarPorTodos();
             }
@@ -90,7 +97,7 @@ public class TelaPesquisar extends AppCompatActivity {
             if (lista != null) {
                 if (lista.size() > 0) {
 
-                    RecyclerView recyclerView = findViewById(R.id.rv_pesquisar);
+                    recyclerView = findViewById(R.id.rv_pesquisar);
 
 
                     ArrayList<BookItem> bookItems = new ArrayList<>();
@@ -103,15 +110,33 @@ public class TelaPesquisar extends AppCompatActivity {
                     recyclerView.setAdapter(bookadapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                            if (recyclerView.computeVerticalScrollOffset() != 0)
+                                upButton.setVisibility(View.VISIBLE);
+                            else upButton.setVisibility(View.INVISIBLE);
+
+                            super.onScrolled(recyclerView, dx, dy);
+                        }
+                    });
                 }
-                // Se a lista for vazia será imprimido na tela que não foi encontrado ou registrado nenhum campo
+
+                // Se a lista estiver vazia, será imprimido na tela que não foi encontrado ou registrado nenhum campo.
                 else {
                     Toast.makeText(this, getString(R.string.FieldNotFound), Toast.LENGTH_LONG).show();
                 }
+
             }
         }
     }
 
-
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.floatingActionButtonUp) {
+            recyclerView.scrollToPosition(0);
+            upButton.setVisibility(View.INVISIBLE);
+        }
+    }
 }
 

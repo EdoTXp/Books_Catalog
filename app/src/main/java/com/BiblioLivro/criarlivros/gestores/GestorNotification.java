@@ -33,16 +33,16 @@ public class GestorNotification {
 
 
     /**
-     * @param Activity utilizado para indicar em qual "tela" será imprimido a notificação
+     * @param Activity utilizado para indicar em qual "tela" será imprimida a notificação
      * @param icon     utilizado para indicar qual será o ícone da notificação utilizando a classe R.icon
      * @param title    utilizado para indicar o título da notificação
      * @param text     utilizado para indicar o texto da notificação. Por padrão aparecerá em uma linha apenas.
-     *                 Fazer a exteção da classe caso queira modificar esse paramentro.
+     *                 Fazer a extenção da classe caso queira modificar esse parâmentro.
      * @param priority utilizado para indicar a prioridade da notificação:
      *                 Onde:
      *                       -2 é a menor prioridade. Só aparecerá no menú das notificações
      *                        2 é a maior prioridade. Aparecerá em destaque na tela "Activity" que escolheu,
-     *                              e também no menú das notificações
+     *                              e também no menu das notificações
      */
     public GestorNotification(AppCompatActivity Activity, int icon, String title, String text, int priority)
     {
@@ -75,7 +75,7 @@ public class GestorNotification {
      *                          #0  tempo de espera em mills antes de iniciar a vibração
      *                          #1  a duração da vibração em mills
      *                          #2  a pausa entre uma vibração e a outra
-     *                          #n  repitição das outras posições: #1 e #2
+     *                          #n  repetição das outras posições: #1 e #2
      */
     public void setDurationVibrate(long[] pattern)
     {

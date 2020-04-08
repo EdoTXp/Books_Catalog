@@ -8,12 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
-import android.widget.TextView;
-
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.BiblioLivro.criarlivros.BuildConfig;
 import com.BiblioLivro.criarlivros.R;
 import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
 

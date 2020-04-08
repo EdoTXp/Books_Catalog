@@ -43,12 +43,12 @@ public class DatabaseHelper extends SQLiteOpenHelper
     public long inserir(ContentValues cv)
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.insert("catalogo", null, cv);
+        return db.insert(DATABASE_NAME, null, cv);
     }
 
-    public void deletar(int position) {
+    public void deletar(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("catalogo", "id LIKE ?", new String[]{"%" + position + "%"});
+        db.delete(DATABASE_NAME, "id LIKE ?", new String[]{"%" + id + "%"});
     }
 
     public List<ContentValues> pesquisarPorTitulo(String titulo)

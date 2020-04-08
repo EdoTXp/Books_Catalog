@@ -41,6 +41,7 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
     private EditText edtPesquisar;
     private SharedPreferencesTheme preferencesTheme;
 
+    //TODO Aggiungere un menu per ordinare gli elementi della lista
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
