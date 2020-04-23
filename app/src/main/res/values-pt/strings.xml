@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  -->
+
 <resources>
     <string name="app_name">Catálogo Livros</string>
     <string name="action_settings">Configurações</string>
@@ -58,4 +62,6 @@
     <string name="txt_AccessDescriptionYearImage">Imagem do ano do livro.</string>
     <string name="txt_AccessDescriptionDeleteBotton">Botão para excluir esta caixa de informações do livro.</string>
     <string name="txt_AccessDescriptionEditBotton">Botão para alterar o título, autor e ano do livro.</string>
+    <string name="delete_item_Title">"Apagar "</string>
+    <string name="delete_item_msg">Ao excluir este livro, você não poderá mais desfazer esta decisão. Tem certeza de que deseja fazer isso?</string>
 </resources>

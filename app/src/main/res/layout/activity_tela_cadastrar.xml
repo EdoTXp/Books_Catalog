@@ -43,7 +43,7 @@
                     android:layout_width="@dimen/logo_width"
                     android:layout_height="@dimen/logo_height"
                     android:contentDescription="@string/logo_AccessDescription"
-                    android:src="@drawable/img_livros" />
+                    android:src="@drawable/booklogo_img" />
 
                 <TextView
                     android:layout_marginStart="5dp"
@@ -67,8 +67,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
-                android:drawableStart="@drawable/baseline_menu_book_24"
+                android:drawableStart="@drawable/book_img"
                 android:text="@string/txt_titulo"
+                android:drawablePadding="5dp"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp"
                 app:drawableTint="?attr/textcolor" />
@@ -91,8 +92,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
-                android:drawableStart="@drawable/baseline_perm_identity_24"
+                android:drawableStart="@drawable/author_img"
                 android:text="@string/txt_autor"
+                android:drawablePadding="5dp"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp"
                 app:drawableTint="?attr/textcolor" />
@@ -115,8 +117,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginTop="5sp"
-                android:drawableStart="@drawable/baseline_calendar_today_24"
+                android:drawableStart="@drawable/calendar_img"
                 android:text="@string/txt_ano"
+                android:drawablePadding="5dp"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp"
                 app:drawableTint="?attr/textcolor" />

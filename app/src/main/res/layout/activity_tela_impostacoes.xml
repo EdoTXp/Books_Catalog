@@ -33,7 +33,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:drawableStart="@drawable/baseline_language_24"
+                android:drawableStart="@drawable/globe_img"
+                android:drawablePadding="5dp"
                 android:text="@string/action_choose_Language"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp"
@@ -117,6 +118,9 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="@string/menu_darkMode"
+                android:drawableStart="@drawable/moon_img"
+                android:drawablePadding="5dp"
+                app:drawableTint="?attr/textcolor"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp" />
 
@@ -151,7 +155,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:drawableStart="@android:drawable/ic_menu_close_clear_cancel"
+                android:drawableStart="@drawable/userdata_img"
+                android:drawablePadding="5dp"
+                app:drawableTint="?attr/textcolor"
                 android:text="@string/menu_data"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp" />

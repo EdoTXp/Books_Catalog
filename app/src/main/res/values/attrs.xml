@@ -6,11 +6,13 @@
 <resources>
     <declare-styleable name="ds">
         <attr name="backgroundcolor" format="color"/>
+        <attr name="secundarybackgroundcolor" format="color" />
         <attr name="linebordercolor" format="color"/>
         <attr name="textcolor" format="color"/>
         <attr name="textcolorhint" format="color"/>
         <attr name="tintcolor" format="color"/>
         <attr name="borderbackground" format="color"/>
         <attr name="buttonbackground" format="color"/>
+        <attr name="menubarbackground" format="color" />
     </declare-styleable>
 </resources>

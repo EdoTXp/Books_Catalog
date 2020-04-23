@@ -21,11 +21,7 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
-        if (preferencesTheme.getNightModeState()) {
-            setTheme(R.style.DarkTheme);
-        }
-        else setTheme(R.style.AppTheme);
+        setTheme();
 
         super.onCreate(savedInstanceState);
 
@@ -33,7 +29,7 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splashscreen);
 
-        // tempo percorrido antes de lanchar outra a tela principal
+        // tempo percorrido antes de lançar outra a tela principal
         int SPLASH_TIME_OUT = 4000;
 
         new Handler().postDelayed(new Runnable() {
@@ -45,6 +41,13 @@ public class SplashScreen extends AppCompatActivity {
             }
         }, SPLASH_TIME_OUT);
 
+    }
+
+    private void setTheme() {
+        SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
+        if (preferencesTheme.getNightModeState()) {
+            setTheme(R.style.DarkTheme);
+        } else setTheme(R.style.AppTheme);
     }
 
 }

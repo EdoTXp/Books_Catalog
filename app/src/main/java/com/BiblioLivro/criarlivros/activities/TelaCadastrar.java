@@ -36,11 +36,7 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
-        if (preferencesTheme.getNightModeState()) {
-            setTheme(R.style.DarkTheme);
-        }
-        else setTheme(R.style.AppTheme);
+        setTheme();
 
         super.onCreate(savedInstanceState);
 
@@ -58,6 +54,13 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         btnSalvar.setOnClickListener(this);
 
 
+    }
+
+    private void setTheme() {
+        SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
+        if (preferencesTheme.getNightModeState()) {
+            setTheme(R.style.DarkTheme);
+        } else setTheme(R.style.AppTheme);
     }
 
     @Override

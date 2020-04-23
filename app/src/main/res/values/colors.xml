@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  -->
+
 <resources>
 
     <!-- color of default theme -->
@@ -8,6 +12,7 @@
     <color name="colortexthint">#777777</color>
     <color name="whitebackground">#FCFCFC</color>
 
+    <!-- color of night theme -->
     <color name="nightcolorPrimary">#121212</color>
     <color name="nightcolorSecundary">#181818</color>
     <color name="nightcolorPrimaryText">#B8B8B8</color>

@@ -18,8 +18,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
 import com.BiblioLivro.criarlivros.R;
+import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
 import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
 
 import java.io.File;
@@ -27,39 +27,63 @@ import java.util.Locale;
 import java.util.Objects;
 
 
-public class TelaImpostacoes extends AppCompatActivity implements View.OnClickListener, DialogInterface.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class TelaImpostacoes extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
-
+    // ATRIBUTOS
     private RadioGroup rg_language;
     private SharedPreferencesTheme preferencesTheme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        preferencesTheme = new SharedPreferencesTheme(this);
 
-        if (preferencesTheme.getNightModeState()) {
-            setTheme(R.style.DarkTheme);
-        }
-        else setTheme(R.style.AppTheme);
+        /* Ao criar a Activity "TelaImpostações",
+         *  será colocado o tema em base as preferências salvas em
+         *  no objeto "preferencesTheme". */
+        setTheme();
 
+        // criação da Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_impostacoes);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.menu_settings));
 
+        // Preenchendo os objetos
         rg_language = findViewById(R.id.rg_language);
-        Switch swit_darkmode = findViewById(R.id.swt_dark_mode);
+        Switch switch_darkmode = findViewById(R.id.swt_dark_mode);
 
-        if (preferencesTheme.getNightModeState())
-        {
+        /* trocando o switch em base as escolhas do método "setTheme"
+         * OBS: método ainda em fase de melhorias.
+         */
+        changeTheme(switch_darkmode);
+
+        getDefaultLanguage();
+
+        Button btn_clearData = findViewById(R.id.btn_clear_data);
+        Button btn_Salvar = findViewById(R.id.btn_salvar_settings);
+
+        // Adicionado os eventos de click
+        btn_clearData.setOnClickListener(this);
+        btn_Salvar.setOnClickListener(this);
+        rg_language.setOnCheckedChangeListener(this);
+
+    }
+
+    private void setTheme() {
+        preferencesTheme = new SharedPreferencesTheme(this);
+
+        if (preferencesTheme.getNightModeState()) {
+            setTheme(R.style.DarkTheme);
+        } else setTheme(R.style.AppTheme);
+    }
+
+    private void changeTheme(Switch swit_darkmode) {
+        if (preferencesTheme.getNightModeState()) {
             swit_darkmode.setChecked(true);
             swit_darkmode.setText(getString(R.string.menu_darkMode));
-        }
-        else
-            {
+        } else {
             setTheme(R.style.AppTheme);
             swit_darkmode.setText(getString(R.string.menu_lightMode));
-            }
+        }
 
         swit_darkmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -73,23 +97,15 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
 
             }
         });
-
-        Button btn_clearData = findViewById(R.id.btn_clear_data);
-        Button btn_Salvar = findViewById(R.id.btn_salvar_settings);
-
-        btn_clearData.setOnClickListener(this);
-        btn_Salvar.setOnClickListener(this);
-        rg_language.setOnCheckedChangeListener(this);
-
-        getDefaultLanguage();
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_clear_data:
+
                 AlertDialog.Builder builder;
+                final AppCompatActivity activity = this;
 
                 if(preferencesTheme.getNightModeState())
                     builder = new AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Dialog_Alert);
@@ -98,9 +114,18 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
 
                 builder.setTitle(R.string.btn_clear_data);
                 builder.setMessage(R.string.alert_dialog_message);
-                builder.setPositiveButton(R.string.yes, this);
-                builder.setNegativeButton(R.string.no, this);
                 builder.setIcon(R.drawable.iconapp);
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        clearApplicationData();
+
+                        Toast.makeText(getBaseContext(), getString(R.string.success_msg), Toast.LENGTH_LONG).show();
+
+                        GestorVibrator.Vibrate(100L, activity);
+                    }
+                });
+                builder.setNegativeButton(R.string.no, null);
                 builder.show();
                 break;
 
@@ -110,21 +135,6 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
 
         }
     }
-
-
-    @Override
-    public void onClick(DialogInterface dialog, int which) {
-        if (which == AlertDialog.BUTTON_POSITIVE) {
-            clearApplicationData();
-
-            Toast.makeText(this, getString(R.string.success_msg), Toast.LENGTH_LONG).show();
-
-            GestorVibrator.Vibrate(100L, this);
-
-        }
-
-    }
-
 
     private void clearApplicationData() {
         File cacheDirectory = getCacheDir();
@@ -180,12 +190,12 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    public void saveSettings() {
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
 
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
+    public void saveSettings() {
 
     }
 }

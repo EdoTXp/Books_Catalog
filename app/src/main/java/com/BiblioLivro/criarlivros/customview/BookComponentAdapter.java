@@ -5,7 +5,9 @@
 package com.BiblioLivro.criarlivros.customview;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.BiblioLivro.criarlivros.activities.WindowPopUp;
 import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
 import com.BiblioLivro.criarlivros.model.BookItem;
 import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
+import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,6 +39,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
     private Context mcontext;
     private View view;
     private ArrayList<BookItem> bookItems;
+    private SharedPreferencesTheme preferencesTheme;
 
 
     /**
@@ -56,7 +60,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BookViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final BookViewHolder holder, int position) {
 
         adaptTextViewOnScreen(holder.txtTitulo);
         adaptTextViewOnScreen(holder.txtAutor);
@@ -81,6 +85,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
 
                 WindowPopUp windowPopUp = new WindowPopUp();
                 windowPopUp.showPopUpWindow(v, URL, Share, (AppCompatActivity) v.getContext());
+
                 return true;
             }
         });
@@ -96,9 +101,30 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
         holder.imgExcluir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeAt(Position);
+                AlertDialog.Builder builder;
+                preferencesTheme = new SharedPreferencesTheme(holder.itemView.getContext());
+
+                if (preferencesTheme.getNightModeState())
+                    builder = new AlertDialog.Builder(holder.itemView.getContext(), android.R.style.Theme_DeviceDefault_Dialog_Alert);
+                else
+                    builder = new AlertDialog.Builder(holder.itemView.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+
+                builder.setTitle(holder.itemView.getContext().getResources().getString(R.string.delete_item_Title).concat(bookItems.get(Position).getNomelivro()));
+                builder.setMessage(R.string.delete_item_msg);
+                builder.setIcon(R.drawable.iconapp);
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        removeAt(Position);
+                    }
+                });
+                builder.setNegativeButton(R.string.no, null);
+                builder.show();
             }
         });
+
+        Animation animation = AnimationUtils.loadAnimation(view.getContext(), android.R.anim.slide_in_left);
+        holder.itemView.startAnimation(animation);
     }
 
     // este método adapta o texto a diferentes formatos de telas
@@ -122,8 +148,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
      */
     private void removeAt(int position) {
         try {
-            Animation anim = AnimationUtils.loadAnimation(view.getContext(),
-                    android.R.anim.slide_out_right);
+            Animation anim = AnimationUtils.loadAnimation(view.getContext(), android.R.anim.slide_out_right);
             anim.setDuration(300);
             view.startAnimation(anim);
             DatabaseHelper db = new DatabaseHelper(view.getContext());
@@ -132,6 +157,8 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
             bookItems.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, bookItems.size());
+
+            GestorVibrator.Vibrate(100L, (AppCompatActivity) view.getContext());
             Toast.makeText(view.getContext(), R.string.success_msg, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(view.getContext(), R.string.error_msg +
@@ -139,6 +166,11 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
                     e.toString(), Toast.LENGTH_LONG).show();
         }
     }
+
+    public void sortItem(int order) {
+
+    }
+
 
     @Override
     public int getItemCount() {

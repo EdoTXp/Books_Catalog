@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
+<!--
+  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  -->
+
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/menu_settings"
         android:actionLayout="@layout/activity_tela_principal"
         android:icon="@android:drawable/ic_menu_manage"
-
         android:title="@string/menu_settings" />
     <item
         android:id="@+id/menu_feedback"

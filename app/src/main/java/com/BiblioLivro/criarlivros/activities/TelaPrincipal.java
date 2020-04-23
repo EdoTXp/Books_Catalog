@@ -41,16 +41,10 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
     private EditText edtPesquisar;
     private SharedPreferencesTheme preferencesTheme;
 
-    //TODO Aggiungere un menu per ordinare gli elementi della lista
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        preferencesTheme = new SharedPreferencesTheme(this);
-        if (preferencesTheme.getNightModeState()) {
-            setTheme(R.style.DarkTheme);
-        } else setTheme(R.style.AppTheme);
-
+        setTheme();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_principal);
@@ -68,6 +62,12 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private void setTheme() {
+        preferencesTheme = new SharedPreferencesTheme(this);
+        if (preferencesTheme.getNightModeState()) {
+            setTheme(R.style.DarkTheme);
+        } else setTheme(R.style.AppTheme);
+    }
 
     @Override
     protected void onRestart() {

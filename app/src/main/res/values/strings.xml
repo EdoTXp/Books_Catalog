@@ -1,3 +1,7 @@
+<!--
+  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  -->
+
 <resources>
     <string name="app_name">Books Catalog</string>
     <string name="txt_pesquisar_todos">All</string>
@@ -64,6 +68,8 @@
     <string name="txt_AccessDescriptionYearImage">Image of the year of the book.</string>
     <string name="txt_AccessDescriptionDeleteBotton">Button to delete this book information box.</string>
     <string name="txt_AccessDescriptionEditBotton">Button to change the title, author and year of the book.</string>
+    <string name="delete_item_Title">"Delete "</string>
+    <string name="delete_item_msg">By deleting this book you can no longer undo this decision. Are you sure you want to do this?</string>
 
     <!-- Preference Titles -->
 
