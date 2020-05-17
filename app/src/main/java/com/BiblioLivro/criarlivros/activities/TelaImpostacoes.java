@@ -103,14 +103,12 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_clear_data:
-
                 AlertDialog.Builder builder;
-                final AppCompatActivity activity = this;
 
                 if(preferencesTheme.getNightModeState())
-                    builder = new AlertDialog.Builder(this,  android.R.style.Theme_DeviceDefault_Dialog_Alert);
+                    builder = new AlertDialog.Builder(v.getContext(), android.R.style.Theme_DeviceDefault_Dialog_Alert);
                 else
-                    builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                    builder = new AlertDialog.Builder(v.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
 
                 builder.setTitle(R.string.btn_clear_data);
                 builder.setMessage(R.string.alert_dialog_message);
@@ -122,7 +120,7 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
 
                         Toast.makeText(getBaseContext(), getString(R.string.success_msg), Toast.LENGTH_LONG).show();
 
-                        GestorVibrator.Vibrate(100L, activity);
+                        GestorVibrator.Vibrate(100L, getBaseContext());
                     }
                 });
                 builder.setNegativeButton(R.string.no, null);

@@ -27,7 +27,7 @@
     <string name="FieldEmpty">This Field is Empty.</string>
     <string name="FieldNotFound">No Field Found or Registered</string>
     <string name="Notification_Title">Book Registred</string>
-    <string name="Notification_Text_1">The Book:</string>
+    <string name="Notification_Text_1">The Book</string>
     <string name="Notification_Text_2">has been registred.</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_app_version">App Version</string>
@@ -70,6 +70,8 @@
     <string name="txt_AccessDescriptionEditBotton">Button to change the title, author and year of the book.</string>
     <string name="delete_item_Title">"Delete "</string>
     <string name="delete_item_msg">By deleting this book you can no longer undo this decision. Are you sure you want to do this?</string>
+    <string name="filter_btn">Button Filter</string>
+    <string name="order_txt">Order</string>
 
     <!-- Preference Titles -->
 

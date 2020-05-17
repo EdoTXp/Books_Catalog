@@ -133,7 +133,10 @@ public class GestorNotification {
         notificationManager.notify(0, builder.build());
     }
 
-
+    /**
+     * Método utilizado caso o usuário clique na notificação
+     * será exibido a TelaPesquisar
+     */
     private PendingIntent setPendingIntent()
     {
         Intent intent = new Intent(activity, TelaPesquisar.class);

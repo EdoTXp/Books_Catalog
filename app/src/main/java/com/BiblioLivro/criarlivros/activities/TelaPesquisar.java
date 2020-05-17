@@ -4,9 +4,15 @@
 
 package com.BiblioLivro.criarlivros.activities;
 
+
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -18,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.BiblioLivro.criarlivros.R;
 import com.BiblioLivro.criarlivros.customview.BookComponentAdapter;
 import com.BiblioLivro.criarlivros.model.BookItem;
+import com.BiblioLivro.criarlivros.model.Order;
 import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
 import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,6 +40,9 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
     //ATRIBUTOS
     private FloatingActionButton upButton;
     private RecyclerView recyclerView;
+    private BookComponentAdapter bookAdapter;
+    private ArrayList<BookItem> bookItems;
+    private int checked = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +116,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                      */
 
                     //criação do Array de Livros
-                    ArrayList<BookItem> bookItems = new ArrayList<>();
+                    bookItems = new ArrayList<>();
                     for (ContentValues cv : lista) {
                         BookItem bookItem = new BookItem(
                                 cv.getAsInteger("id"),
@@ -118,8 +128,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                     }
 
                     //adiocnado os arrays de livros ao bookadapter
-                    BookComponentAdapter bookAdapter = new BookComponentAdapter(this, bookItems);
-
+                    bookAdapter = new BookComponentAdapter(this, bookItems);
                     //adicionado o bookAdapter ao reclycerView e adicionado o layout
                     recyclerView.setAdapter(bookAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -137,6 +146,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                             super.onScrolled(recyclerView, dx, dy);
                         }
                     });
+
                 }
 
                 /* Se a lista estiver vazia, será imprimido na tela que não foi encontrado
@@ -148,6 +158,85 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
 
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.filter_item_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.btn_filter) {
+            AlertDialog.Builder builder;
+            SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
+
+            if (preferencesTheme.getNightModeState())
+                builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+            else
+                builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+
+            builder.setTitle(getString(R.string.order_txt));
+
+            String[] orderoption = {
+                    getString(R.string.txt_titulo).concat(" ↑"),
+                    getString(R.string.txt_titulo).concat(" ↓"),
+                    getString(R.string.txt_autor).concat(" ↑"),
+                    getString(R.string.txt_autor).concat(" ↓"),
+                    getString(R.string.txt_ano).concat(" ↑"),
+                    getString(R.string.txt_ano).concat(" ↓")};
+
+            builder.setIcon(R.drawable.filter_img);
+            builder.setSingleChoiceItems(orderoption, checked, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case 0:
+                            bookAdapter.changeOrderOfRecycleView(1, Order.ASCENDANT, bookItems);
+                            dialog.dismiss();
+                            checked = which;
+                            break;
+                        case 1:
+                            bookAdapter.changeOrderOfRecycleView(1, Order.DESCENDANT, bookItems);
+                            dialog.dismiss();
+                            checked = which;
+                            break;
+
+                        case 2:
+                            bookAdapter.changeOrderOfRecycleView(2, Order.ASCENDANT, bookItems);
+                            dialog.dismiss();
+                            checked = which;
+                            break;
+
+                        case 3:
+                            bookAdapter.changeOrderOfRecycleView(2, Order.DESCENDANT, bookItems);
+                            dialog.dismiss();
+                            checked = which;
+                            break;
+
+                        case 4:
+                            bookAdapter.changeOrderOfRecycleView(3, Order.ASCENDANT, bookItems);
+                            dialog.dismiss();
+                            checked = which;
+                            break;
+
+                        case 5:
+                            bookAdapter.changeOrderOfRecycleView(3, Order.DESCENDANT, bookItems);
+                            dialog.dismiss();
+                            checked = which;
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+            });
+            builder.setNegativeButton(R.string.email_btn_cancel, null);
+            builder.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /* Ao iniciar a Activity, será buscado no SharedPreferences o tema salvado.
@@ -171,5 +260,6 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
             upButton.setVisibility(View.INVISIBLE);
         }
     }
+
 }
 

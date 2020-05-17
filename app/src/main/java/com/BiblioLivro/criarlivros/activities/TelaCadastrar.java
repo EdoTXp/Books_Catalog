@@ -35,7 +35,7 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        //Método para setar o tema da activity ao iniciar
         setTheme();
 
         super.onCreate(savedInstanceState);
@@ -44,7 +44,7 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.title_activity_tela_cadastrar));
 
-        //ATRIBUTOS
+        //ATRIBUTO LOCAL
         Button btnSalvar = findViewById(R.id.btnSalvar);
 
         edtTitulo = findViewById(R.id.edtTitulo);
@@ -52,8 +52,6 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         edtAno = findViewById(R.id.edtAno);
 
         btnSalvar.setOnClickListener(this);
-
-
     }
 
     private void setTheme() {
@@ -66,34 +64,45 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
+        /*
+         * Se todos os campos forem preenchidos,
+         * será cadastrado no banco de dados o livro em seguida,
+         * será impressa uma notificação
+         * indacando que o livro foi cadastrado com sucesso.
+         */
+
         if (v.getId() == R.id.btnSalvar) {
             if (!(edtTitulo.getText().toString().equals("") || edtAutor.getText().toString().equals("") || edtAno.getText().toString().equals(""))) {
-
+                //Criação do ContentValues e preenchendo com os valores definidos pelo usuário.
                 ContentValues cv = new ContentValues();
                 cv.put("titulo", edtTitulo.getText().toString());
                 cv.put("autor", edtAutor.getText().toString());
                 cv.put("ano", edtAno.getText().toString());
 
-                //imprimir a notificação
-                printNotification();
-
+                /* Criando a conexão com o database e passando o ContentValues para a inserção de dados.
+                 * Se a operação ocorrer com sucesso, será imprimido a notificação e será limpado os campos.
+                 * Caso contrário, será exibida uma mensagem de erro.
+                 */
 
                 DatabaseHelper dh = new DatabaseHelper(this);
-                String msg;
+
                 if (dh.inserir(cv) > 0) {
-                    msg = getString(R.string.success_msg);
+                    //imprimir a notificação
+                    printNotification();
+
+                    // limpando os campos
                     edtTitulo.setText("");
                     edtAno.setText("");
                     edtAutor.setText("");
                     edtTitulo.requestFocus();
+
                 } else {
-                    msg = getString(R.string.error_msg);
+                    String msg = getString(R.string.error_msg);
+                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
                 }
 
-                Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
-
             } else {
-                GestorVibrator.Vibrate(100L, this);
+                GestorVibrator.Vibrate(100L, v.getContext());
                 Toast.makeText(this, getString(R.string.incomplete_msg), Toast.LENGTH_LONG).show();
             }
 
@@ -103,13 +112,11 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
 
     private void printNotification() {
 
-        String text = getString(R.string.Notification_Text_1).concat(" " + edtTitulo.getText().toString()).concat(" " + getString(R.string.Notification_Text_2));
-
+        String text = getString(R.string.Notification_Text_1).concat(" ").concat(edtTitulo.getText().toString()).concat(" ").concat(getString(R.string.Notification_Text_2));
         GestorNotification notification = new GestorNotification(this, R.drawable.iconapp,
                 getString(R.string.Notification_Title),
                 text
-                , 1);
-
+                , 2);
 
         notification.setColor(Color.WHITE);
         notification.setDurationVibrate(new long[]{0L, 200L, 150L, 200L});
@@ -121,7 +128,5 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         }
 
         notification.printNotification();
-
     }
-
 }

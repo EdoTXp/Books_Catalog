@@ -25,7 +25,7 @@
     <string name="FieldEmpty">O Campo está Vazio.</string>
     <string name="FieldNotFound">Nenhum Campo Encontrado ou Registrado</string>
     <string name="Notification_Title">Livro Registrado</string>
-    <string name="Notification_Text_1">O livro:</string>
+    <string name="Notification_Text_1">O livro</string>
     <string name="Notification_Text_2">foi registrado.</string>
     <string name="menu_settings">Configurações</string>
     <string name="menu_app_version">Versão do Aplicativo</string>
@@ -64,4 +64,6 @@
     <string name="txt_AccessDescriptionEditBotton">Botão para alterar o título, autor e ano do livro.</string>
     <string name="delete_item_Title">"Apagar "</string>
     <string name="delete_item_msg">Ao excluir este livro, você não poderá mais desfazer esta decisão. Tem certeza de que deseja fazer isso?</string>
+    <string name="filter_btn">Butão Filtrar</string>
+    <string name="order_txt">Ordenar</string>
 </resources>

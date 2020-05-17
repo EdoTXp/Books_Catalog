@@ -18,7 +18,6 @@ import android.widget.PopupWindow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.BiblioLivro.criarlivros.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -28,27 +27,29 @@ public class WindowPopUp {
     public void showPopUpWindow(@NotNull final View v, final String URL, final String share, final AppCompatActivity activity)
     {
 
-
+        // recebendo o service para preencher
         LayoutInflater inflater = (LayoutInflater) v.getContext()
                 .getSystemService(v.getContext().LAYOUT_INFLATER_SERVICE);
 
-
+        // preenchendo a view onde foi criado o layout .xml
         assert inflater != null;
         View popupView = inflater.inflate(R.layout.popupwindow, null);
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
         int height = LinearLayout.LayoutParams.MATCH_PARENT;
 
-
+        // inicializando o PopuoWindow, adicionando a view, a largura, a altura e se será focalizado
         final PopupWindow popupWindow = new PopupWindow(popupView, width, height, true);
 
+        // adicionando um efeito de escurecimento atrás do PopupWindow
         ColorDrawable colorBackground = new ColorDrawable();
         colorBackground.setColor(Color.BLACK);
         colorBackground.setAlpha(200);
 
+        // Adicionando o efeito de escurecimento e onde será exibido o popupWindow
         popupWindow.setBackgroundDrawable(colorBackground);
         popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
 
-
+        // criação do butão para compartilhar e adicionando o evento di click
         Button btnShare = popupView.findViewById(R.id.btnShareWindowPopUp);
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +66,7 @@ public class WindowPopUp {
             }
         });
 
+        // criação do butão para buscar e adicionando o evento di click
         Button btnSearch = popupView.findViewById(R.id.btnSearchWindowPopUp);
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +77,7 @@ public class WindowPopUp {
             }
         });
 
+        // Adicionando o evento di click no PopupView
         popupView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {

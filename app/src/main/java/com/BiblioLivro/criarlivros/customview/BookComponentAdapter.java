@@ -26,12 +26,16 @@ import com.BiblioLivro.criarlivros.R;
 import com.BiblioLivro.criarlivros.activities.WindowPopUp;
 import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
 import com.BiblioLivro.criarlivros.model.BookItem;
+import com.BiblioLivro.criarlivros.model.Order;
 import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
 import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdapter.BookViewHolder> {
@@ -61,7 +65,6 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
 
     @Override
     public void onBindViewHolder(@NonNull final BookViewHolder holder, int position) {
-
         adaptTextViewOnScreen(holder.txtTitulo);
         adaptTextViewOnScreen(holder.txtAutor);
 
@@ -75,12 +78,13 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
         view.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                GestorVibrator.Vibrate(100L, (AppCompatActivity) v.getContext());
+                GestorVibrator.Vibrate(100L, v.getContext());
 
                 String Share = v.getResources().getString(R.string.txt_id).concat(": ").concat(String.valueOf(bookItems.get(Position).getId()).concat("\n")
                         .concat(v.getResources().getString(R.string.txt_titulo)).concat(": ").concat(bookItems.get(Position).getNomelivro()).concat("\n")
                         .concat(v.getResources().getString(R.string.txt_autor)).concat(": ").concat(bookItems.get(Position).getNomeautor()).concat("\n")
                         .concat(v.getResources().getString(R.string.txt_ano)).concat(": ").concat(String.valueOf(bookItems.get(Position).getAnolivro())));
+
                 String URL = v.getResources().getString(R.string.Google_Search).concat(bookItems.get(Position).getNomelivro()).concat(", ").concat(bookItems.get(Position).getNomeautor());
 
                 WindowPopUp windowPopUp = new WindowPopUp();
@@ -158,19 +162,44 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookComponentAdap
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, bookItems.size());
 
-            GestorVibrator.Vibrate(100L, (AppCompatActivity) view.getContext());
+            GestorVibrator.Vibrate(100L, view.getContext());
             Toast.makeText(view.getContext(), R.string.success_msg, Toast.LENGTH_LONG).show();
         } catch (Exception e) {
+            GestorVibrator.Vibrate(100L, view.getContext());
             Toast.makeText(view.getContext(), R.string.error_msg +
                     "\n" +
                     e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
-    public void sortItem(int order) {
+    public void changeOrderOfRecycleView(final int id_order, final Order order, ArrayList<BookItem> bookItems) {
+        Collections.sort(bookItems, new Comparator<BookItem>() {
+            @Override
+            public int compare(BookItem o1, BookItem o2) {
+                switch (id_order) {
+                    case 1:
+                        if (order == Order.ASCENDANT)
+                            return Normalizer.normalize(o1.getNomelivro().toUpperCase(), Normalizer.Form.NFD).compareTo(Normalizer.normalize(o2.getNomelivro().toUpperCase(), Normalizer.Form.NFD));
+                        else
+                            return Normalizer.normalize(o2.getNomelivro().toUpperCase(), Normalizer.Form.NFD).compareTo(Normalizer.normalize(o1.getNomelivro().toUpperCase(), Normalizer.Form.NFD));
+                    case 2:
+                        if (order == Order.ASCENDANT)
+                            return Normalizer.normalize(o1.getNomeautor().toUpperCase(), Normalizer.Form.NFD).compareTo(Normalizer.normalize(o2.getNomeautor().toUpperCase(), Normalizer.Form.NFD));
+                        else
+                            return Normalizer.normalize(o2.getNomeautor().toUpperCase(), Normalizer.Form.NFD).compareTo(Normalizer.normalize(o1.getNomeautor().toUpperCase(), Normalizer.Form.NFD));
+                    case 3:
+                        if (order == Order.ASCENDANT)
+                            return Integer.compare(o1.getAnolivro(), o2.getAnolivro());
+                        else
+                            return Integer.compare(o2.getAnolivro(), o1.getAnolivro());
+                    default:
+                        return 0;
+                }
 
+            }
+        });
+        notifyDataSetChanged();
     }
-
 
     @Override
     public int getItemCount() {

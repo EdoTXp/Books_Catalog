@@ -134,6 +134,7 @@
                 android:layout_height="48dp"
                 android:focusable="true"
                 android:foregroundTint="?attr/backgroundcolor"
+                android:ellipsize="end"
                 android:hint="@string/hint_titulo"
                 android:importantForAutofill="no"
                 android:inputType="text"

@@ -29,7 +29,7 @@ public class SplashScreen extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splashscreen);
 
-        // tempo percorrido antes de lançar outra a tela principal
+        // tempo percorrido antes de lançar a tela principal
         int SPLASH_TIME_OUT = 4000;
 
         new Handler().postDelayed(new Runnable() {

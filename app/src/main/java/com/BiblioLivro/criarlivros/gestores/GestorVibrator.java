@@ -9,8 +9,6 @@ import android.os.Build;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -19,11 +17,11 @@ public class GestorVibrator {
 
     /**
      * @param milliseconds: duração da vibração
-     * @param activity: receber o SystemService
+     * @param context: receber o SystemService
      */
-    public static void Vibrate(long milliseconds, @NotNull AppCompatActivity activity)
+    public static void Vibrate(long milliseconds, @NotNull Context context)
     {
-        Vibrator vibrator = (Vibrator) activity.getSystemService(Context.VIBRATOR_SERVICE);
+        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Objects.requireNonNull(vibrator).vibrate(VibrationEffect.createOneShot(milliseconds, VibrationEffect.DEFAULT_AMPLITUDE));
