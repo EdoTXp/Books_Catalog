@@ -19,14 +19,17 @@ import java.util.Objects;
 public class SplashScreen extends AppCompatActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         setTheme();
 
         super.onCreate(savedInstanceState);
 
         Objects.requireNonNull(getSupportActionBar()).hide();
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags
+                (
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN
+                );
         setContentView(R.layout.activity_splashscreen);
 
         // tempo percorrido antes de lançar a tela principal

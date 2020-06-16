@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
   -->
 
@@ -117,12 +116,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="@string/menu_darkMode"
                 android:drawableStart="@drawable/moon_img"
                 android:drawablePadding="5dp"
-                app:drawableTint="?attr/textcolor"
+                android:text="@string/menu_darkMode"
                 android:textColor="?attr/textcolor"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:drawableTint="?attr/textcolor" />
 
             <Switch
                 android:id="@+id/swt_dark_mode"
@@ -157,10 +156,10 @@
                 android:layout_margin="16dp"
                 android:drawableStart="@drawable/userdata_img"
                 android:drawablePadding="5dp"
-                app:drawableTint="?attr/textcolor"
                 android:text="@string/menu_data"
                 android:textColor="?attr/textcolor"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                app:drawableTint="?attr/textcolor" />
 
             <Button
                 android:id="@+id/btn_clear_data"

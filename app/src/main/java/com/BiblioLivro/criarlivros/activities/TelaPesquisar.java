@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -35,14 +34,11 @@ import java.util.Objects;
 
 public class TelaPesquisar extends AppCompatActivity implements View.OnClickListener {
 
-    //TODO Aggiungere un menu per ordinare gli elementi della lista
-
     //ATRIBUTOS
     private FloatingActionButton upButton;
     private RecyclerView recyclerView;
     private BookComponentAdapter bookAdapter;
-    private ArrayList<BookItem> bookItems;
-    private int checked = 0;
+    private int checked = 0;  // valor selecionado para executar o sort do bookAdapter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +57,8 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
 
         /*
          * Intent recebe dois parâmentros:
-         * o Tipo: recebe o id do RadioGroup passado na TelaPrincipal e na Notificação o id: R.id.rbPesquisarPorTodos
+         * o Tipo: recebe o id do RadioGroup passado na TelaPrincipal e
+         * na Notificação o id: R.id.rbPesquisarPorTodos
          * a chave: O valor do texto recebido na TelaPrincipal e no caso da notificação, um texto vazio
          * */
         Intent it = getIntent();
@@ -72,158 +69,172 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
             int tipo = it.getIntExtra("tipo", 0);
             String chave = it.getStringExtra("chave");
 
-            List<ContentValues> lista = new ArrayList<>();
+            //preenchimento da lista com os dados do database
+            List<ContentValues> lista = getContentValuesList(tipo, chave);
 
-            //realização da busca por Título
-            if (tipo == R.id.rbPesquisarPorTitulo) {
-                lista = new DatabaseHelper(this).pesquisarPorTitulo(chave);
-            }
-
-            /* realização da busca por ano
-             * se o ano não encontrar nenhum valor inteiro será feita uma busca por todos os objetos da lista
-             */
-            else if (tipo == R.id.rbPesquisarPorAno) {
-                try {
-                    lista = new DatabaseHelper(this).pesquisarPorAno(Integer.parseInt(Objects.requireNonNull(chave)));
-                } catch (Exception e) {
-                    lista = new DatabaseHelper(this).pesquisarPorTodos();
-                }
-            }
-            //realização da busca por Autor
-            else if (tipo == R.id.rbPesquisarPorAutor) {
-                lista = new DatabaseHelper(this).pesquisarPorAutor(chave);
-            }
-
-            //realização da busca por todos os objetos
-            else if (tipo == R.id.rbPesquisarPorTodos) {
-                lista = new DatabaseHelper(this).pesquisarPorTodos();
-            }
-
-            /* Se a lista não for vazia,
-             * será feita a criação do RecyclerView
+            /* Será feita a criação do RecyclerView
              * onde vai preencher BookComponentAdapter
              * e em seguida, adicioná-los ao RecyclerView
              * */
-            if (lista != null) {
-                if (lista.size() > 0) {
-                    //preenchimeto do recyclerView com o file xml
-                    recyclerView = findViewById(R.id.rv_pesquisar);
+            if (lista.size() > 0) {
+                //preenchimeto do recyclerView com o file xml
+                recyclerView = findViewById(R.id.rv_pesquisar);
 
-                    /* Será criado um Array de Livros e preencidos com os valores vindos da "lista".
-                     * Ao terminar o preenchimento de todos os livro,
-                     * será adicionado ao bookAdapter e em seguida,
-                     * adicionado ao RecycleView
-                     */
-
-                    //criação do Array de Livros
-                    bookItems = new ArrayList<>();
-                    for (ContentValues cv : lista) {
-                        BookItem bookItem = new BookItem(
-                                cv.getAsInteger("id"),
-                                cv.getAsString("titulo"),
-                                cv.getAsString("autor"),
-                                cv.getAsInteger("ano"));
-
-                        bookItems.add(bookItem);
-                    }
-
-                    //adiocnado os arrays de livros ao bookadapter
-                    bookAdapter = new BookComponentAdapter(this, bookItems);
-                    //adicionado o bookAdapter ao reclycerView e adicionado o layout
-                    recyclerView.setAdapter(bookAdapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-                    /* Adicionando o evento de scroll onde se a posição do primeiro item for maior que zero,
-                     * aparecerá visível o botão upButton senão aparecerá invisível
-                     */
-                    recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                        @Override
-                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                            if (recyclerView.computeVerticalScrollOffset() != 0)
-                                upButton.setVisibility(View.VISIBLE);
-                            else upButton.setVisibility(View.INVISIBLE);
-
-                            super.onScrolled(recyclerView, dx, dy);
-                        }
-                    });
-
-                }
-
-                /* Se a lista estiver vazia, será imprimido na tela que não foi encontrado
-                 * ou registrado nenhum campo.
+                /* Será criado um Array de Livros e preencidos com os valores vindos da "lista".
+                 * Ao terminar o preenchimento de todos os livro,
+                 * será adicionado ao bookAdapter e em seguida,
+                 * adicionado ao RecycleView
                  */
-                else {
-                    Toast.makeText(this, getString(R.string.FieldNotFound), Toast.LENGTH_LONG).show();
+
+                //criação do Array de Livros
+                ArrayList<BookItem> bookItems = new ArrayList<>();
+                for (ContentValues cv : lista) {
+                    BookItem bookItem = new BookItem
+                            (
+                                    cv.getAsInteger("id"),
+                                    cv.getAsString("titulo"),
+                                    cv.getAsString("autor"),
+                                    cv.getAsInteger("ano")
+                            );
+
+                    bookItems.add(bookItem);
                 }
 
+                //adicionando os arrays de livros ao bookadapter
+                bookAdapter = new BookComponentAdapter(this, bookItems);
+
+                //adicionando o bookAdapter, ordenadamente, ao reclycerView e adicionado o layout
+                recyclerView.setAdapter(bookAdapter);
+                bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT);
+                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                /* Adicionando o evento de scroll onde se a posição do primeiro item for maior que zero,
+                 * aparecerá visível o botão upButton senão aparecerá invisível
+                 */
+                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                        if (recyclerView.computeVerticalScrollOffset() != 0)
+                            upButton.setVisibility(View.VISIBLE);
+                        else upButton.setVisibility(View.INVISIBLE);
+
+                        super.onScrolled(recyclerView, dx, dy);
+                    }
+                });
+
+            } else
+                Toast.makeText(this, getString(R.string.FieldNotFound), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private List<ContentValues> getContentValuesList(int tipo, String chave) {
+        List<ContentValues> lista = new ArrayList<>();
+
+        //realização da busca por Título
+        if (tipo == R.id.rbPesquisarPorTitulo) {
+            lista = new DatabaseHelper(this).pesquisarPorTitulo(chave);
+        }
+
+        /* realização da busca por ano
+         * se o ano não encontrar nenhum valor inteiro será feita uma busca por todos os objetos da lista
+         */
+        else if (tipo == R.id.rbPesquisarPorAno) {
+            try {
+                lista = new DatabaseHelper(this).pesquisarPorAno(Integer.parseInt(Objects.requireNonNull(chave)));
+            } catch (Exception e) {
+                lista = new DatabaseHelper(this).pesquisarPorTodos();
             }
         }
+        //realização da busca por Autor
+        else if (tipo == R.id.rbPesquisarPorAutor) {
+            lista = new DatabaseHelper(this).pesquisarPorAutor(chave);
+        }
+
+        //realização da busca por todos os objetos
+        else if (tipo == R.id.rbPesquisarPorTodos) {
+            lista = new DatabaseHelper(this).pesquisarPorTodos();
+        }
+        return lista;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.filter_item_bar, menu);
+        getMenuInflater().inflate(R.menu.filter_item_bar, menu);
         return true;
+    }
+
+    /*Método chamado quando algum resultado pesquisado não foi encontrado na lista,
+     * será desativado o menu de ordenamento
+     * */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (bookAdapter == null) {
+            invalidateOptionsMenu();
+            menu.findItem(R.id.btn_filter).setEnabled(false);
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.btn_filter) {
-            AlertDialog.Builder builder;
+            AlertDialog.Builder orderDialog;
             SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
 
             if (preferencesTheme.getNightModeState())
-                builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+                orderDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
             else
-                builder = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                orderDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
 
-            builder.setTitle(getString(R.string.order_txt));
+            orderDialog.setTitle(getString(R.string.order_txt));
 
-            String[] orderoption = {
-                    getString(R.string.txt_titulo).concat(" ↑"),
-                    getString(R.string.txt_titulo).concat(" ↓"),
-                    getString(R.string.txt_autor).concat(" ↑"),
-                    getString(R.string.txt_autor).concat(" ↓"),
-                    getString(R.string.txt_ano).concat(" ↑"),
-                    getString(R.string.txt_ano).concat(" ↓")};
+            String[] orderOption =
+                    {
+                            getString(R.string.txt_titulo).concat(" ↑"),
+                            getString(R.string.txt_titulo).concat(" ↓"),
+                            getString(R.string.txt_autor).concat(" ↑"),
+                            getString(R.string.txt_autor).concat(" ↓"),
+                            getString(R.string.txt_ano).concat(" ↑"),
+                            getString(R.string.txt_ano).concat(" ↓")
+                    };
 
-            builder.setIcon(R.drawable.filter_img);
-            builder.setSingleChoiceItems(orderoption, checked, new DialogInterface.OnClickListener() {
+            orderDialog.setIcon(R.drawable.filter_img);
+            orderDialog.setSingleChoiceItems(orderOption, checked, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case 0:
-                            bookAdapter.changeOrderOfRecycleView(1, Order.ASCENDANT, bookItems);
+                            bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT);
                             dialog.dismiss();
                             checked = which;
                             break;
+
                         case 1:
-                            bookAdapter.changeOrderOfRecycleView(1, Order.DESCENDANT, bookItems);
+                            bookAdapter.setSortOfAdapterView(1, Order.DESCENDANT);
                             dialog.dismiss();
                             checked = which;
                             break;
 
                         case 2:
-                            bookAdapter.changeOrderOfRecycleView(2, Order.ASCENDANT, bookItems);
+                            bookAdapter.setSortOfAdapterView(2, Order.ASCENDANT);
                             dialog.dismiss();
                             checked = which;
                             break;
 
                         case 3:
-                            bookAdapter.changeOrderOfRecycleView(2, Order.DESCENDANT, bookItems);
+                            bookAdapter.setSortOfAdapterView(2, Order.DESCENDANT);
                             dialog.dismiss();
                             checked = which;
                             break;
 
                         case 4:
-                            bookAdapter.changeOrderOfRecycleView(3, Order.ASCENDANT, bookItems);
+                            bookAdapter.setSortOfAdapterView(3, Order.ASCENDANT);
                             dialog.dismiss();
                             checked = which;
                             break;
 
                         case 5:
-                            bookAdapter.changeOrderOfRecycleView(3, Order.DESCENDANT, bookItems);
+                            bookAdapter.setSortOfAdapterView(3, Order.DESCENDANT);
                             dialog.dismiss();
                             checked = which;
                             break;
@@ -233,8 +244,8 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                     }
                 }
             });
-            builder.setNegativeButton(R.string.email_btn_cancel, null);
-            builder.show();
+            orderDialog.setNegativeButton(R.string.email_btn_cancel, null);
+            orderDialog.show();
         }
         return super.onOptionsItemSelected(item);
     }

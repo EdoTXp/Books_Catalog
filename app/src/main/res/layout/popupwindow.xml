@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
   -->
 
@@ -42,10 +41,10 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="12dp"
+                android:background="@drawable/layout_border"
                 android:drawableStart="@android:drawable/ic_menu_share"
                 android:text="@string/WindowPopUpShare"
                 android:textAlignment="center"
-                android:background="@drawable/layout_border"
                 android:textColor="?attr/textcolor"
                 android:textSize="18sp" />
 
@@ -57,11 +56,11 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="12dp"
+                android:background="@drawable/layout_border"
                 android:drawableStart="@android:drawable/ic_menu_search"
                 android:text="@android:string/search_go"
                 android:textAlignment="center"
                 android:textColor="?attr/textcolor"
-                android:background="@drawable/layout_border"
                 android:textSize="18sp" />
 
         </LinearLayout>

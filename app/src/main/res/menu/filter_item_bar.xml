@@ -9,5 +9,5 @@
         android:id="@+id/btn_filter"
         android:icon="@drawable/filter_img"
         android:title="@string/filter_btn"
-        app:showAsAction="ifRoom"></item>
+        app:showAsAction="ifRoom" />
 </menu>

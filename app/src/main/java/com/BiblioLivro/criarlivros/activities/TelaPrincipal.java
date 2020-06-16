@@ -27,6 +27,7 @@ import androidx.core.app.ShareCompat;
 import com.BiblioLivro.criarlivros.BuildConfig;
 import com.BiblioLivro.criarlivros.R;
 import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
+import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
 import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
 
 import org.jetbrains.annotations.NotNull;
@@ -75,8 +76,8 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
     // reinicar a Activity toda vez que for executado o evento onBackPressed() em outra activity
     @Override
     protected void onRestart() {
-        finish();
-        startActivity(getIntent());
+        setTheme();
+        recreate();
         super.onRestart();
     }
 
@@ -86,6 +87,7 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
         Intent it = null;
 
         switch (v.getId()) {
+
             // Criar a Intent para a nova Tela Cadastrar
             case R.id.btnCadastrar:
                 it = new Intent(this, TelaCadastrar.class);
@@ -104,11 +106,24 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(this, getString(R.string.FieldEmpty), Toast.LENGTH_LONG).show();
                     return;
                 }
-                //Criar a nova Intent para a nova Tela Pesquisar
-                it = new Intent(this, TelaPesquisar.class);
-                it.putExtra("tipo", rdgPesquisarPor.getCheckedRadioButtonId());
-                it.putExtra("chave", edtPesquisar.getText().toString());
+                //Criar a nova Intent para a nova Tela Pesquisar se existir algum dado
+                if (new DatabaseHelper(this).tableIsExist()) {
+                    it = new Intent(this, TelaPesquisar.class);
+                    it.putExtra("tipo", rdgPesquisarPor.getCheckedRadioButtonId());
+                    it.putExtra("chave", edtPesquisar.getText().toString());
+                }
+                /* Se a lista estiver vazia, será imprimido na tela que não foi encontrado
+                 * ou registrado nenhum campo.
+                 */
+                else {
+                    Toast.makeText(this, getString(R.string.FieldNotFound), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
                 break;
+
+            default:
+                return;
         }
         //Iniciando a nova Intent
         startActivity(it);
@@ -135,49 +150,48 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
             case R.id.menu_feedback:
 
                 // Criação do AlertDialog para cadastrar o e-mail
-                AlertDialog.Builder emaildialog;
+                AlertDialog.Builder emailDialog;
 
                 /*
                  * se o preferencesTheme retornar o valor "true",
-                 * o emaildialog receberá o tema escuro.
+                 * o emailDialog receberá o tema escuro.
                  * Caso contrário, receberá o tema claro
                  * */
                 if (preferencesTheme.getNightModeState())
-                    emaildialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
+                    emailDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
                 else
-                    emaildialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                    emailDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
 
                 // Adição do icone e o título do email dialog
-                emaildialog.setIcon(R.drawable.iconapp);
-                emaildialog.setTitle(getString(R.string.email_title));
+                emailDialog.setIcon(R.drawable.iconapp);
+                emailDialog.setTitle(getString(R.string.email_title));
 
 
-                final EditText emailtext = new EditText(this);
-                final AppCompatActivity activity = this;
+                final EditText emailBodyText = new EditText(this);
 
-                // Configurando o emailtext
-                emailtext.setInputType(InputType.TYPE_CLASS_TEXT);
-                emailtext.setSingleLine(false);
-                emailtext.setHint(getString(R.string.email_textHint));
+                // Configurando o emailBodyText
+                emailBodyText.setInputType(InputType.TYPE_CLASS_TEXT);
+                emailBodyText.setSingleLine(false);
+                emailBodyText.setHint(getString(R.string.email_textHint));
                 //TODO trovare altri modi per settare il colore
-                emailtext.setHintTextColor((preferencesTheme.getNightModeState()) ? getResources().getColor(R.color.nightcolortexthint) : getResources().getColor(R.color.colortexthint));
-                emailtext.setTextColor((preferencesTheme.getNightModeState()) ? getResources().getColor(R.color.nightcolorPrimaryText) : getResources().getColor(R.color.colorPrimaryText));
-                emailtext.setGravity(Gravity.START | Gravity.TOP);
-                emailtext.setHorizontalScrollBarEnabled(false);
+                emailBodyText.setHintTextColor((preferencesTheme.getNightModeState()) ? getResources().getColor(R.color.nightcolortexthint) : getResources().getColor(R.color.colortexthint));
+                emailBodyText.setTextColor((preferencesTheme.getNightModeState()) ? getResources().getColor(R.color.nightcolorPrimaryText) : getResources().getColor(R.color.colorPrimaryText));
+                emailBodyText.setGravity(Gravity.START | Gravity.TOP);
+                emailBodyText.setHorizontalScrollBarEnabled(false);
 
-                //Adicionando o emailtext ao emaildialog
-                emaildialog.setView(emailtext);
+                //Adicionando o emailBodyText ao emailDialog
+                emailDialog.setView(emailBodyText);
 
                 //Configurando o botão positivo
-                emaildialog.setPositiveButton(getString(R.string.email_btn_send), new DialogInterface.OnClickListener() {
+                emailDialog.setPositiveButton(getString(R.string.email_btn_send), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        /*Se o "emailtext" não for vazio,
+                        /*Se o "emailBodyText" não for vazio,
                          * Será criado o cabeçario do e-mail com um título,
                          *  um número random para o código da messagem.
-                         * O corpo da mensagem com o "emailtext" juntamente com a data "local" do dispositivo*/
-                        if (!(emailtext.getText().toString().equals(""))) {
+                         * O corpo da mensagem com o "emailBodyText" juntamente com a data "local" do dispositivo*/
+                        if (!(emailBodyText.getText().toString().equals(""))) {
 
                             //geração do número random
                             long random = (long) (Math.random() * 1.0E14D + 1.0E9D);
@@ -189,15 +203,21 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
                             String time = getLocaleTime();
 
                             // montando o e-mail e escolher qual app para enviar
-                            ShareCompat.IntentBuilder.from(activity)
+                            ShareCompat.IntentBuilder.from(TelaPrincipal.this)
                                     .setType("message/rfc822")
                                     .addEmailTo("edoardofabriziodeiovanna@hotmail.com")
                                     .setSubject(subject)
-                                    .setText(emailtext.getText().toString().concat("\n\n").concat(getString(R.string.email_timegenerated)).concat(time))
+                                    .setText
+                                            (
+                                                    emailBodyText.getText().toString()
+                                                            .concat("\n\n")
+                                                            .concat(getString(R.string.email_timegenerated))
+                                                            .concat(time)
+                                            )
                                     .setChooserTitle(getString(R.string.email_chooseapp))
                                     .startChooser();
 
-                        } // caso o emailtext for vazio sera impressa uma mensagem mais uma vibração
+                        } // caso o emailBodyText for vazio sera impressa uma mensagem mais uma vibração
                         else {
                             GestorVibrator.Vibrate(100L, getBaseContext());
                             Toast.makeText(getBaseContext(), getString(R.string.email_notextinsert), Toast.LENGTH_LONG).show();
@@ -205,8 +225,8 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
                     }
 
                 });
-                emaildialog.setNegativeButton(getString(R.string.email_btn_cancel), null);
-                emaildialog.show();
+                emailDialog.setNegativeButton(getString(R.string.email_btn_cancel), null);
+                emailDialog.show();
                 return true;
 
             // exibindo a versão do app

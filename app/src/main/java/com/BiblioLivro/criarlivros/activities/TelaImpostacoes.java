@@ -27,7 +27,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 
-public class TelaImpostacoes extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class TelaImpostacoes extends AppCompatActivity implements View.OnClickListener {
 
     // ATRIBUTOS
     private RadioGroup rg_language;
@@ -64,7 +64,7 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
         // Adicionado os eventos de click
         btn_clearData.setOnClickListener(this);
         btn_Salvar.setOnClickListener(this);
-        rg_language.setOnCheckedChangeListener(this);
+
 
     }
 
@@ -105,7 +105,7 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
             case R.id.btn_clear_data:
                 AlertDialog.Builder builder;
 
-                if(preferencesTheme.getNightModeState())
+                if (preferencesTheme.getNightModeState())
                     builder = new AlertDialog.Builder(v.getContext(), android.R.style.Theme_DeviceDefault_Dialog_Alert);
                 else
                     builder = new AlertDialog.Builder(v.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
@@ -128,7 +128,7 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.btn_salvar_settings:
-                saveSettings();
+
                 break;
 
         }
@@ -188,12 +188,4 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-    }
-
-    public void saveSettings() {
-
-    }
 }

@@ -7,11 +7,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
     android:fadeScrollbars="false"
     android:isScrollContainer="true"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="?attr/backgroundcolor"
     tools:context=".activities.TelaPesquisar">
 
 
@@ -38,11 +38,11 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floatingActionButtonUp"
-            android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
             android:clickable="true"
             android:focusable="true"
             android:visibility="invisible"

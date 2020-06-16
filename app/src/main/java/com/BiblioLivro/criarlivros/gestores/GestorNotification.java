@@ -40,14 +40,12 @@ public class GestorNotification {
      *                 Fazer a extenção da classe caso queira modificar esse parâmentro.
      * @param priority utilizado para indicar a prioridade da notificação:
      *                 Onde:
-     *                       -2 é a menor prioridade. Só aparecerá no menú das notificações
-     *                        2 é a maior prioridade. Aparecerá em destaque na tela "Activity" que escolheu,
-     *                              e também no menu das notificações
+     *                 -2 é a menor prioridade. Só aparecerá no menú das notificações
+     *                 2 é a maior prioridade. Aparecerá em destaque na tela "Activity" que escolheu,
+     *                 e também no menu das notificações
      */
-    public GestorNotification(AppCompatActivity Activity, int icon, String title, String text, int priority)
-    {
-        if(priority >= -2 && priority <= 2)
-        {
+    public GestorNotification(AppCompatActivity Activity, int icon, String title, String text, int priority) {
+        if (priority >= -2 && priority <= 2) {
             activity = Activity;
 
             builder = new NotificationCompat.Builder(activity, CHANNEL_ID)
@@ -64,21 +62,19 @@ public class GestorNotification {
     /**
      * @param color é utilizado para definir a cor background da notificação
      */
-    public void setColor(int color)
-    {
+    public void setColor(int color) {
         builder.setColor(color);
     }
 
     /**
      * @param pattern é utilizado para determinar a duração da vibração:
      *                posição:
-     *                          #0  tempo de espera em mills antes de iniciar a vibração
-     *                          #1  a duração da vibração em mills
-     *                          #2  a pausa entre uma vibração e a outra
-     *                          #n  repetição das outras posições: #1 e #2
+     *                #0  tempo de espera em mills antes de iniciar a vibração
+     *                #1  a duração da vibração em mills
+     *                #2  a pausa entre uma vibração e a outra
+     *                #n  repetição das outras posições: #1 e #2
      */
-    public void setDurationVibrate(long[] pattern)
-    {
+    public void setDurationVibrate(long[] pattern) {
         Pattern = pattern;
         builder.setVibrate(pattern);
     }
@@ -86,40 +82,39 @@ public class GestorNotification {
 
     /**
      * @param sound é utilizado para executar um som durante a notificação
-     *
      */
-    public void setSound(Uri sound)
-    {
+    public void setSound(Uri sound) {
         Sound = sound;
         builder.setSound(sound);
     }
 
 
-    /** Este método é utilizado só para as API 26
-     * @param name nome do canal
-     * @param description descrição do canal
-     * @param systemservices NotificationManager
+    /**
+     * Este método é utilizado só para as API 26
+     *
+     * @param channelName    nome do canal
+     * @param description    descrição do canal
+     * @param systemServices NotificationManager
      */
-    public void createChannelId(CharSequence name, String description, NotificationManager systemservices)
-    {
+    public void createChannelId(CharSequence channelName, String description, NotificationManager systemServices) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
-        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, channelName, importance);
             channel.setDescription(description);
 
             AudioAttributes attributes = new AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-            .build();
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                    .build();
 
             channel.setSound(Sound, attributes);
             channel.setVibrationPattern(Pattern);
             channel.setLightColor(Color.GREEN);
             channel.enableLights(true);
             channel.enableVibration(true);
-            systemservices.createNotificationChannel(channel);
+            systemServices.createNotificationChannel(channel);
 
         }
     }
@@ -127,8 +122,7 @@ public class GestorNotification {
     /**
      * Método utilizado para imprimir a notificação
      */
-    public void printNotification()
-    {
+    public void printNotification() {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(activity);
         notificationManager.notify(0, builder.build());
     }
@@ -137,14 +131,13 @@ public class GestorNotification {
      * Método utilizado caso o usuário clique na notificação
      * será exibido a TelaPesquisar
      */
-    private PendingIntent setPendingIntent()
-    {
+    private PendingIntent setPendingIntent() {
         Intent intent = new Intent(activity, TelaPesquisar.class);
         intent.putExtra("tipo", R.id.rbPesquisarPorTodos);
         intent.putExtra("chave", "");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        return PendingIntent.getActivity(activity,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
 

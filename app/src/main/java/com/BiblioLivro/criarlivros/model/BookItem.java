@@ -7,14 +7,14 @@ package com.BiblioLivro.criarlivros.model;
 public class BookItem {
 
     private int Id;
-    private String nomelivro, nomeautor;
-    private int anolivro;
+    private String bookName, authorName;
+    private int bookYear;
 
     public BookItem(int id, String titulo, String autor, int ano) {
         Id = id;
-        nomelivro = titulo;
-        nomeautor = autor;
-        anolivro = ano;
+        bookName = titulo;
+        authorName = autor;
+        bookYear = ano;
     }
 
     public int getId() {
@@ -25,28 +25,28 @@ public class BookItem {
         Id = id;
     }
 
-    public String getNomelivro() {
-        return nomelivro;
+    public String getBookName() {
+        return bookName;
     }
 
-    public void setNomelivro(String nomelivro) {
-        this.nomelivro = nomelivro;
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
     }
 
-    public String getNomeautor() {
-        return nomeautor;
+    public String getAuthorName() {
+        return authorName;
     }
 
-    public void setNomeautor(String nomeautor) {
-        this.nomeautor = nomeautor;
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
     }
 
-    public int getAnolivro() {
-        return anolivro;
+    public int getBookYear() {
+        return bookYear;
     }
 
-    public void setAnolivro(int anolivro) {
-        this.anolivro = anolivro;
+    public void setBookYear(int bookYear) {
+        this.bookYear = bookYear;
     }
 
 }

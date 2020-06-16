@@ -17,10 +17,9 @@ public class GestorVibrator {
 
     /**
      * @param milliseconds: duração da vibração
-     * @param context: receber o SystemService
+     * @param context:      receber o SystemService
      */
-    public static void Vibrate(long milliseconds, @NotNull Context context)
-    {
+    public static void Vibrate(long milliseconds, @NotNull Context context) {
         Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -24,12 +24,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class WindowPopUp {
 
-    public void showPopUpWindow(@NotNull final View v, final String URL, final String share, final AppCompatActivity activity)
-    {
+    public void showPopUpWindow(@NotNull final View view, final String URL, final String share, final AppCompatActivity activity) {
 
         // recebendo o service para preencher
-        LayoutInflater inflater = (LayoutInflater) v.getContext()
-                .getSystemService(v.getContext().LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) view.getContext()
+                .getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
 
         // preenchendo a view onde foi criado o layout .xml
         assert inflater != null;
@@ -47,14 +46,13 @@ public class WindowPopUp {
 
         // Adicionando o efeito de escurecimento e onde será exibido o popupWindow
         popupWindow.setBackgroundDrawable(colorBackground);
-        popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
         // criação do butão para compartilhar e adicionando o evento di click
         Button btnShare = popupView.findViewById(R.id.btnShareWindowPopUp);
         btnShare.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, share);

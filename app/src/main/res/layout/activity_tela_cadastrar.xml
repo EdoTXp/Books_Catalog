@@ -12,8 +12,8 @@
     android:background="?attr/backgroundcolor"
     android:isScrollContainer="true"
     android:orientation="vertical"
-    android:paddingTop="16dp"
     android:paddingLeft="16dp"
+    android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
     android:scrollbars="horizontal|vertical"
@@ -34,8 +34,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginBottom="16sp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 tools:ignore="UseCompoundDrawables">
 
@@ -46,10 +46,10 @@
                     android:src="@drawable/booklogo_img" />
 
                 <TextView
-                    android:layout_marginStart="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
                     android:text="@string/app_name"
                     android:textColor="?attr/textcolor"
                     android:textSize="@dimen/logo_text" />
@@ -68,8 +68,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
                 android:drawableStart="@drawable/book_img"
-                android:text="@string/txt_titulo"
                 android:drawablePadding="5dp"
+                android:text="@string/txt_titulo"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp"
                 app:drawableTint="?attr/textcolor" />
@@ -79,14 +79,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_border"
-                android:hint="@string/hint_titulo"
                 android:ellipsize="end"
-                android:textColorHint="?attr/textcolorhint"
-                android:textColor="?attr/textcolor"
-                android:importantForAutofill="no"
+                android:hint="@string/hint_titulo"
                 android:imeOptions="actionNext"
+                android:importantForAutofill="no"
                 android:inputType="text"
                 android:maxLength="100"
+                android:textColor="?attr/textcolor"
+                android:textColorHint="?attr/textcolorhint"
                 android:textSize="24sp" />
 
             <TextView
@@ -94,8 +94,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
                 android:drawableStart="@drawable/author_img"
-                android:text="@string/txt_autor"
                 android:drawablePadding="5dp"
+                android:text="@string/txt_autor"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp"
                 app:drawableTint="?attr/textcolor" />
@@ -105,14 +105,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_border"
-                android:hint="@string/hint_autor"
                 android:ellipsize="end"
-                android:textColorHint="?attr/textcolorhint"
-                android:textColor="?attr/textcolor"
+                android:hint="@string/hint_autor"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName"
                 android:maxLength="100"
+                android:textColor="?attr/textcolor"
+                android:textColorHint="?attr/textcolorhint"
                 android:textSize="24sp" />
 
             <TextView
@@ -120,8 +120,8 @@
                 android:layout_height="25dp"
                 android:layout_marginTop="5sp"
                 android:drawableStart="@drawable/calendar_img"
-                android:text="@string/txt_ano"
                 android:drawablePadding="5dp"
+                android:text="@string/txt_ano"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp"
                 app:drawableTint="?attr/textcolor" />
@@ -132,14 +132,14 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_border"
                 android:hint="@string/hint_ano"
-                android:importantForAutofill="no"
-                android:textColorHint="?attr/textcolorhint"
-                android:textColor="?attr/textcolor"
                 android:imeOptions="actionDone"
+                android:importantForAutofill="no"
                 android:inputType="number"
                 android:maxLength="4"
                 android:singleLine="true"
                 android:soundEffectsEnabled="true"
+                android:textColor="?attr/textcolor"
+                android:textColorHint="?attr/textcolorhint"
                 android:textSize="24sp" />
 
             <Button
@@ -147,10 +147,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/buttonSave_height"
                 android:layout_marginTop="10dp"
-                android:drawableEnd="@android:drawable/ic_menu_save"
-                android:textColor="?attr/textcolor"
                 android:background="@drawable/layout_border"
+                android:drawableEnd="@android:drawable/ic_menu_save"
                 android:text="@string/btn_Salvar"
+                android:textColor="?attr/textcolor"
                 android:textSize="20sp" />
 
         </LinearLayout>

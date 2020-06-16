@@ -29,9 +29,9 @@ import java.util.Objects;
 public class TelaCadastrar extends AppCompatActivity implements View.OnClickListener {
 
     //ATRIBUTOS
-    private EditText edtTitulo;
-    private EditText edtAutor;
-    private EditText edtAno;
+    private EditText edtTitleBook;
+    private EditText edtAuthorBook;
+    private EditText edtYearBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +45,13 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         setTitle(getString(R.string.title_activity_tela_cadastrar));
 
         //ATRIBUTO LOCAL
-        Button btnSalvar = findViewById(R.id.btnSalvar);
+        Button btnSave = findViewById(R.id.btnSalvar);
 
-        edtTitulo = findViewById(R.id.edtTitulo);
-        edtAutor = findViewById(R.id.edtAutor);
-        edtAno = findViewById(R.id.edtAno);
+        edtTitleBook = findViewById(R.id.edtTitulo);
+        edtAuthorBook = findViewById(R.id.edtAutor);
+        edtYearBook = findViewById(R.id.edtAno);
 
-        btnSalvar.setOnClickListener(this);
+        btnSave.setOnClickListener(this);
     }
 
     private void setTheme() {
@@ -72,12 +72,12 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
          */
 
         if (v.getId() == R.id.btnSalvar) {
-            if (!(edtTitulo.getText().toString().equals("") || edtAutor.getText().toString().equals("") || edtAno.getText().toString().equals(""))) {
+            if (!(edtTitleBook.getText().toString().equals("") || edtAuthorBook.getText().toString().equals("") || edtYearBook.getText().toString().equals(""))) {
                 //Criação do ContentValues e preenchendo com os valores definidos pelo usuário.
                 ContentValues cv = new ContentValues();
-                cv.put("titulo", edtTitulo.getText().toString());
-                cv.put("autor", edtAutor.getText().toString());
-                cv.put("ano", edtAno.getText().toString());
+                cv.put("titulo", edtTitleBook.getText().toString());
+                cv.put("autor", edtAuthorBook.getText().toString());
+                cv.put("ano", edtYearBook.getText().toString());
 
                 /* Criando a conexão com o database e passando o ContentValues para a inserção de dados.
                  * Se a operação ocorrer com sucesso, será imprimido a notificação e será limpado os campos.
@@ -91,10 +91,10 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
                     printNotification();
 
                     // limpando os campos
-                    edtTitulo.setText("");
-                    edtAno.setText("");
-                    edtAutor.setText("");
-                    edtTitulo.requestFocus();
+                    edtTitleBook.setText("");
+                    edtYearBook.setText("");
+                    edtAuthorBook.setText("");
+                    edtTitleBook.requestFocus();
 
                 } else {
                     String msg = getString(R.string.error_msg);
@@ -109,24 +109,40 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         }
     }
 
-
     private void printNotification() {
 
-        String text = getString(R.string.Notification_Text_1).concat(" ").concat(edtTitulo.getText().toString()).concat(" ").concat(getString(R.string.Notification_Text_2));
-        GestorNotification notification = new GestorNotification(this, R.drawable.iconapp,
-                getString(R.string.Notification_Title),
-                text
-                , 2);
+        String bodyTextNotification = getString(R.string.Notification_Text_1)
+                .concat(" ")
+                .concat(edtTitleBook.getText().toString()).concat(" ")
+                .concat(getString(R.string.Notification_Text_2));
+
+        GestorNotification notification = new GestorNotification
+                (
+                        this,
+                        R.drawable.iconapp,
+                        getString(R.string.Notification_Title),
+                        bodyTextNotification,
+                        2
+                );
 
         notification.setColor(Color.WHITE);
         notification.setDurationVibrate(new long[]{0L, 200L, 150L, 200L});
-        notification.setSound(Uri.parse("android.resource://"
-                + getBaseContext().getPackageName() + "/" + R.raw.recycle));
+        notification.setSound
+                (
+                        Uri.parse("android.resource://"
+                                + getBaseContext().getPackageName()
+                                + "/"
+                                + R.raw.recycle)
+                );
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            notification.createChannelId(getString(R.string.Notification_Channel), getString(R.string.Notification_Description), getSystemService(NotificationManager.class));
+            notification.createChannelId
+                    (
+                            getString(R.string.Notification_Channel),
+                            getString(R.string.Notification_Description),
+                            getSystemService(NotificationManager.class)
+                    );
         }
-
         notification.printNotification();
     }
 }
