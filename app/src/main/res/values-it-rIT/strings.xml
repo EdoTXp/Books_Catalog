@@ -5,10 +5,7 @@
 
 <resources>
     <string name="app_name">Catalogo di Libri</string>
-    <string name="action_settings">Impostazioni</string>
     <string name="btn_Salvar">Salvare</string>
-    <string name="btn_Voltar">Ritornare</string>
-    <string name="hello_world">Ciao Mondo!</string>
     <string name="title_activity_tela_cadastrar">Registrare Libro</string>
     <string name="title_activity_tela_pesquisar">Ricercare Libri</string>
     <string name="txt_ano">Anno</string>

@@ -14,12 +14,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="15dp"
         android:text="@string/default_Id_Text_BookComponent"
         android:textAlignment="center"
         android:textColor="?attr/textcolor"
         android:textSize="30sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,85 +36,94 @@
 
     <TextView
         android:id="@+id/txt_titlebookcomponent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:singleLine="true"
         android:text="@string/hint_titulo"
         android:textColor="?attr/textcolor"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/div2_bookcomponent"
-        app:layout_constraintStart_toEndOf="@id/img_booktitle"
+        app:layout_constraintEnd_toStartOf="@+id/div2_bookcomponent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/img_booktitle"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/img_author"
-        android:layout_width="17dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="3dp"
-        android:contentDescription="@string/txt_AccessDescriptionAuthorImage"
-        android:src="@drawable/author_img"
-        android:tint="?attr/textcolor"
-        app:layout_constraintStart_toStartOf="@id/img_booktitle"
-        app:layout_constraintTop_toBottomOf="@id/img_booktitle" />
-
-    <ImageView
-        android:id="@+id/img_booktitle"
-        android:layout_width="17dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="5dp"
-
-        android:contentDescription="@string/txt_AccessDescriptionTitleImage"
-        android:src="@drawable/book_img"
-        android:tint="?attr/textcolor"
-        app:layout_constraintBottom_toBottomOf="@+id/book_component_ID"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@id/div1_bookcomponent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.125" />
-
-    <ImageView
-        android:id="@+id/imgcalendar"
-        android:layout_width="17dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="2dp"
-        android:contentDescription="@string/txt_AccessDescriptionYearImage"
-        android:src="@drawable/calendar_img"
-        android:tint="?attr/textcolor"
-        app:layout_constraintStart_toStartOf="@id/img_author"
-        app:layout_constraintTop_toBottomOf="@id/img_author" />
-
     <TextView
         android:id="@+id/txtauthorbookcomponent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_width="0dp"
+        android:layout_height="23dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="8dp"
         android:ellipsize="end"
         android:maxLines="1"
-        android:singleLine="true"
         android:text="@string/hint_autor"
         android:textColor="?attr/textcolor"
         android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@id/txt_titlebookcomponent"
+        app:layout_constraintBottom_toTopOf="@+id/txt_anobookcomponent"
+        app:layout_constraintEnd_toStartOf="@+id/div2_bookcomponent"
+        app:layout_constraintStart_toEndOf="@+id/img_author"
         app:layout_constraintTop_toBottomOf="@id/txt_titlebookcomponent" />
 
     <TextView
         android:id="@+id/txt_anobookcomponent"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="4dp"
         android:maxLength="4"
         android:maxLines="1"
         android:text="@string/hint_ano"
         android:textColor="?attr/textcolor"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@id/txtauthorbookcomponent"
+        app:layout_constraintStart_toEndOf="@+id/imgcalendar"
         app:layout_constraintTop_toBottomOf="@+id/txtauthorbookcomponent" />
+
+    <ImageView
+        android:id="@+id/img_author"
+        android:layout_width="17dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="2dp"
+        android:contentDescription="@string/txt_AccessDescriptionAuthorImage"
+        android:src="@drawable/author_img"
+        android:tint="?attr/textcolor"
+        app:layout_constraintBottom_toTopOf="@+id/imgcalendar"
+        app:layout_constraintStart_toStartOf="@id/img_booktitle"
+        app:layout_constraintTop_toBottomOf="@id/img_booktitle"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/img_booktitle"
+        android:layout_width="17dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="5dp"
+        android:contentDescription="@string/txt_AccessDescriptionTitleImage"
+        android:src="@drawable/book_img"
+        android:tint="?attr/textcolor"
+        app:layout_constraintBottom_toBottomOf="@+id/book_component_ID"
+        app:layout_constraintStart_toEndOf="@id/div1_bookcomponent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.060000002" />
+
+    <ImageView
+        android:id="@+id/imgcalendar"
+        android:layout_width="17dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@string/txt_AccessDescriptionYearImage"
+        android:src="@drawable/calendar_img"
+        android:tint="?attr/textcolor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/img_author"
+        app:layout_constraintTop_toBottomOf="@id/img_author" />
 
     <View
         android:id="@+id/div2_bookcomponent"
@@ -158,6 +167,5 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@id/div2_bookcomponent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

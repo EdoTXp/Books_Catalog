@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 
 public class SharedPreferencesTheme
 {
-    private SharedPreferences preferences;
+    private final SharedPreferences preferences;
 
 
     public SharedPreferencesTheme(Context context)

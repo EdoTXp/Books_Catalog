@@ -29,7 +29,7 @@ public class GestorNotification {
     private Uri Sound;
     private long[] Pattern;
 
-    private static String CHANNEL_ID = "DEFAULT CHANNEL";
+    private static final String CHANNEL_ID = "DEFAULT CHANNEL";
 
 
     /**

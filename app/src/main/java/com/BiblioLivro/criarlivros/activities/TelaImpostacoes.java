@@ -59,12 +59,9 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
         getDefaultLanguage();
 
         Button btn_clearData = findViewById(R.id.btn_clear_data);
-        Button btn_Salvar = findViewById(R.id.btn_salvar_settings);
 
         // Adicionado os eventos de click
         btn_clearData.setOnClickListener(this);
-        btn_Salvar.setOnClickListener(this);
-
 
     }
 
@@ -101,36 +98,29 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_clear_data:
-                AlertDialog.Builder builder;
+        if (v.getId() == R.id.btn_clear_data) {
+            AlertDialog.Builder builder;
 
-                if (preferencesTheme.getNightModeState())
-                    builder = new AlertDialog.Builder(v.getContext(), android.R.style.Theme_DeviceDefault_Dialog_Alert);
-                else
-                    builder = new AlertDialog.Builder(v.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+            if (preferencesTheme.getNightModeState())
+                builder = new AlertDialog.Builder(v.getContext(), android.R.style.Theme_DeviceDefault_Dialog_Alert);
+            else
+                builder = new AlertDialog.Builder(v.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
 
-                builder.setTitle(R.string.btn_clear_data);
-                builder.setMessage(R.string.alert_dialog_message);
-                builder.setIcon(R.drawable.iconapp);
-                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        clearApplicationData();
+            builder.setTitle(R.string.btn_clear_data);
+            builder.setMessage(R.string.alert_dialog_message);
+            builder.setIcon(R.drawable.iconapp);
+            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    clearApplicationData();
 
-                        Toast.makeText(getBaseContext(), getString(R.string.success_msg), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getBaseContext(), getString(R.string.success_msg), Toast.LENGTH_LONG).show();
 
-                        GestorVibrator.Vibrate(100L, getBaseContext());
-                    }
-                });
-                builder.setNegativeButton(R.string.no, null);
-                builder.show();
-                break;
-
-            case R.id.btn_salvar_settings:
-
-                break;
-
+                    GestorVibrator.Vibrate(100L, getBaseContext());
+                }
+            });
+            builder.setNegativeButton(R.string.no, null);
+            builder.show();
         }
     }
 

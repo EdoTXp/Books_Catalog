@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -54,15 +55,24 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
 
         //ATRIBUTOS LOCAIS
         Button btnCadastrar = findViewById(R.id.btnCadastrar);
-        Button btnPesquisar = findViewById(R.id.btnPesquisar);
+        final Button btnPesquisar = findViewById(R.id.btnPesquisar);
         rdgPesquisarPor = findViewById(R.id.rdgPesquisarPor);
         edtPesquisar = findViewById(R.id.edtPesquisar);
 
+        //EVENTOS
+        edtPesquisar.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    onClick(btnPesquisar);
+                    return true;
+                }
+                return false;
+            }
+        });
         btnCadastrar.setOnClickListener(this);
         btnPesquisar.setOnClickListener(this);
-
         rdgPesquisarPor.setOnCheckedChangeListener(this);
-
     }
 
     //Configurando o tema ao iniciar a Activity ou ao Reiniciar
@@ -84,7 +94,7 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         // criação do Intent para iniciar uma nova Activity
-        Intent it = null;
+        Intent it;
 
         switch (v.getId()) {
 
@@ -116,6 +126,7 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
                  * ou registrado nenhum campo.
                  */
                 else {
+                    GestorVibrator.Vibrate(100L, this);
                     Toast.makeText(this, getString(R.string.FieldNotFound), Toast.LENGTH_LONG).show();
                     return;
                 }

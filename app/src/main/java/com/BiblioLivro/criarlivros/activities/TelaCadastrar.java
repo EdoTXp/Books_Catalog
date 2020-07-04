@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,12 +46,22 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         setTitle(getString(R.string.title_activity_tela_cadastrar));
 
         //ATRIBUTO LOCAL
-        Button btnSave = findViewById(R.id.btnSalvar);
+        final Button btnSave = findViewById(R.id.btnSalvar);
 
         edtTitleBook = findViewById(R.id.edtTitulo);
         edtAuthorBook = findViewById(R.id.edtAutor);
         edtYearBook = findViewById(R.id.edtAno);
 
+        edtYearBook.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    onClick(btnSave);
+                    return true;
+                }
+                return false;
+            }
+        });
         btnSave.setOnClickListener(this);
     }
 
@@ -112,8 +123,8 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
     private void printNotification() {
 
         String bodyTextNotification = getString(R.string.Notification_Text_1)
-                .concat(" ")
-                .concat(edtTitleBook.getText().toString()).concat(" ")
+                .concat(" \"")
+                .concat(edtTitleBook.getText().toString()).concat("\" ")
                 .concat(getString(R.string.Notification_Text_2));
 
         GestorNotification notification = new GestorNotification

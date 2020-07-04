@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.BiblioLivro.criarlivros.R;
 import com.BiblioLivro.criarlivros.customview.BookComponentAdapter;
+import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
 import com.BiblioLivro.criarlivros.model.BookItem;
 import com.BiblioLivro.criarlivros.model.Order;
 import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
@@ -86,6 +87,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                  * adicionado ao RecycleView
                  */
 
+
                 //criação do Array de Livros
                 ArrayList<BookItem> bookItems = new ArrayList<>();
                 for (ContentValues cv : lista) {
@@ -122,9 +124,13 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-            } else
+            } else {
+                GestorVibrator.Vibrate(100L, this);
                 Toast.makeText(this, getString(R.string.FieldNotFound), Toast.LENGTH_LONG).show();
+            }
         }
+
+
     }
 
     private List<ContentValues> getContentValuesList(int tipo, String chave) {

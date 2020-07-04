@@ -28,7 +28,6 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/txt_language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -101,7 +100,6 @@
             </HorizontalScrollView>
 
             <View
-                android:id="@+id/div_2"
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:layout_marginStart="16dp"
@@ -112,7 +110,6 @@
                 android:backgroundTint="@android:color/darker_gray" />
 
             <TextView
-                android:id="@+id/txt_dark_mode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -139,7 +136,6 @@
                 tools:checked="false" />
 
             <View
-                android:id="@+id/div_3"
                 android:layout_width="match_parent"
                 android:layout_height="4dp"
                 android:layout_marginStart="16dp"
@@ -150,7 +146,6 @@
                 android:backgroundTint="@android:color/darker_gray" />
 
             <TextView
-                android:id="@+id/txt_user_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -172,31 +167,6 @@
                 android:background="@drawable/layout_border"
                 android:drawableEnd="@android:drawable/ic_menu_delete"
                 android:text="@string/btn_clear_data"
-                android:textColor="?attr/textcolor"
-                android:textSize="20sp" />
-
-            <View
-                android:id="@+id/div_4"
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="32dp"
-                android:background="?android:attr/listDivider"
-                android:backgroundTint="@android:color/darker_gray" />
-
-            <Button
-                android:id="@+id/btn_salvar_settings"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/buttonSave_height"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/layout_border"
-                android:drawableEnd="@android:drawable/ic_menu_save"
-                android:text="@string/btn_Salvar"
-                android:textAlignment="center"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp" />
 
