@@ -24,7 +24,6 @@ import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
 import com.BiblioLivro.criarlivros.model.BookItem;
 import com.BiblioLivro.criarlivros.model.Order;
 import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
-import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -36,9 +35,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookViewHolder> {
 
     private final Context mContext;
     private View view;
-    private ArrayList<BookItem> bookItems;
-    private SharedPreferencesTheme preferencesTheme;
-
+    private final ArrayList<BookItem> bookItems;
 
     /**
      * @param context   onde vai ser inserido o BookComponentAdapter
@@ -98,25 +95,11 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookViewHolder> {
         holder.imgExcluir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder deleteDialog;
-                preferencesTheme = new SharedPreferencesTheme(holder.itemView.getContext());
-
-                if (preferencesTheme.getNightModeState())
-                    deleteDialog = new AlertDialog.Builder
-                            (
-                                    holder.itemView.getContext(),
-                                    android.R.style.Theme_DeviceDefault_Dialog_Alert
-                            );
-                else
-                    deleteDialog = new AlertDialog.Builder
-                            (
-                                    holder.itemView.getContext(),
-                                    android.R.style.Theme_DeviceDefault_Light_Dialog_Alert
-                            );
+                AlertDialog.Builder deleteDialog = new AlertDialog.Builder(v.getContext());
 
                 deleteDialog.setTitle(holder.itemView.getContext().getResources().getString(R.string.delete_item_Title).concat(bookItems.get(holder.getAdapterPosition()).getBookName()));
                 deleteDialog.setMessage(R.string.delete_item_msg);
-                deleteDialog.setIcon(R.drawable.iconapp);
+                deleteDialog.setIcon(R.drawable.transparent_icon_app);
                 deleteDialog.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

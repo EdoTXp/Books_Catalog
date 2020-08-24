@@ -37,7 +37,8 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Método para setar o tema da activity ao iniciar
-        setTheme();
+        SharedPreferencesTheme sharedPreferencesTheme = new SharedPreferencesTheme(this);
+        sharedPreferencesTheme.setTheme();
 
         super.onCreate(savedInstanceState);
 
@@ -65,19 +66,14 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         btnSave.setOnClickListener(this);
     }
 
-    private void setTheme() {
-        SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
-        if (preferencesTheme.getNightModeState()) {
-            setTheme(R.style.DarkTheme);
-        } else setTheme(R.style.AppTheme);
-    }
+
 
     @Override
     public void onClick(View v) {
 
         /*
          * Se todos os campos forem preenchidos,
-         * será cadastrado no banco de dados o livro em seguida,
+         * será cadastrado no banco de dados o livro, em seguida,
          * será impressa uma notificação
          * indacando que o livro foi cadastrado com sucesso.
          */
@@ -130,7 +126,7 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         GestorNotification notification = new GestorNotification
                 (
                         this,
-                        R.drawable.iconapp,
+                        R.drawable.transparent_icon_app,
                         getString(R.string.Notification_Title),
                         bodyTextNotification,
                         2

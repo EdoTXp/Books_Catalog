@@ -48,7 +48,8 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Configurando o tema
-        setTheme();
+        preferencesTheme = new SharedPreferencesTheme(this);
+        preferencesTheme.setTheme();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_principal);
@@ -75,18 +76,11 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
         rdgPesquisarPor.setOnCheckedChangeListener(this);
     }
 
-    //Configurando o tema ao iniciar a Activity ou ao Reiniciar
-    private void setTheme() {
-        preferencesTheme = new SharedPreferencesTheme(this);
-        if (preferencesTheme.getNightModeState()) {
-            setTheme(R.style.DarkTheme);
-        } else setTheme(R.style.AppTheme);
-    }
 
     // reinicar a Activity toda vez que for executado o evento onBackPressed() em outra activity
     @Override
     protected void onRestart() {
-        setTheme();
+        preferencesTheme.setTheme();
         recreate();
         super.onRestart();
     }
@@ -161,20 +155,20 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
             case R.id.menu_feedback:
 
                 // Criação do AlertDialog para cadastrar o e-mail
-                AlertDialog.Builder emailDialog;
+                AlertDialog.Builder emailDialog = new AlertDialog.Builder(this);
 
                 /*
                  * se o preferencesTheme retornar o valor "true",
                  * o emailDialog receberá o tema escuro.
                  * Caso contrário, receberá o tema claro
                  * */
-                if (preferencesTheme.getNightModeState())
+              /*  if (preferencesTheme.getButton() == preferencesTheme.THEME_LIGHT || preferencesTheme.getButton() == preferencesTheme.THEME_BATTERY)
                     emailDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
                 else
-                    emailDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+                    emailDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);*/
 
                 // Adição do icone e o título do email dialog
-                emailDialog.setIcon(R.drawable.iconapp);
+                emailDialog.setIcon(R.drawable.transparent_icon_app);
                 emailDialog.setTitle(getString(R.string.email_title));
 
 
@@ -184,9 +178,8 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
                 emailBodyText.setInputType(InputType.TYPE_CLASS_TEXT);
                 emailBodyText.setSingleLine(false);
                 emailBodyText.setHint(getString(R.string.email_textHint));
-                //TODO trovare altri modi per settare il colore
-                emailBodyText.setHintTextColor((preferencesTheme.getNightModeState()) ? getResources().getColor(R.color.nightcolortexthint) : getResources().getColor(R.color.colortexthint));
-                emailBodyText.setTextColor((preferencesTheme.getNightModeState()) ? getResources().getColor(R.color.nightcolorPrimaryText) : getResources().getColor(R.color.colorPrimaryText));
+                emailBodyText.setHintTextColor(getResources().getColor(R.color.colortexthint));
+                emailBodyText.setTextColor(getResources().getColor(R.color.colorPrimaryText));
                 emailBodyText.setGravity(Gravity.START | Gravity.TOP);
                 emailBodyText.setHorizontalScrollBarEnabled(false);
 
@@ -281,14 +274,14 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
             case R.id.rbPesquisarPorAutor:
                 edtPesquisar.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
                 edtPesquisar.setHint(R.string.hint_autor);
-                edtPesquisar.setInputType(InputType.TYPE_CLASS_TEXT);
+                edtPesquisar.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
                 edtPesquisar.setContentDescription(getString(R.string.txt_AccessDescriptionAuthor));
                 break;
 
             case R.id.rbPesquisarPorTitulo:
                 edtPesquisar.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
                 edtPesquisar.setHint(R.string.hint_titulo);
-                edtPesquisar.setInputType(InputType.TYPE_CLASS_TEXT);
+                edtPesquisar.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
                 edtPesquisar.setContentDescription(getString(R.string.txt_AccessDescriptionTitle));
                 break;
 

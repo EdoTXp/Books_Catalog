@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="EntryPointsManager">
+    <pattern value="com.BiblioLivro.criarlivros.ExampleUnitTest" method="addition_isCorrect" />
+    <pattern value="com.BiblioLivro.criarlivros.model.BookItem" />
+    <pattern value="com.BiblioLivro.criarlivros.ExampleInstrumentedTest" />
+    <pattern value="com.BiblioLivro.criarlivros.ExampleUnitTest" />
+    <pattern value="com.BiblioLivro.criarlivros.activities.SplashScreen" />
+    <pattern value="com.BiblioLivro.criarlivros.activities.TelaCadastrar" />
+    <pattern value="com.BiblioLivro.criarlivros.activities.TelaImpostacoes" />
+    <pattern value="com.BiblioLivro.criarlivros.activities.TelaPesquisar" />
+    <pattern value="com.BiblioLivro.criarlivros.activities.TelaPrincipal" />
+    <pattern value="com.BiblioLivro.criarlivros.model.BookItem" method="setAuthorName" />
+    <pattern value="com.BiblioLivro.criarlivros.model.BookItem" method="setBookName" />
+    <pattern value="com.BiblioLivro.criarlivros.model.BookItem" method="setBookYear" />
+    <pattern value="com.BiblioLivro.criarlivros.model.BookItem" method="setId" />
+    <pattern value="com.BiblioLivro.criarlivros.ExampleInstrumentedTest" method="useAppContext" />
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

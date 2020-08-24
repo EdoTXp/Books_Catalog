@@ -66,11 +66,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
-                android:drawableStart="@drawable/book_img"
                 android:drawablePadding="5dp"
                 android:text="@string/txt_titulo"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp"
+                app:drawableStartCompat="@drawable/book_img"
                 app:drawableTint="?attr/textcolor" />
 
             <EditText
@@ -82,7 +82,7 @@
                 android:hint="@string/hint_titulo"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="text"
+                android:inputType="textCapSentences"
                 android:maxLength="100"
                 android:textColor="?attr/textcolor"
                 android:textColorHint="?attr/textcolorhint"
@@ -92,11 +92,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5sp"
-                android:drawableStart="@drawable/author_img"
                 android:drawablePadding="5dp"
                 android:text="@string/txt_autor"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp"
+                app:drawableStartCompat="@drawable/author_img"
                 app:drawableTint="?attr/textcolor" />
 
             <EditText
@@ -108,7 +108,7 @@
                 android:hint="@string/hint_autor"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="textPersonName"
+                android:inputType="textCapSentences"
                 android:maxLength="100"
                 android:textColor="?attr/textcolor"
                 android:textColorHint="?attr/textcolorhint"
@@ -118,11 +118,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
                 android:layout_marginTop="5sp"
-                android:drawableStart="@drawable/calendar_img"
                 android:drawablePadding="5dp"
                 android:text="@string/txt_ano"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp"
+                app:drawableStartCompat="@drawable/calendar_img"
                 app:drawableTint="?attr/textcolor" />
 
             <EditText
@@ -131,7 +131,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_border"
                 android:hint="@string/hint_ano"
-                android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="number"
                 android:maxLength="4"

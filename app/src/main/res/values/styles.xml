@@ -5,40 +5,23 @@
 <resources>
 
     <!-- Base application theme. -->
-    <!-- Day / Light mode -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Day / Night mode -->
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryText</item>
+        <item name="colorPrimaryDark">@color/colorSecundary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="backgroundcolor">@color/whitebackground</item>
-        <item name="secundarybackgroundcolor">@color/whitebackground</item>
-        <item name="linebordercolor">@color/colorPrimary</item>
+        <item name="backgroundcolor">@color/background</item>
+        <item name="secundarybackgroundcolor">@color/colorSecundary</item>
+        <item name="linebordercolor">@color/lineBorder</item>
         <item name="textcolor">@color/colorPrimaryText</item>
         <item name="textcolorhint">@color/colortexthint</item>
         <item name="tintcolor">@color/colorPrimaryText</item>
-        <item name="borderbackground">@color/whitebackground</item>
-        <item name="buttonbackground">@color/whitebackground</item>
-        <item name="menubarbackground">@color/whitebackground</item>
+        <item name="borderbackground">@color/background</item>
+        <item name="buttonbackground">@color/background</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="menubarbackground">@color/colorPrimaryText</item>
         <item name="android:windowAnimationStyle">@style/WindowsAnimationTransition</item>
-        <item name="android:itemBackground">@color/whitebackground</item>
-    </style>
-
-    <!-- Night / Dark mode -->
-    <style name="DarkTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/nightcolorPrimary</item>
-        <item name="colorPrimaryDark">@color/nightcolorSecundary</item>
-        <item name="colorAccent">@color/nightcolorAccent</item>
-        <item name="backgroundcolor">@color/darkbackground</item>
-        <item name="secundarybackgroundcolor">@color/nightcolorSecundary</item>
-        <item name="linebordercolor">@color/colorPrimary</item>
-        <item name="textcolor">@color/nightcolorPrimaryText</item>
-        <item name="textcolorhint">@color/nightcolortexthint</item>
-        <item name="tintcolor">@color/nightcolorPrimaryText</item>
-        <item name="borderbackground">@color/darkbackground</item>
-        <item name="buttonbackground">@color/darkbackground</item>
-        <item name="menubarbackground">@color/nightcolorSecundary</item>
-        <item name="android:windowAnimationStyle">@style/WindowsAnimationTransition</item>
-        <item name="android:itemBackground">@color/nightcolorSecundary</item>
+        <item name="android:itemBackground">@color/colorMenubarBackground</item>
         <item name="android:itemTextAppearance">@style/MenuItemTextAppearanceDark</item>
     </style>
 
@@ -48,9 +31,10 @@
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
     </style>
 
+
     <!--Cor de cada MenuItem no tema escuro-->
     <style name="MenuItemTextAppearanceDark" parent="@android:style/TextAppearance.Widget.IconMenu.Item">
-        <item name="android:textColor">@color/nightcolorPrimaryText</item>
+        <item name="android:textColor">@color/colorPrimaryText</item>
     </style>
 
 </resources>

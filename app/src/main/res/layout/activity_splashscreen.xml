@@ -16,7 +16,7 @@
         android:layout_height="130dp"
         android:contentDescription="@string/logo_AccessDescription"
         android:scaleType="fitXY"
-        android:src="@drawable/iconapp" />
+        android:src="@drawable/transparent_icon_app" />
 
     <TextView
         android:layout_width="wrap_content"

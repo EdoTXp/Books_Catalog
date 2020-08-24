@@ -20,10 +20,13 @@ public class SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme();
+
+        //Colocar o tema
+
 
         super.onCreate(savedInstanceState);
-
+        SharedPreferencesTheme sharedPreferencesTheme = new SharedPreferencesTheme(this);
+        sharedPreferencesTheme.setTheme();
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().setFlags
                 (
@@ -46,11 +49,5 @@ public class SplashScreen extends AppCompatActivity {
 
     }
 
-    private void setTheme() {
-        SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
-        if (preferencesTheme.getNightModeState()) {
-            setTheme(R.style.DarkTheme);
-        } else setTheme(R.style.AppTheme);
-    }
 
 }

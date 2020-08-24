@@ -63,4 +63,8 @@
     <string name="delete_item_msg">Cancellando questo libro non potrai più disfare questa decisione. Sei sicuro di volerlo fare?</string>
     <string name="filter_btn">Bottone Filtrare</string>
     <string name="order_txt">Ordinare</string>
+    <string name="darkTheme">Scuro</string>
+    <string name="systemTheme">Sistema</string>
+    <string name="lightTheme">Chiaro</string>
+    <string name="batteryTheme">Risparmio Energetico</string>
 </resources>

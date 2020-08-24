@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  -->
+
+<resources>
+    <color name="colorPrimary">#121212</color>
+    <color name="colorSecundary">#181818</color>
+    <color name="colorPrimaryText">#B8B8B8</color>
+    <color name="lineBorder">#008577</color>
+    <color name="colorAccent">#D8D8D8</color>
+    <color name="colorMenubarBackground">#181818</color>
+    <color name="colortexthint">#B2BEBD</color>
+    <color name="background">#080808</color>
+</resources>

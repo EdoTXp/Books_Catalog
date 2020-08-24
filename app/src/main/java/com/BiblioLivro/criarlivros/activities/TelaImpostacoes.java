@@ -10,9 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -27,10 +25,11 @@ import java.util.Locale;
 import java.util.Objects;
 
 
+
 public class TelaImpostacoes extends AppCompatActivity implements View.OnClickListener {
 
     // ATRIBUTOS
-    private RadioGroup rg_language;
+    private RadioGroup rg_language, rg_Theme;
     private SharedPreferencesTheme preferencesTheme;
 
     @Override
@@ -39,7 +38,8 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
         /* Ao criar a Activity "TelaImpostações",
          *  será colocado o tema em base as preferências salvas em
          *  no objeto "preferencesTheme". */
-        setTheme();
+        preferencesTheme = new SharedPreferencesTheme(this);
+        preferencesTheme.setTheme();
 
         // criação da Activity
         super.onCreate(savedInstanceState);
@@ -49,66 +49,83 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
 
         // Preenchendo os objetos
         rg_language = findViewById(R.id.rg_language);
-        Switch switch_darkmode = findViewById(R.id.swt_dark_mode);
+        rg_Theme = findViewById(R.id.rg_theme);
 
-        /* trocando o switch em base as escolhas do método "setTheme"
-         * OBS: método ainda em fase de melhorias.
-         */
-        changeTheme(switch_darkmode);
 
+        checkedRadioButtonByTheme();
         getDefaultLanguage();
 
         Button btn_clearData = findViewById(R.id.btn_clear_data);
 
         // Adicionado os eventos de click
         btn_clearData.setOnClickListener(this);
-
-    }
-
-    private void setTheme() {
-        preferencesTheme = new SharedPreferencesTheme(this);
-
-        if (preferencesTheme.getNightModeState()) {
-            setTheme(R.style.DarkTheme);
-        } else setTheme(R.style.AppTheme);
-    }
-
-    private void changeTheme(Switch swit_darkmode) {
-        if (preferencesTheme.getNightModeState()) {
-            swit_darkmode.setChecked(true);
-            swit_darkmode.setText(getString(R.string.menu_darkMode));
-        } else {
-            setTheme(R.style.AppTheme);
-            swit_darkmode.setText(getString(R.string.menu_lightMode));
-        }
-
-        swit_darkmode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rg_Theme.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    preferencesTheme.setNightModeState(true);
-                } else {
-                    preferencesTheme.setNightModeState(false);
-                }
-                recreate();
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_lightTheme:
+                        preferencesTheme.setButton(preferencesTheme.THEME_LIGHT);
+                        recreate();
+                        break;
 
+                    case R.id.rb_darkTheme:
+                        preferencesTheme.setButton(preferencesTheme.THEME_DARK);
+                        recreate();
+                        break;
+
+                    case R.id.rb_batteryTheme:
+                        preferencesTheme.setButton(preferencesTheme.THEME_BATTERY);
+                        recreate();
+                        break;
+
+                    case R.id.rb_systemTheme:
+                        preferencesTheme.setButton(preferencesTheme.THEME_SYSTEM);
+                        recreate();
+                        break;
+                }
             }
         });
+
+    }
+
+    private void checkedRadioButtonByTheme() {
+        /* Ao iniciar a activity,
+         * os radio buttons serão preenchidos de acordo com o que foi salvo no preferencesTheme
+         */
+
+        switch (preferencesTheme.getButton()) {
+            case 1:
+                rg_Theme.check(R.id.rb_darkTheme);
+                break;
+
+            case 2:
+                rg_Theme.check(R.id.rb_systemTheme);
+                break;
+
+            case 3:
+                rg_Theme.check(R.id.rb_batteryTheme);
+                break;
+
+            default:
+            case 0:
+                rg_Theme.check(R.id.rb_lightTheme);
+                break;
+        }
     }
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_clear_data) {
-            AlertDialog.Builder builder;
+        /*
+         * Creando um diálogo para escolher se o usuário quer realmente apagar todos os dados
+         *
+         * */
 
-            if (preferencesTheme.getNightModeState())
-                builder = new AlertDialog.Builder(v.getContext(), android.R.style.Theme_DeviceDefault_Dialog_Alert);
-            else
-                builder = new AlertDialog.Builder(v.getContext(), android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
+        if (v.getId() == R.id.btn_clear_data) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
 
             builder.setTitle(R.string.btn_clear_data);
             builder.setMessage(R.string.alert_dialog_message);
-            builder.setIcon(R.drawable.iconapp);
+            builder.setIcon(R.drawable.transparent_icon_app);
             builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {

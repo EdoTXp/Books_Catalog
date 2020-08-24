@@ -136,7 +136,7 @@
                 android:ellipsize="end"
                 android:hint="@string/hint_titulo"
                 android:importantForAutofill="no"
-                android:inputType="text"
+                android:inputType="textCapSentences"
                 android:maxLength="100"
                 android:backgroundTint="?attr/textcolorhint"
                 android:textColor="?attr/textcolor"

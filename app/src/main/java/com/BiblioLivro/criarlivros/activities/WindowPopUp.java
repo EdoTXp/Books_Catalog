@@ -4,6 +4,7 @@
 
 package com.BiblioLivro.criarlivros.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -28,11 +29,11 @@ public class WindowPopUp {
 
         // recebendo o service para preencher
         LayoutInflater inflater = (LayoutInflater) view.getContext()
-                .getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         // preenchendo a view onde foi criado o layout .xml
         assert inflater != null;
-        View popupView = inflater.inflate(R.layout.popupwindow, null);
+        View popupView = inflater.inflate(R.layout.popupwindow, new LinearLayout(view.getContext()));
         int width = LinearLayout.LayoutParams.MATCH_PARENT;
         int height = LinearLayout.LayoutParams.MATCH_PARENT;
 

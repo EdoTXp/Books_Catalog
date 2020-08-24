@@ -44,7 +44,8 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Método para setar o tema da activity ao iniciar
-        setTheme();
+        SharedPreferencesTheme sharedPreferences = new SharedPreferencesTheme(this);
+        sharedPreferences.setTheme();
 
         //Arrumando a Activity
         super.onCreate(savedInstanceState);
@@ -86,7 +87,6 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                  * será adicionado ao bookAdapter e em seguida,
                  * adicionado ao RecycleView
                  */
-
 
                 //criação do Array de Livros
                 ArrayList<BookItem> bookItems = new ArrayList<>();
@@ -183,15 +183,12 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        /*
+         * Opções para escolher como ordenar os livros
+         * */
+
         if (item.getItemId() == R.id.btn_filter) {
-            AlertDialog.Builder orderDialog;
-            SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
-
-            if (preferencesTheme.getNightModeState())
-                orderDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
-            else
-                orderDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);
-
+            AlertDialog.Builder orderDialog = new AlertDialog.Builder(this);
             orderDialog.setTitle(getString(R.string.order_txt));
 
             String[] orderOption =
@@ -256,16 +253,6 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
-    /* Ao iniciar a Activity, será buscado no SharedPreferences o tema salvado.
-     * Caso o estado retorna "true", será impostado o tema escuro.
-     * Caso contrario, será impostado o tema padrão (claro)
-     */
-    private void setTheme() {
-        SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
-        if (preferencesTheme.getNightModeState()) {
-            setTheme(R.style.DarkTheme);
-        } else setTheme(R.style.AppTheme);
-    }
 
     /* Evento chamado pelo upButton onde ao clicá-lo será scrolado o recycleView para a posição 0
      * e o botão se tornará invisível.

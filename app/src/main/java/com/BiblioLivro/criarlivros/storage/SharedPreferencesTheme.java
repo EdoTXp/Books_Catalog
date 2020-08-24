@@ -6,31 +6,69 @@ package com.BiblioLivro.criarlivros.storage;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 
-public class SharedPreferencesTheme
-{
+import androidx.appcompat.app.AppCompatDelegate;
+
+public class SharedPreferencesTheme {
+    public final int THEME_UNDEFINED = -1;
+    public final int THEME_LIGHT = 0;
+    public final int THEME_DARK = 1;
+    public final int THEME_SYSTEM = 2;
+    public final int THEME_BATTERY = 3;
     private final SharedPreferences preferences;
+    private final Context context;
 
 
-    public SharedPreferencesTheme(Context context)
-    {
+    public SharedPreferencesTheme(Context context) {
         preferences = context.getSharedPreferences("theme", Context.MODE_PRIVATE);
+        this.context = context;
     }
 
-    // Este método salva o tema, colocando true se for no modo "dark" ou false se for no modo "day"
-    public void setNightModeState(Boolean state)
-    {
+    public int getButton() {
+        return preferences.getInt("NightModeChoice", THEME_UNDEFINED);
+    }
+
+    public void setButton(int button) {
         SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
-        editor.putBoolean("NightMode", state);
+        editor.putInt("NightModeChoice", button);
         editor.apply();
     }
 
-    //Este método carrega o tema
-    public Boolean getNightModeState()
-    {
-        return preferences.getBoolean("NightMode", false);
+    public void setTheme() {
+        switch (getButton()) {
+            case THEME_LIGHT:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                // context.setTheme(R.style.AppTheme);
+                break;
+            case THEME_DARK:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                //  context.setTheme(R.style.DarkTheme);
+                break;
+            case THEME_SYSTEM:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case THEME_BATTERY:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+                //  context.setTheme(R.style.AppTheme);
+                break;
+
+            case THEME_UNDEFINED:
+            default:
+                switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
+                    case Configuration.UI_MODE_NIGHT_NO:
+                    case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        //      context.setTheme(R.style.AppTheme);
+                        break;
+
+                    case Configuration.UI_MODE_NIGHT_YES:
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        //      context.setTheme(R.style.DarkTheme);
+                        break;
+                }
+                break;
+        }
+
     }
-
-
 }

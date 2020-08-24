@@ -9,15 +9,18 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:icon="@drawable/iconapp"
-        android:label="@string/app_name"
-        android:roundIcon="@drawable/iconapp"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:name=".activities.App"
+        android:allowBackup="true"
         android:fullBackupContent="true"
-        android:allowBackup="true">
+        android:label="@string/app_name"
+        android:icon="@mipmap/iconapp"
+        android:roundIcon="@mipmap/iconapp_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
 
-        <activity android:name=".activities.SplashScreen"
+
+        <activity
+            android:name=".activities.SplashScreen"
             android:screenOrientation="fullSensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,38 +28,36 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".activities.TelaPrincipal"
+        <activity
+            android:name=".activities.TelaPrincipal"
             android:label="@string/app_name"
             android:screenOrientation="fullSensor" />
-
         <activity
             android:name=".activities.TelaCadastrar"
             android:label="@string/title_activity_tela_cadastrar"
-            android:screenOrientation="fullSensor"
-            android:parentActivityName=".activities.TelaPrincipal">
+            android:parentActivityName=".activities.TelaPrincipal"
+            android:screenOrientation="fullSensor">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.TelaPrincipal" />
         </activity>
-
-        <activity android:name=".activities.TelaPesquisar"
+        <activity
+            android:name=".activities.TelaPesquisar"
             android:label="@string/title_activity_tela_pesquisar"
             android:parentActivityName=".activities.TelaPrincipal">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.TelaPrincipal" />
         </activity>
-
-        <activity android:name=".activities.TelaImpostacoes"
+        <activity
+            android:name=".activities.TelaImpostacoes"
             android:label="@string/menu_settings"
             android:parentActivityName=".activities.TelaPrincipal"
             android:screenOrientation="fullSensor">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.TelaPrincipal"/>
+                android:value=".activities.TelaPrincipal" />
         </activity>
-
     </application>
 
 </manifest>

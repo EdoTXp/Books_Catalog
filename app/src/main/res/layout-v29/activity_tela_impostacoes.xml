@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
   -->
 
@@ -172,6 +172,19 @@
                         android:textColor="?attr/textcolor"
                         android:textSize="16sp" />
 
+                    <RadioButton
+                        android:id="@+id/rb_systemTheme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:buttonTint="?attr/colorAccent"
+                        android:text="@string/systemTheme"
+                        android:textColor="?attr/textcolor"
+                        android:textSize="16sp"
+                        tools:ignore="InconsistentLayout" />
                 </RadioGroup>
 
             </HorizontalScrollView>

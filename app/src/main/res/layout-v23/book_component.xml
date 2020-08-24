@@ -29,7 +29,7 @@
         android:layout_height="66dp"
         android:layout_marginStart="12dp"
         android:background="?android:attr/listDivider"
-        android:foreground="@color/colorPrimary"
+        android:foreground="@color/lineBorder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@id/book_component_ID"
         app:layout_constraintTop_toTopOf="parent" />
@@ -93,11 +93,11 @@
         android:layout_marginTop="2dp"
         android:contentDescription="@string/txt_AccessDescriptionAuthorImage"
         android:src="@drawable/author_img"
-        android:tint="?attr/textcolor"
         app:layout_constraintBottom_toTopOf="@+id/imgcalendar"
         app:layout_constraintStart_toStartOf="@id/img_booktitle"
         app:layout_constraintTop_toBottomOf="@id/img_booktitle"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        app:tint="?attr/textcolor" />
 
     <ImageView
         android:id="@+id/img_booktitle"
@@ -106,11 +106,11 @@
         android:layout_marginStart="5dp"
         android:contentDescription="@string/txt_AccessDescriptionTitleImage"
         android:src="@drawable/book_img"
-        android:tint="?attr/textcolor"
         app:layout_constraintBottom_toBottomOf="@+id/book_component_ID"
         app:layout_constraintStart_toEndOf="@id/div1_bookcomponent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.060000002" />
+        app:layout_constraintVertical_bias="0.060000002"
+        app:tint="?attr/textcolor" />
 
     <ImageView
         android:id="@+id/imgcalendar"
@@ -120,10 +120,10 @@
         android:layout_marginBottom="4dp"
         android:contentDescription="@string/txt_AccessDescriptionYearImage"
         android:src="@drawable/calendar_img"
-        android:tint="?attr/textcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/img_author"
-        app:layout_constraintTop_toBottomOf="@id/img_author" />
+        app:layout_constraintTop_toBottomOf="@id/img_author"
+        app:tint="?attr/textcolor" />
 
     <View
         android:id="@+id/div2_bookcomponent"
@@ -131,7 +131,7 @@
         android:layout_height="66dp"
         android:layout_marginEnd="52dp"
         android:background="?android:attr/listDivider"
-        android:foreground="@color/colorPrimary"
+        android:foreground="@color/lineBorder"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
@@ -145,13 +145,13 @@
         android:layout_marginEnd="10dp"
         android:contentDescription="@string/txt_AccessDescriptionDeleteBotton"
         android:src="@drawable/delete_img"
-        android:tint="?attr/textcolor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/div2_bookcomponent"
         app:layout_constraintTop_toBottomOf="@+id/img_bookedit"
-        app:layout_constraintVertical_bias="0.166" />
+        app:layout_constraintVertical_bias="0.166"
+        app:tint="?attr/textcolor" />
 
     <ImageView
         android:id="@+id/img_bookedit"
@@ -161,11 +161,11 @@
         android:layout_marginBottom="32dp"
         android:contentDescription="@string/txt_AccessDescriptionEditBotton"
         android:src="@drawable/edit_img"
-        android:tint="?attr/textcolor"
         app:layout_constraintBottom_toBottomOf="@+id/div2_bookcomponent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@id/div2_bookcomponent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="?attr/textcolor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
