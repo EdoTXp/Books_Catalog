@@ -82,10 +82,11 @@
                 android:hint="@string/hint_titulo"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="textCapSentences"
+                android:inputType="textCapWords"
+
                 android:maxLength="100"
                 android:textColor="?attr/textcolor"
-                android:textColorHint="?attr/textcolorhint"
+                android:textColorHint="?attr/textColorHint"
                 android:textSize="24sp" />
 
             <TextView
@@ -108,10 +109,10 @@
                 android:hint="@string/hint_autor"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
-                android:inputType="textCapSentences"
+                android:inputType="textCapWords|textPersonName"
                 android:maxLength="100"
                 android:textColor="?attr/textcolor"
-                android:textColorHint="?attr/textcolorhint"
+                android:textColorHint="?attr/textColorHint"
                 android:textSize="24sp" />
 
             <TextView
@@ -127,17 +128,18 @@
 
             <EditText
                 android:id="@+id/edtAno"
-                android:layout_width="74dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_border"
                 android:hint="@string/hint_ano"
                 android:importantForAutofill="no"
+                android:imeOptions="actionSend"
                 android:inputType="number"
                 android:maxLength="4"
                 android:singleLine="true"
                 android:soundEffectsEnabled="true"
                 android:textColor="?attr/textcolor"
-                android:textColorHint="?attr/textcolorhint"
+                android:textColorHint="?attr/textColorHint"
                 android:textSize="24sp" />
 
             <Button

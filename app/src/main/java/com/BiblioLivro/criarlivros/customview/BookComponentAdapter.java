@@ -130,7 +130,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookViewHolder> {
             DatabaseHelper db = new DatabaseHelper(view.getContext());
             int actualPosition = getItemCount();
 
-            db.deletar(bookItems.get(position).getId());
+            db.delete(bookItems.get(position).getId());
             bookItems.remove(position);
             notifyItemRemoved(position);
             notifyItemRangeChanged(position, actualPosition);

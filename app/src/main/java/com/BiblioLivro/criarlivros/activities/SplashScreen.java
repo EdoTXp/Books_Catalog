@@ -20,13 +20,11 @@ public class SplashScreen extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //Colocar o tema
-
-
         super.onCreate(savedInstanceState);
+        // Selecionando o tema
         SharedPreferencesTheme sharedPreferencesTheme = new SharedPreferencesTheme(this);
-        sharedPreferencesTheme.setTheme();
+        sharedPreferencesTheme.setAppTheme();
+
         Objects.requireNonNull(getSupportActionBar()).hide();
         getWindow().setFlags
                 (
@@ -35,7 +33,7 @@ public class SplashScreen extends AppCompatActivity {
                 );
         setContentView(R.layout.activity_splashscreen);
 
-        // tempo percorrido antes de lançar a tela principal
+        // tempo percorrido, em ms, antes de lançar a tela principal
         int SPLASH_TIME_OUT = 4000;
 
         new Handler().postDelayed(new Runnable() {

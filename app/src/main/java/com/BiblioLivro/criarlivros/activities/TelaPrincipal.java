@@ -41,54 +41,55 @@ import java.util.Locale;
 public class TelaPrincipal extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     //ATRIBUTOS
-    private RadioGroup rdgPesquisarPor;
-    private EditText edtPesquisar;
-    private SharedPreferencesTheme preferencesTheme;
+    private RadioGroup rdgSearchBy;
+    private EditText edtSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Configurando o tema
-        preferencesTheme = new SharedPreferencesTheme(this);
-        preferencesTheme.setTheme();
+        SharedPreferencesTheme preferencesTheme = new SharedPreferencesTheme(this);
+        preferencesTheme.setAppTheme();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_principal);
 
         //ATRIBUTOS LOCAIS
-        Button btnCadastrar = findViewById(R.id.btnCadastrar);
-        final Button btnPesquisar = findViewById(R.id.btnPesquisar);
-        rdgPesquisarPor = findViewById(R.id.rdgPesquisarPor);
-        edtPesquisar = findViewById(R.id.edtPesquisar);
+        Button btnRegister = findViewById(R.id.btnCadastrar);
+        final Button btnSearch = findViewById(R.id.btnPesquisar);
+        rdgSearchBy = findViewById(R.id.rdgPesquisarPor);
+        edtSearch = findViewById(R.id.edtPesquisar);
 
         //EVENTOS
-        edtPesquisar.setOnKeyListener(new View.OnKeyListener() {
+        edtSearch.setOnKeyListener(new View.OnKeyListener() {
+            /*
+             * Método para fazer a pesquisa usando o teclado do dispositivo
+             * */
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    onClick(btnPesquisar);
-                    return true;
+                /*
+                 * Ao envocar o evento, será feito uma filtragem capturando somente a ação ACTION_UP.
+                 * Em seguida, será capturada a tecla enter para chamar a ação de onClick*/
+                if (event.getAction() == KeyEvent.ACTION_UP) {
+                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                        onClick(btnSearch);
+                        return true;
+                    }
                 }
                 return false;
             }
         });
-        btnCadastrar.setOnClickListener(this);
-        btnPesquisar.setOnClickListener(this);
-        rdgPesquisarPor.setOnCheckedChangeListener(this);
-    }
+        btnRegister.setOnClickListener(this);
+        btnSearch.setOnClickListener(this);
+        rdgSearchBy.setOnCheckedChangeListener(this);
 
 
-    // reinicar a Activity toda vez que for executado o evento onBackPressed() em outra activity
-    @Override
-    protected void onRestart() {
-        preferencesTheme.setTheme();
-        recreate();
-        super.onRestart();
     }
+
 
     @Override
     public void onClick(View v) {
         // criação do Intent para iniciar uma nova Activity
-        Intent it;
+        Intent it = null;
 
         switch (v.getId()) {
 
@@ -104,17 +105,18 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
              * */
             case R.id.btnPesquisar:
 
-                // verificando se algum campo está vazio e radiobutton não for "rbPesquisarPorTodos"
-                if (edtPesquisar.getText().toString().equals("") && !(rdgPesquisarPor.getCheckedRadioButtonId() == R.id.rbPesquisarPorTodos)) {
+                // verificando se algum campo está vazio e o radiobutton não for "rbPesquisarPorTodos"
+                if (edtSearch.getText().toString().equals("") && !(rdgSearchBy.getCheckedRadioButtonId() == R.id.rbPesquisarPorTodos)) {
                     GestorVibrator.Vibrate(100L, v.getContext());
                     Toast.makeText(this, getString(R.string.FieldEmpty), Toast.LENGTH_LONG).show();
                     return;
                 }
+
                 //Criar a nova Intent para a nova Tela Pesquisar se existir algum dado
                 if (new DatabaseHelper(this).tableIsExist()) {
                     it = new Intent(this, TelaPesquisar.class);
-                    it.putExtra("tipo", rdgPesquisarPor.getCheckedRadioButtonId());
-                    it.putExtra("chave", edtPesquisar.getText().toString());
+                    it.putExtra("tipo", rdgSearchBy.getCheckedRadioButtonId());
+                    it.putExtra("chave", edtSearch.getText().toString());
                 }
                 /* Se a lista estiver vazia, será imprimido na tela que não foi encontrado
                  * ou registrado nenhum campo.
@@ -128,7 +130,7 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
                 break;
 
             default:
-                return;
+                break;
         }
         //Iniciando a nova Intent
         startActivity(it);
@@ -157,16 +159,6 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
                 // Criação do AlertDialog para cadastrar o e-mail
                 AlertDialog.Builder emailDialog = new AlertDialog.Builder(this);
 
-                /*
-                 * se o preferencesTheme retornar o valor "true",
-                 * o emailDialog receberá o tema escuro.
-                 * Caso contrário, receberá o tema claro
-                 * */
-              /*  if (preferencesTheme.getButton() == preferencesTheme.THEME_LIGHT || preferencesTheme.getButton() == preferencesTheme.THEME_BATTERY)
-                    emailDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert);
-                else
-                    emailDialog = new AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Light_Dialog_Alert);*/
-
                 // Adição do icone e o título do email dialog
                 emailDialog.setIcon(R.drawable.transparent_icon_app);
                 emailDialog.setTitle(getString(R.string.email_title));
@@ -178,7 +170,7 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
                 emailBodyText.setInputType(InputType.TYPE_CLASS_TEXT);
                 emailBodyText.setSingleLine(false);
                 emailBodyText.setHint(getString(R.string.email_textHint));
-                emailBodyText.setHintTextColor(getResources().getColor(R.color.colortexthint));
+                emailBodyText.setHintTextColor(getResources().getColor(R.color.colorTextHint));
                 emailBodyText.setTextColor(getResources().getColor(R.color.colorPrimaryText));
                 emailBodyText.setGravity(Gravity.START | Gravity.TOP);
                 emailBodyText.setHorizontalScrollBarEnabled(false);
@@ -209,7 +201,7 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
                             // montando o e-mail e escolher qual app para enviar
                             ShareCompat.IntentBuilder.from(TelaPrincipal.this)
                                     .setType("message/rfc822")
-                                    .addEmailTo("edoardofabriziodeiovanna@hotmail.com")
+                                    .addEmailTo(getString(R.string.developer_email))
                                     .setSubject(subject)
                                     .setText
                                             (
@@ -260,37 +252,37 @@ public class TelaPrincipal extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-        edtPesquisar.setEnabled(true);
-        edtPesquisar.setText("");
+        edtSearch.setEnabled(true);
+        edtSearch.setText("");
 
         switch (checkedId) {
             case R.id.rbPesquisarPorAno:
-                edtPesquisar.setInputType(InputType.TYPE_CLASS_NUMBER);
-                edtPesquisar.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
-                edtPesquisar.setHint(R.string.hint_ano);
-                edtPesquisar.setContentDescription(getString(R.string.txt_AccessDescriptionYear));
+                edtSearch.setInputType(InputType.TYPE_CLASS_NUMBER);
+                edtSearch.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
+                edtSearch.setHint(R.string.hint_ano);
+                edtSearch.setContentDescription(getString(R.string.txt_AccessDescriptionYear));
                 break;
 
             case R.id.rbPesquisarPorAutor:
-                edtPesquisar.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
-                edtPesquisar.setHint(R.string.hint_autor);
-                edtPesquisar.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-                edtPesquisar.setContentDescription(getString(R.string.txt_AccessDescriptionAuthor));
+                edtSearch.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
+                edtSearch.setHint(R.string.hint_autor);
+                edtSearch.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+                edtSearch.setContentDescription(getString(R.string.txt_AccessDescriptionAuthor));
                 break;
 
             case R.id.rbPesquisarPorTitulo:
-                edtPesquisar.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
-                edtPesquisar.setHint(R.string.hint_titulo);
-                edtPesquisar.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-                edtPesquisar.setContentDescription(getString(R.string.txt_AccessDescriptionTitle));
+                edtSearch.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
+                edtSearch.setHint(R.string.hint_titulo);
+                edtSearch.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS);
+                edtSearch.setContentDescription(getString(R.string.txt_AccessDescriptionTitle));
                 break;
 
             case R.id.rbPesquisarPorTodos:
-                edtPesquisar.setEnabled(false);
-                edtPesquisar.setHint("");
-                edtPesquisar.setFilters(new InputFilter[]{new InputFilter.LengthFilter(0)});
-                edtPesquisar.setInputType(InputType.TYPE_NULL);
-                edtPesquisar.setContentDescription(getString(R.string.txt_AccessDescriptionAll));
+                edtSearch.setEnabled(false);
+                edtSearch.setHint("");
+                edtSearch.setFilters(new InputFilter[]{new InputFilter.LengthFilter(0)});
+                edtSearch.setInputType(InputType.TYPE_NULL);
+                edtSearch.setContentDescription(getString(R.string.txt_AccessDescriptionAll));
                 break;
 
             default:

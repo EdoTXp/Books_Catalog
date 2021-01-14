@@ -15,12 +15,11 @@
     <string name="txt_pesquisar">Search</string>
     <string name="txt_pesquisarpor">Search By:</string>
     <string name="txt_titulo">Title</string>
-    <string name="hint_titulo" translatable="false">Memórias Póstumas de Brás Cubas</string>
-    <string name="hint_ano" translatable="false">1881</string>
-    <string name="hint_autor" translatable="false">Machado de Assis</string>
+    <string name="hint_titulo">Insert a book title…</string>
+    <string name="hint_ano">Insert a book year…</string>
+    <string name="hint_autor">Insert a author name…</string>
     <string name="success_msg">Operation performed with SUCCESS !!</string>
     <string name="error_msg">Oops !!, An error occurred during operation</string>
-    <string name="incomplete_msg">One of the courses are empty !!\nFill them in before saving.</string>
     <string name="FieldEmpty">This Field is Empty.</string>
     <string name="FieldNotFound">No Field Found or Registered</string>
     <string name="Notification_Title">Book Registred</string>
@@ -29,7 +28,6 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_app_version">App Version</string>
     <string name="menu_darkMode">Dark Mode</string>
-    <string name="menu_lightMode">Light Mode</string>
     <string name="action_choose_Language">Choose Language:</string>
     <string name="english">English</string>
     <string name="italy">Italy</string>
@@ -73,5 +71,11 @@
     <string name="systemTheme">System</string>
     <string name="lightTheme">Light</string>
     <string name="batteryTheme">Battery Saver</string>
+    <string name="hint_error">This field is empty…</string>
+    <string name="developer_email" translatable="false">edoardofabriziodeiovanna@hotmail.com</string>
+    <string name="description_floatingActionButton">Return to initial position</string>
+    <string name="description_empty_bookcase">Empty Bookcase!!</string>
+    <string name="btn_newBook">Add new Book</string>
+    <string name="AllBookDeleted">All books have been deleted!!</string>
 
 </resources>

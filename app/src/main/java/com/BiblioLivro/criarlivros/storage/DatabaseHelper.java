@@ -36,46 +36,46 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS catalogo");
     }
 
-    public long inserir(ContentValues cv) {
+    public long insert(ContentValues cv) {
         SQLiteDatabase db = this.getWritableDatabase();
         return db.insert(DATABASE_NAME, null, cv);
     }
 
-    public void deletar(int id) {
+    public void delete(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DATABASE_NAME, "id LIKE ?", new String[]{"%" + id + "%"});
     }
 
-    public List<ContentValues> pesquisarPorTitulo(String titulo) {
+    public List<ContentValues> searchByTitle(String titulo) {
         String sql = "SELECT * FROM catalogo WHERE titulo LIKE ?";
         String[] where = new String[]{"%" + titulo + "%"};
-        return pesquisar(sql, where);
+        return search(sql, where);
     }
 
-    public List<ContentValues> pesquisarPorAutor(String autor) {
+    public List<ContentValues> searchByAuthor(String autor) {
         String sql = "SELECT * FROM catalogo WHERE autor LIKE ?";
         String[] where = new String[]{"%" + autor + "%"};
-        return pesquisar(sql, where);
+        return search(sql, where);
     }
 
-    public List<ContentValues> pesquisarPorAno(int ano) {
+    public List<ContentValues> searchByYear(int ano) {
         String sql = "SELECT * FROM catalogo WHERE ano=?";
         String[] where = new String[]{String.valueOf(ano)};
-        return pesquisar(sql, where);
+        return search(sql, where);
     }
 
     public boolean tableIsExist() {
         String sql = "SELECT * FROM catalogo";
-        List<ContentValues> verifyTable = pesquisar(sql, null);
+        List<ContentValues> verifyTable = search(sql, null);
         return !verifyTable.isEmpty();
     }
 
-    public List<ContentValues> pesquisarPorTodos() {
+    public List<ContentValues> searchAll() {
         String sql = "SELECT * FROM catalogo ORDER BY id";
-        return pesquisar(sql, null);
+        return search(sql, null);
     }
 
-    private List<ContentValues> pesquisar(String sql, String[] where) {
+    private List<ContentValues> search(String sql, String[] where) {
         List<ContentValues> lista = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();

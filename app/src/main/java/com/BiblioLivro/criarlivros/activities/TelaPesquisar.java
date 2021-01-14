@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.BiblioLivro.criarlivros.R;
 import com.BiblioLivro.criarlivros.customview.BookComponentAdapter;
-import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
 import com.BiblioLivro.criarlivros.model.BookItem;
 import com.BiblioLivro.criarlivros.model.Order;
 import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
@@ -39,13 +38,14 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
     private FloatingActionButton upButton;
     private RecyclerView recyclerView;
     private BookComponentAdapter bookAdapter;
+    private Menu menuFilter;
     private int checked = 0;  // valor selecionado para executar o sort do bookAdapter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Método para setar o tema da activity ao iniciar
         SharedPreferencesTheme sharedPreferences = new SharedPreferencesTheme(this);
-        sharedPreferences.setTheme();
+        sharedPreferences.setAppTheme();
 
         //Arrumando a Activity
         super.onCreate(savedInstanceState);
@@ -124,21 +124,40 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-            } else {
-                GestorVibrator.Vibrate(100L, this);
-                Toast.makeText(this, getString(R.string.FieldNotFound), Toast.LENGTH_LONG).show();
+                // Quando o bookAdapter ficarà vazio, serà desabilitdo o botão do menu "btnFilter"
+                bookAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                    @Override
+                    public void onItemRangeChanged(int positionStart, int itemCount) {
+                        if (positionStart == 0) {
+                            //invalidateOptionsMenu();
+                            menuFilter.getItem(0).setEnabled(false);
+                            setContentView(R.layout.activity_tela_pesquisar_empty_book);
+                            TextView empty_Book = findViewById(R.id.txt_emptyBook);
+                            empty_Book.setText(R.string.AllBookDeleted);
+                        }
+
+                    }
+                });
+
+            }
+
+            /*Se a lista for vazia será exibido o layout Empty Book e
+             *será adiocionado o texto comforme o contexto
+             */
+            else {
+                setContentView(R.layout.activity_tela_pesquisar_empty_book);
+                TextView empty_Book = findViewById(R.id.txt_emptyBook);
+                empty_Book.setText(R.string.FieldNotFound);
             }
         }
-
-
     }
 
     private List<ContentValues> getContentValuesList(int tipo, String chave) {
-        List<ContentValues> lista = new ArrayList<>();
+        List<ContentValues> booksList = new ArrayList<>();
 
         //realização da busca por Título
         if (tipo == R.id.rbPesquisarPorTitulo) {
-            lista = new DatabaseHelper(this).pesquisarPorTitulo(chave);
+            booksList = new DatabaseHelper(this).searchByTitle(chave);
         }
 
         /* realização da busca por ano
@@ -146,40 +165,44 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
          */
         else if (tipo == R.id.rbPesquisarPorAno) {
             try {
-                lista = new DatabaseHelper(this).pesquisarPorAno(Integer.parseInt(Objects.requireNonNull(chave)));
+                booksList = new DatabaseHelper(this).searchByYear(Integer.parseInt(Objects.requireNonNull(chave)));
             } catch (Exception e) {
-                lista = new DatabaseHelper(this).pesquisarPorTodos();
+                booksList = new DatabaseHelper(this).searchAll();
             }
         }
         //realização da busca por Autor
         else if (tipo == R.id.rbPesquisarPorAutor) {
-            lista = new DatabaseHelper(this).pesquisarPorAutor(chave);
+            booksList = new DatabaseHelper(this).searchByAuthor(chave);
         }
 
         //realização da busca por todos os objetos
         else if (tipo == R.id.rbPesquisarPorTodos) {
-            lista = new DatabaseHelper(this).pesquisarPorTodos();
+            booksList = new DatabaseHelper(this).searchAll();
         }
-        return lista;
+        return booksList;
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.filter_item_bar, menu);
+        menuFilter = menu;
         return true;
     }
 
-    /*Método chamado quando algum resultado pesquisado não foi encontrado na lista,
-     * será desativado o menu de ordenamento
-     * */
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+
+        /*Método chamado quando algum resultado pesquisado não foi encontrado na lista,
+         * será desativado o menu de ordenamento
+         * */
+
         if (bookAdapter == null) {
-            invalidateOptionsMenu();
             menu.findItem(R.id.btn_filter).setEnabled(false);
         }
         return super.onPrepareOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -187,7 +210,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
          * Opções para escolher como ordenar os livros
          * */
 
-        if (item.getItemId() == R.id.btn_filter) {
+        if (item.getItemId() == R.id.btn_filter && bookAdapter.getItemCount() > 0) {
             AlertDialog.Builder orderDialog = new AlertDialog.Builder(this);
             orderDialog.setTitle(getString(R.string.order_txt));
 
@@ -250,20 +273,32 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
             orderDialog.setNegativeButton(R.string.email_btn_cancel, null);
             orderDialog.show();
         }
+
         return super.onOptionsItemSelected(item);
     }
 
 
-    /* Evento chamado pelo upButton onde ao clicá-lo será scrolado o recycleView para a posição 0
-     * e o botão se tornará invisível.
-     */
     @Override
     public void onClick(View v) {
+
+
+        /* Evento chamado pelo upButton onde ao clicá-lo será scrolado o recycleView para a posição 0
+         * e o botão se tornará invisível.
+         */
+
         if (v.getId() == R.id.floatingActionButtonUp) {
             recyclerView.scrollToPosition(0);
             upButton.setVisibility(View.INVISIBLE);
         }
     }
 
+    public void addNewBook(View view) {
+        /*Evento chamado pelo botão do layout "Tela Pesquisar Empty Book / No Book Found",
+         * onde ao clicá-lo será iniciada a tela Cadastrar para que o usuário possa adiocionar
+         * um novo livro.
+         * */
+        startActivity(new Intent(this, TelaCadastrar.class));
+        finish();
+    }
 }
 

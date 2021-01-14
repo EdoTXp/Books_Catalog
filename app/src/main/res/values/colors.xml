@@ -12,7 +12,9 @@
     <color name="colorPrimaryText">#00334B</color>
     <color name="colorMenubarBackground">#FCFCFC</color>
     <color name="colorAccent">#00A567</color>
-    <color name="colortexthint">#777777</color>
+    <color name="errorBorder">#FF2332</color>
+    <color name="colorTextHint">#777777</color>
     <color name="background">#FCFCFC</color>
+    <color name="windowPopUpBackground">#FCFCFC</color>
 
 </resources>

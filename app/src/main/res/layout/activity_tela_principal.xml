@@ -136,12 +136,12 @@
                 android:ellipsize="end"
                 android:hint="@string/hint_titulo"
                 android:importantForAutofill="no"
-                android:inputType="textCapSentences"
+                android:backgroundTint="?attr/textColorHint"
                 android:maxLength="100"
-                android:backgroundTint="?attr/textcolorhint"
+                android:inputType="textCapWords"
                 android:textColor="?attr/textcolor"
                 android:textColorHighlight="?attr/textcolor"
-                android:textColorHint="@color/colortexthint" />
+                android:textColorHint="@color/colorTextHint" />
 
             <Button
                 android:id="@+id/btnPesquisar"

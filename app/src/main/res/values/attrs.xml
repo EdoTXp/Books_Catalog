@@ -8,9 +8,10 @@
         <attr name="secundarybackgroundcolor" format="color" />
         <attr name="linebordercolor" format="color" />
         <attr name="textcolor" format="color" />
-        <attr name="textcolorhint" format="color" />
+        <attr name="textColorHint" format="color" />
         <attr name="tintcolor" format="color" />
         <attr name="borderbackground" format="color" />
+        <attr name="borderBackgroundError" format="color" />
         <attr name="buttonbackground" format="color" />
         <attr name="menubarbackground" format="color" />
     </declare-styleable>

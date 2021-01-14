@@ -24,8 +24,6 @@ import java.io.File;
 import java.util.Locale;
 import java.util.Objects;
 
-
-
 public class TelaImpostacoes extends AppCompatActivity implements View.OnClickListener {
 
     // ATRIBUTOS
@@ -35,11 +33,12 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        /* Ao criar a Activity "TelaImpostações",
-         *  será colocado o tema em base as preferências salvas em
-         *  no objeto "preferencesTheme". */
+        /* Ao criar a Activity "TelaImpostacoes",
+         *  será colocado o tema em base as preferências salvas
+         *  no objeto "preferencesTheme".
+         * */
         preferencesTheme = new SharedPreferencesTheme(this);
-        preferencesTheme.setTheme();
+        preferencesTheme.setAppTheme();
 
         // criação da Activity
         super.onCreate(savedInstanceState);
@@ -50,12 +49,11 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
         // Preenchendo os objetos
         rg_language = findViewById(R.id.rg_language);
         rg_Theme = findViewById(R.id.rg_theme);
-
+        Button btn_clearData = findViewById(R.id.btn_clear_data);
 
         checkedRadioButtonByTheme();
         getDefaultLanguage();
 
-        Button btn_clearData = findViewById(R.id.btn_clear_data);
 
         // Adicionado os eventos de click
         btn_clearData.setOnClickListener(this);
@@ -63,26 +61,30 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
+                    /*
+                     * Aplicar o tema com base na escolha do RadioButton
+                     *  */
                     case R.id.rb_lightTheme:
-                        preferencesTheme.setButton(preferencesTheme.THEME_LIGHT);
-                        recreate();
+                        preferencesTheme.setCheckedButton(preferencesTheme.THEME_LIGHT);
                         break;
 
                     case R.id.rb_darkTheme:
-                        preferencesTheme.setButton(preferencesTheme.THEME_DARK);
-                        recreate();
+                        preferencesTheme.setCheckedButton(preferencesTheme.THEME_DARK);
                         break;
 
                     case R.id.rb_batteryTheme:
-                        preferencesTheme.setButton(preferencesTheme.THEME_BATTERY);
-                        recreate();
+                        preferencesTheme.setCheckedButton(preferencesTheme.THEME_BATTERY);
                         break;
 
                     case R.id.rb_systemTheme:
-                        preferencesTheme.setButton(preferencesTheme.THEME_SYSTEM);
-                        recreate();
+                        preferencesTheme.setCheckedButton(preferencesTheme.THEME_SYSTEM);
                         break;
+
+                    default:
+                        return;
                 }
+                // depois de selecionar o tema, será envocado o método setTheme()
+                preferencesTheme.setAppTheme();
             }
         });
 
@@ -92,8 +94,7 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
         /* Ao iniciar a activity,
          * os radio buttons serão preenchidos de acordo com o que foi salvo no preferencesTheme
          */
-
-        switch (preferencesTheme.getButton()) {
+        switch (preferencesTheme.getCheckedButton()) {
             case 1:
                 rg_Theme.check(R.id.rb_darkTheme);
                 break;
@@ -121,12 +122,12 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
          * */
 
         if (v.getId() == R.id.btn_clear_data) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+            AlertDialog.Builder clearDataBuilder = new AlertDialog.Builder(v.getContext());
 
-            builder.setTitle(R.string.btn_clear_data);
-            builder.setMessage(R.string.alert_dialog_message);
-            builder.setIcon(R.drawable.transparent_icon_app);
-            builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+            clearDataBuilder.setTitle(R.string.btn_clear_data);
+            clearDataBuilder.setMessage(R.string.alert_dialog_message);
+            clearDataBuilder.setIcon(R.drawable.transparent_icon_app);
+            clearDataBuilder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     clearApplicationData();
@@ -136,8 +137,8 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
                     GestorVibrator.Vibrate(100L, getBaseContext());
                 }
             });
-            builder.setNegativeButton(R.string.no, null);
-            builder.show();
+            clearDataBuilder.setNegativeButton(R.string.no, null);
+            clearDataBuilder.show();
         }
     }
 

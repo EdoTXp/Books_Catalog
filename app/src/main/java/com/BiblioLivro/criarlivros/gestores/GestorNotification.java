@@ -7,6 +7,7 @@ package com.BiblioLivro.criarlivros.gestores;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioAttributes;
@@ -26,14 +27,14 @@ public class GestorNotification {
     //ATRIBUTOS
     private NotificationCompat.Builder builder;
     private AppCompatActivity activity;
-    private Uri Sound;
-    private long[] Pattern;
+    private Uri sound;
+    private long[] pattern;
 
     private static final String CHANNEL_ID = "DEFAULT CHANNEL";
 
 
     /**
-     * @param Activity utilizado para indicar em qual "tela" será imprimida a notificação
+     * @param activity utilizado para indicar em qual "tela" será imprimida a notificação
      * @param icon     utilizado para indicar qual será o ícone da notificação utilizando a classe R.icon
      * @param title    utilizado para indicar o título da notificação
      * @param text     utilizado para indicar o texto da notificação. Por padrão aparecerá em uma linha apenas.
@@ -41,21 +42,20 @@ public class GestorNotification {
      * @param priority utilizado para indicar a prioridade da notificação:
      *                 Onde:
      *                 -2 é a menor prioridade. Só aparecerá no menú das notificações
-     *                 2 é a maior prioridade. Aparecerá em destaque na tela "Activity" que escolheu,
+     *                 2 é a maior prioridade. Aparecerá em destaque na tela "activity" que escolheu,
      *                 e também no menu das notificações
      */
-    public GestorNotification(AppCompatActivity Activity, int icon, String title, String text, int priority) {
+    public GestorNotification(AppCompatActivity activity, int icon, String title, String text, int priority) {
         if (priority >= -2 && priority <= 2) {
-            activity = Activity;
+            this.activity = activity;
 
-            builder = new NotificationCompat.Builder(activity, CHANNEL_ID)
+            builder = new NotificationCompat.Builder(this.activity, CHANNEL_ID)
                     .setSmallIcon(icon)
                     .setContentTitle(title)
                     .setContentText(text)
                     .setContentIntent(setPendingIntent())
                     .setAutoCancel(true)
                     .setPriority(priority);
-
         }
     }
 
@@ -75,7 +75,7 @@ public class GestorNotification {
      *                #n  repetição das outras posições: #1 e #2
      */
     public void setDurationVibrate(long[] pattern) {
-        Pattern = pattern;
+        this.pattern = pattern;
         builder.setVibrate(pattern);
     }
 
@@ -84,7 +84,7 @@ public class GestorNotification {
      * @param sound é utilizado para executar um som durante a notificação
      */
     public void setSound(Uri sound) {
-        Sound = sound;
+        this.sound = sound;
         builder.setSound(sound);
     }
 
@@ -109,8 +109,8 @@ public class GestorNotification {
                     .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
                     .build();
 
-            channel.setSound(Sound, attributes);
-            channel.setVibrationPattern(Pattern);
+            channel.setSound(sound, attributes);
+            channel.setVibrationPattern(pattern);
             channel.setLightColor(Color.GREEN);
             channel.enableLights(true);
             channel.enableVibration(true);
@@ -135,9 +135,11 @@ public class GestorNotification {
         Intent intent = new Intent(activity, TelaPesquisar.class);
         intent.putExtra("tipo", R.id.rbPesquisarPorTodos);
         intent.putExtra("chave", "");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        return PendingIntent.getActivity(activity, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(activity);
+        stackBuilder.addNextIntentWithParentStack(intent);
+
+        return stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
 

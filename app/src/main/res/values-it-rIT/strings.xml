@@ -17,7 +17,6 @@
     <string name="txt_pesquisarpor">Ricercare Per:</string>
     <string name="txt_titulo">Titolo</string>
     <string name="error_msg">Oops !!, Si è verificato un errore durante l\'operazione</string>
-    <string name="incomplete_msg">Uno dei campi è vuoto !!\nRiempili prima di salvare.</string>
     <string name="success_msg">Operazione effettuata con SUCCESSO !!</string>
     <string name="FieldEmpty">Il Campo è Vuoto.</string>
     <string name="FieldNotFound">Nessun Campo Trovato o Registrato</string>
@@ -27,7 +26,6 @@
     <string name="menu_settings">Impostazioni</string>
     <string name="menu_app_version">Versione dell\' Applicativo</string>
     <string name="menu_darkMode">Modalità Notturna</string>
-    <string name="menu_lightMode">Modalità Chiara</string>
     <string name="action_choose_Language">Scegli una Lingua:</string>
     <string name="english">Inglese</string>
     <string name="italy">Italiano</string>
@@ -67,4 +65,12 @@
     <string name="systemTheme">Sistema</string>
     <string name="lightTheme">Chiaro</string>
     <string name="batteryTheme">Risparmio Energetico</string>
+    <string name="hint_titulo">Inserire il titolo del libro…</string>
+    <string name="hint_ano">Inserire l\'anno del libro…</string>
+    <string name="hint_autor">Inserire il nome dell\'autore…</string>
+    <string name="hint_error">Questo campo è vuoto…</string>
+    <string name="description_floatingActionButton">Ritorna alla posizione iniziale</string>
+    <string name="description_empty_bookcase">Libreria Vuota!!</string>
+    <string name="btn_newBook">Aggiungere Nuovo Libro</string>
+    <string name="AllBookDeleted">Tutti i libri sono stati cancellati!!</string>
 </resources>

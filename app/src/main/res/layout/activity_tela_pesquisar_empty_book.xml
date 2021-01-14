@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  -->
+
+<!-- android:text="Non c'è nessun libro da cancellare!!" -->
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
+    android:fadeScrollbars="false"
+    android:isScrollContainer="true"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".activities.TelaPesquisar">
+
+    <TextView
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/txt_pesquisar"
+        android:textColor="?attr/textcolor"
+        android:textSize="26sp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:contentDescription="@string/description_empty_bookcase"
+        android:src="@drawable/empty_bookcase" />
+
+    <TextView
+        android:id="@+id/txt_emptyBook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:textColor="?attr/textcolor"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/layout_border"
+        android:drawableEnd="@android:drawable/ic_menu_add"
+        android:elegantTextHeight="false"
+        android:onClick="addNewBook"
+        android:text="@string/btn_newBook"
+        android:textColor="?attr/textcolor"
+        android:textSize="20sp" />
+
+</LinearLayout>

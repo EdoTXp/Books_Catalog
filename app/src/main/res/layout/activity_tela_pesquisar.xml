@@ -48,6 +48,7 @@
             android:visibility="invisible"
             app:backgroundTint="?attr/textcolor"
             app:fabSize="mini"
+            android:contentDescription="@string/description_floatingActionButton"
             app:srcCompat="@android:drawable/arrow_up_float" />
 
     </RelativeLayout>

@@ -17,7 +17,6 @@
     <string name="txt_pesquisarpor">Pesquisar Por:</string>
     <string name="txt_titulo">Título</string>
     <string name="error_msg">Ops!!, Ocorreu um erro durante a operação</string>
-    <string name="incomplete_msg">Um dos campos estão Vazios!!\nPreenchê-los antes de Salvar.</string>
     <string name="success_msg">Operação realizada com SUCESSO!!</string>
     <string name="FieldEmpty">O Campo está Vazio.</string>
     <string name="FieldNotFound">Nenhum Campo Encontrado ou Registrado</string>
@@ -27,7 +26,6 @@
     <string name="menu_settings">Configurações</string>
     <string name="menu_app_version">Versão do Aplicativo</string>
     <string name="menu_darkMode">Modalidade Noturna</string>
-    <string name="menu_lightMode">Modalidade Clara</string>
     <string name="action_choose_Language">Escolhe uma Língua:</string>
     <string name="english">Inglês</string>
     <string name="italy">Italiano</string>
@@ -67,4 +65,12 @@
     <string name="systemTheme">Sistema</string>
     <string name="lightTheme">Claro</string>
     <string name="batteryTheme">Modo Energia</string>
+    <string name="hint_titulo">Digitar o título do livro…</string>
+    <string name="hint_ano">Digitar o ano do livro…</string>
+    <string name="hint_autor">Digitar o nome do autor…</string>
+    <string name="hint_error">Este campo está vazio…</string>
+    <string name="description_floatingActionButton">Retorna à posição inicial</string>
+    <string name="description_empty_bookcase">Estante Vazia!!</string>
+    <string name="btn_newBook">Adicionar Novo Livro</string>
+    <string name="AllBookDeleted">Todos os livros foram apagados!!</string>
 </resources>

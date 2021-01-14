@@ -8,7 +8,9 @@
     <color name="colorPrimaryText">#B8B8B8</color>
     <color name="lineBorder">#008577</color>
     <color name="colorAccent">#D8D8D8</color>
+    <color name="errorBorder">#FF6362</color>
     <color name="colorMenubarBackground">#181818</color>
-    <color name="colortexthint">#B2BEBD</color>
+    <color name="colorTextHint">#929E9D</color>
     <color name="background">#080808</color>
+    <color name="windowPopUpBackground">#181818</color>
 </resources>
