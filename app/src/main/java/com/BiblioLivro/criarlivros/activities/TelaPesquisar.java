@@ -111,7 +111,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                 recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
                 /* Adicionando o evento de scroll onde se a posição do primeiro item for maior que zero,
-                 * aparecerá visível o botão upButton senão aparecerá invisível
+                 * aparecerá visível o botão upButton senão ficará invisível
                  */
                 recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
@@ -124,18 +124,17 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-                // Quando o bookAdapter ficarà vazio, serà desabilitdo o botão do menu "btnFilter"
+                // Quando o bookAdapter ficará vazio, será desabilitdo o botão do menu "btnFilter"
                 bookAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
                     @Override
                     public void onItemRangeChanged(int positionStart, int itemCount) {
-                        if (positionStart == 0) {
-                            //invalidateOptionsMenu();
+                        if (bookAdapter.itemIsEmpty()) {
                             menuFilter.getItem(0).setEnabled(false);
+
                             setContentView(R.layout.activity_tela_pesquisar_empty_book);
                             TextView empty_Book = findViewById(R.id.txt_emptyBook);
                             empty_Book.setText(R.string.AllBookDeleted);
                         }
-
                     }
                 });
 
@@ -273,7 +272,6 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
             orderDialog.setNegativeButton(R.string.email_btn_cancel, null);
             orderDialog.show();
         }
-
         return super.onOptionsItemSelected(item);
     }
 

@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
+import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -88,7 +89,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookViewHolder> {
         holder.imgEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(), "Click edit", Toast.LENGTH_LONG).show();
+                Toast.makeText(v.getContext(), "Click edit: Development", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -117,11 +118,9 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookViewHolder> {
 
 
     private void removeElementAt(int position) {
-
         /* Este método serve para remover cada item através sua posição.
          *  Removendo da lista e do database e atualizando o recycleView
          */
-
         try {
             Animation anim = AnimationUtils.loadAnimation(view.getContext(), android.R.anim.slide_out_right);
             anim.setDuration(300);
@@ -136,7 +135,7 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookViewHolder> {
             notifyItemRangeChanged(position, actualPosition);
 
             GestorVibrator.Vibrate(100L, view.getContext());
-            Toast.makeText(view.getContext(), R.string.success_msg, Toast.LENGTH_LONG).show();
+            Toast.makeText(view.getContext(), R.string.success_msg, Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             GestorVibrator.Vibrate(100L, view.getContext());
             Toast.makeText
@@ -158,32 +157,43 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookViewHolder> {
         }
     } */
 
-    public void setSortOfAdapterView(final int order_by, final Order order) {
+    /**
+     * Os livros serão ordenados pelos (título, autor e ano) em ordem (ascendente e descendente)
+     *
+     * @param order_by vai dos números 1 ao 3 onde:
+     *                 1 - título do livro.
+     *                 2 - autor do livro.
+     *                 3 - ano do livro.
+     * @param order    se divide em:
+     *                 ASCENDANT - em ascendente.
+     *                 DESCENDANT - em descendente.
+     */
+    public void setSortOfAdapterView(@IntRange(from = 0, to = 3) final int order_by, final Order order) {
         Collections.sort(bookItems, new Comparator<BookItem>() {
             @Override
             public int compare(BookItem o1, BookItem o2) {
                 if (bookItems.size() > 1) {
                     switch (order_by) {
-                        case 1:
-                            if (order == Order.ASCENDANT)
+                        case 1: // ordenar pelo títolo
+                            if (order == Order.ASCENDANT) // ascendente
                                 return Normalizer.normalize(o1.getBookName().toUpperCase(), Normalizer.Form.NFD)
                                         .compareTo(Normalizer.normalize(o2.getBookName().toUpperCase(), Normalizer.Form.NFD));
-                            else
+                            else // descendente
                                 return Normalizer.normalize(o2.getBookName().toUpperCase(), Normalizer.Form.NFD).
                                         compareTo(Normalizer.normalize(o1.getBookName().toUpperCase(), Normalizer.Form.NFD));
 
-                        case 2:
-                            if (order == Order.ASCENDANT)
+                        case 2: // ordenar pelo autor
+                            if (order == Order.ASCENDANT) // ascendente
                                 return Normalizer.normalize(o1.getAuthorName().toUpperCase(), Normalizer.Form.NFD)
                                         .compareTo(Normalizer.normalize(o2.getAuthorName().toUpperCase(), Normalizer.Form.NFD));
-                            else
+                            else // descendente
                                 return Normalizer.normalize(o2.getAuthorName().toUpperCase(), Normalizer.Form.NFD)
                                         .compareTo(Normalizer.normalize(o1.getAuthorName().toUpperCase(), Normalizer.Form.NFD));
 
-                        case 3:
-                            if (order == Order.ASCENDANT)
+                        case 3: // ordenar pelo ano
+                            if (order == Order.ASCENDANT) // ascendente
                                 return Integer.compare(o1.getBookYear(), o2.getBookYear());
-                            else
+                            else // descendente
                                 return Integer.compare(o2.getBookYear(), o1.getBookYear());
 
                         default:
@@ -199,6 +209,10 @@ public class BookComponentAdapter extends RecyclerView.Adapter<BookViewHolder> {
     @Override
     public int getItemCount() {
         return bookItems.size();
+    }
+
+    public boolean itemIsEmpty() {
+        return getItemCount() == 0;
     }
 
 }
