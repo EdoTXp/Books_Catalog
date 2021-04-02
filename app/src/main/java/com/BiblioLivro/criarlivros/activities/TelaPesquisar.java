@@ -51,7 +51,6 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_pesquisar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        setTitle(R.string.title_activity_tela_pesquisar);
 
         //preenchendo o botão upButton e adicionando um evento de click
         upButton = findViewById(R.id.floatingActionButtonUp);
@@ -102,9 +101,11 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                     bookItems.add(bookItem);
                 }
 
+
                 //adicionando os arrays de livros ao bookadapter
                 bookAdapter = new BookComponentAdapter(this, bookItems);
-
+                TextView bookResult = findViewById(R.id.txt_search_founded);
+                bookResult.setText(getString(R.string.txt_pesquisar).concat(" ").concat(Integer.toString(bookItems.size())));
                 //adicionando o bookAdapter, ordenadamente, ao reclycerView e adicionado o layout
                 recyclerView.setAdapter(bookAdapter);
                 bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT);
@@ -213,7 +214,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
             AlertDialog.Builder orderDialog = new AlertDialog.Builder(this);
             orderDialog.setTitle(getString(R.string.order_txt));
 
-            String[] orderOption =
+            final String[] orderOptions =
                     {
                             getString(R.string.txt_titulo).concat(" ↑"),
                             getString(R.string.txt_titulo).concat(" ↓"),
@@ -224,7 +225,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                     };
 
             orderDialog.setIcon(R.drawable.filter_img);
-            orderDialog.setSingleChoiceItems(orderOption, checked, new DialogInterface.OnClickListener() {
+            orderDialog.setSingleChoiceItems(orderOptions, checked, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {

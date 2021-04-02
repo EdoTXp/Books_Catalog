@@ -41,6 +41,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert(DATABASE_NAME, null, cv);
     }
 
+    public void update(int id, ContentValues updateValue) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.update("catalogo", updateValue, "id LIKE ?", new String[]{"%" + id + "%"});
+    }
+
     public void delete(int id) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DATABASE_NAME, "id LIKE ?", new String[]{"%" + id + "%"});

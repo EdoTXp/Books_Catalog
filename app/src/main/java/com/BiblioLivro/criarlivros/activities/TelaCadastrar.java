@@ -80,7 +80,6 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
             }
         });
 
-
         btnSave.setOnClickListener(this);
     }
 

@@ -21,6 +21,7 @@
         <item name="buttonbackground">@color/background</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="menubarbackground">@color/colorPrimaryText</item>
+        <item name="alertDialogTitleIcon">@color/colorPrimaryText</item>
         <item name="android:windowAnimationStyle">@style/WindowsAnimationTransition</item>
         <item name="android:itemBackground">@color/colorMenubarBackground</item>
         <item name="android:itemTextAppearance">@style/MenuItemTextAppearanceDark</item>

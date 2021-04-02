@@ -6,31 +6,27 @@ package com.BiblioLivro.criarlivros.model;
 
 public class BookItem {
 
-    private int Id;
-    private String bookName, authorName;
+    private final int Id;
+    private String bookTitle, authorName;
     private int bookYear;
 
-    public BookItem(int id, String titulo, String autor, int ano) {
+    public BookItem(int id, String title, String author, int year) {
         Id = id;
-        bookName = titulo;
-        authorName = autor;
-        bookYear = ano;
+        bookTitle = title;
+        authorName = author;
+        bookYear = year;
     }
 
     public int getId() {
         return Id;
     }
 
-    public void setId(int id) {
-        Id = id;
+    public String getBookTitle() {
+        return bookTitle;
     }
 
-    public String getBookName() {
-        return bookName;
-    }
-
-    public void setBookName(String bookName) {
-        this.bookName = bookName;
+    public void setBookTitle(String bookTitle) {
+        this.bookTitle = bookTitle;
     }
 
     public String getAuthorName() {

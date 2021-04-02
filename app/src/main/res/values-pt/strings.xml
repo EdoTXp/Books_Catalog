@@ -7,12 +7,12 @@
     <string name="app_name">Catálogo Livros</string>
     <string name="btn_Salvar">Salvar</string>
     <string name="title_activity_tela_cadastrar">Cadastrar Livro</string>
-    <string name="title_activity_tela_pesquisar">Pesquisar Livros</string>
+    <string name="title_activity_tela_pesquisar">Resultado da Pesquisa</string>
     <string name="txt_ano">Ano</string>
     <string name="txt_autor">Autor</string>
     <string name="txt_cadastrar">Cadastrar</string>
     <string name="txt_id">Id</string>
-    <string name="txt_pesquisar">Pesquisar</string>
+    <string name="txt_pesquisar">Livros encontrados: </string>
     <string name="txt_pesquisar_todos">Todos</string>
     <string name="txt_pesquisarpor">Pesquisar Por:</string>
     <string name="txt_titulo">Título</string>
@@ -73,4 +73,9 @@
     <string name="description_empty_bookcase">Estante Vazia!!</string>
     <string name="btn_newBook">Adicionar Novo Livro</string>
     <string name="AllBookDeleted">Todos os livros foram apagados!!</string>
+    <string name="edit_item_Title">Editar este livro</string>
+    <string name="btn_Accept">Aceitar</string>
+    <string name="canceled_operation">Operação cancelada</string>
+    <string name="fill_field_bellow">Preencha o campo abaixo …</string>
+    <string name="btn_Pesquisar">Pesquisar</string>
 </resources>

@@ -44,7 +44,6 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tela_impostacoes);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        setTitle(getString(R.string.menu_settings));
 
         // Preenchendo os objetos
         rg_language = findViewById(R.id.rg_language);

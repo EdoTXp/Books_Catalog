@@ -18,4 +18,5 @@
         android:id="@+id/menu_app_version"
         android:actionLayout="@layout/activity_tela_principal"
         android:title="@string/menu_app_version" />
+
 </menu>

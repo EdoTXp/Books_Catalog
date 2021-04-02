@@ -9,10 +9,10 @@
     <string name="txt_autor">Author</string>
     <string name="txt_ano">Year</string>
     <string name="btn_Salvar">Save</string>
-    <string name="title_activity_tela_pesquisar">Search Books</string>
+    <string name="title_activity_tela_pesquisar">Search Result</string>
     <string name="title_activity_tela_cadastrar">Register Book</string>
     <string name="txt_cadastrar">Register</string>
-    <string name="txt_pesquisar">Search</string>
+    <string name="txt_pesquisar">Books encountered: </string>
     <string name="txt_pesquisarpor">Search By:</string>
     <string name="txt_titulo">Title</string>
     <string name="hint_titulo">Insert a book title…</string>
@@ -77,5 +77,9 @@
     <string name="description_empty_bookcase">Empty Bookcase!!</string>
     <string name="btn_newBook">Add new Book</string>
     <string name="AllBookDeleted">All books have been deleted!!</string>
-
+    <string name="edit_item_Title">Edit this book</string>
+    <string name="btn_Accept">Accept</string>
+    <string name="canceled_operation">Operation canceled</string>
+    <string name="fill_field_bellow">Fill the field below …</string>
+    <string name="btn_Pesquisar">Search</string>
 </resources>

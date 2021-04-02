@@ -151,7 +151,7 @@
                 android:layout_marginBottom="10sp"
                 android:contentDescription="@string/SearchButton_AccessDescription"
                 android:drawableEnd="@android:drawable/ic_menu_search"
-                android:text="@string/txt_pesquisar"
+                android:text="@string/btn_Pesquisar"
                 android:textAlignment="center"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp" />
