@@ -56,11 +56,13 @@
             </LinearLayout>
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/txt_cadastrar"
                 android:textColor="?attr/textcolor"
-                android:textSize="28sp" />
+                android:drawablePadding="5dp"
+                android:textSize="28sp"
+                app:drawableStartCompat="@drawable/clipboard" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -79,11 +81,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_border"
                 android:ellipsize="end"
+                android:padding="10dp"
                 android:hint="@string/hint_titulo"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:inputType="textCapWords"
-
                 android:maxLength="100"
                 android:textColor="?attr/textcolor"
                 android:textColorHint="?attr/textColorHint"
@@ -92,7 +94,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5sp"
+                android:layout_marginTop="10sp"
                 android:drawablePadding="5dp"
                 android:text="@string/txt_autor"
                 android:textColor="?attr/textcolor"
@@ -108,6 +110,7 @@
                 android:ellipsize="end"
                 android:hint="@string/hint_autor"
                 android:imeOptions="actionNext"
+                android:padding="10dp"
                 android:importantForAutofill="no"
                 android:inputType="textCapWords|textPersonName"
                 android:maxLength="100"
@@ -118,7 +121,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:layout_marginTop="5sp"
+                android:layout_marginTop="10sp"
                 android:drawablePadding="5dp"
                 android:text="@string/txt_ano"
                 android:textColor="?attr/textcolor"
@@ -130,10 +133,12 @@
                 android:id="@+id/edtAno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:background="@drawable/layout_border"
                 android:hint="@string/hint_ano"
                 android:importantForAutofill="no"
                 android:imeOptions="actionSend"
+                android:padding="10dp"
                 android:inputType="number"
                 android:maxLength="4"
                 android:singleLine="true"
@@ -146,7 +151,7 @@
                 android:id="@+id/btnSalvar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/buttonSave_height"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="30dp"
                 android:background="@drawable/layout_border"
                 android:drawableEnd="@android:drawable/ic_menu_save"
                 android:text="@string/btn_Salvar"

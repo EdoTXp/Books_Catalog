@@ -12,7 +12,7 @@
     <string name="title_activity_tela_pesquisar">Search Result</string>
     <string name="title_activity_tela_cadastrar">Register Book</string>
     <string name="txt_cadastrar">Register</string>
-    <string name="txt_pesquisar">Books encountered: </string>
+    <string name="txt_pesquisar">Books found: </string>
     <string name="txt_pesquisarpor">Search By:</string>
     <string name="txt_titulo">Title</string>
     <string name="hint_titulo">Insert a book title…</string>

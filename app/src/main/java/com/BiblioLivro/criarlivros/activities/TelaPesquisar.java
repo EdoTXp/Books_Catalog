@@ -7,12 +7,12 @@ package com.BiblioLivro.criarlivros.activities;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -38,6 +38,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
     private FloatingActionButton upButton;
     private RecyclerView recyclerView;
     private BookComponentAdapter bookAdapter;
+    private Button btnNewBook; // esse botão aparecerà quando não tiver nenhum livro na busca ou quando a busca não tiver nenhum resultado
     private Menu menuFilter;
     private int checked = 0;  // valor selecionado para executar o sort do bookAdapter
 
@@ -104,8 +105,11 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
 
                 //adicionando os arrays de livros ao bookadapter
                 bookAdapter = new BookComponentAdapter(this, bookItems);
-                TextView bookResult = findViewById(R.id.txt_search_founded);
+
+                //adicionando um contador de livros encontrados
+                final TextView bookResult = findViewById(R.id.txt_search_founded);
                 bookResult.setText(getString(R.string.txt_pesquisar).concat(" ").concat(Integer.toString(bookItems.size())));
+
                 //adicionando o bookAdapter, ordenadamente, ao reclycerView e adicionado o layout
                 recyclerView.setAdapter(bookAdapter);
                 bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT);
@@ -133,6 +137,8 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                             menuFilter.getItem(0).setEnabled(false);
 
                             setContentView(R.layout.activity_tela_pesquisar_empty_book);
+                            btnNewBook = findViewById(R.id.btnNewBook);
+                            btnNewBook.setOnClickListener(v -> addNewBook());
                             TextView empty_Book = findViewById(R.id.txt_emptyBook);
                             empty_Book.setText(R.string.AllBookDeleted);
                         }
@@ -146,6 +152,8 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
              */
             else {
                 setContentView(R.layout.activity_tela_pesquisar_empty_book);
+                btnNewBook = findViewById(R.id.btnNewBook);
+                btnNewBook.setOnClickListener(v -> addNewBook());
                 TextView empty_Book = findViewById(R.id.txt_emptyBook);
                 empty_Book.setText(R.string.FieldNotFound);
             }
@@ -193,7 +201,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        /*Método chamado quando algum resultado pesquisado não foi encontrado na lista,
+        /* Método chamado quando algum resultado pesquisado não foi encontrado na lista,
          * será desativado o menu de ordenamento
          * */
 
@@ -225,49 +233,46 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                     };
 
             orderDialog.setIcon(R.drawable.filter_img);
-            orderDialog.setSingleChoiceItems(orderOptions, checked, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case 0:
-                            bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT);
-                            dialog.dismiss();
-                            checked = which;
-                            break;
+            orderDialog.setSingleChoiceItems(orderOptions, checked, (dialog, which) -> {
+                switch (which) {
+                    case 0:
+                        bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT);
+                        dialog.dismiss();
+                        checked = which;
+                        break;
 
-                        case 1:
-                            bookAdapter.setSortOfAdapterView(1, Order.DESCENDANT);
-                            dialog.dismiss();
-                            checked = which;
-                            break;
+                    case 1:
+                        bookAdapter.setSortOfAdapterView(1, Order.DESCENDANT);
+                        dialog.dismiss();
+                        checked = which;
+                        break;
 
-                        case 2:
-                            bookAdapter.setSortOfAdapterView(2, Order.ASCENDANT);
-                            dialog.dismiss();
-                            checked = which;
-                            break;
+                    case 2:
+                        bookAdapter.setSortOfAdapterView(2, Order.ASCENDANT);
+                        dialog.dismiss();
+                        checked = which;
+                        break;
 
-                        case 3:
-                            bookAdapter.setSortOfAdapterView(2, Order.DESCENDANT);
-                            dialog.dismiss();
-                            checked = which;
-                            break;
+                    case 3:
+                        bookAdapter.setSortOfAdapterView(2, Order.DESCENDANT);
+                        dialog.dismiss();
+                        checked = which;
+                        break;
 
-                        case 4:
-                            bookAdapter.setSortOfAdapterView(3, Order.ASCENDANT);
-                            dialog.dismiss();
-                            checked = which;
-                            break;
+                    case 4:
+                        bookAdapter.setSortOfAdapterView(3, Order.ASCENDANT);
+                        dialog.dismiss();
+                        checked = which;
+                        break;
 
-                        case 5:
-                            bookAdapter.setSortOfAdapterView(3, Order.DESCENDANT);
-                            dialog.dismiss();
-                            checked = which;
-                            break;
+                    case 5:
+                        bookAdapter.setSortOfAdapterView(3, Order.DESCENDANT);
+                        dialog.dismiss();
+                        checked = which;
+                        break;
 
-                        default:
-                            break;
-                    }
+                    default:
+                        break;
                 }
             });
             orderDialog.setNegativeButton(R.string.email_btn_cancel, null);
@@ -291,7 +296,7 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    public void addNewBook(View view) {
+    public void addNewBook() {
         /*Evento chamado pelo botão do layout "Tela Pesquisar Empty Book / No Book Found",
          * onde ao clicá-lo será iniciada a tela Cadastrar para que o usuário possa adiocionar
          * um novo livro.

@@ -36,13 +36,10 @@ public class SplashScreen extends AppCompatActivity {
         // tempo percorrido, em ms, antes de lançar a tela principal
         int SPLASH_TIME_OUT = 4000;
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Intent homeIntent = new Intent(SplashScreen.this, TelaPrincipal.class);
-                startActivity(homeIntent);
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            Intent homeIntent = new Intent(SplashScreen.this, TelaPrincipal.class);
+            startActivity(homeIntent);
+            finish();
         }, SPLASH_TIME_OUT);
 
     }

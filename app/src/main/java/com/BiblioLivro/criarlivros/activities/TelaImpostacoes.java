@@ -4,7 +4,6 @@
 
 package com.BiblioLivro.criarlivros.activities;
 
-import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
@@ -56,35 +55,23 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
 
         // Adicionado os eventos de click
         btn_clearData.setOnClickListener(this);
-        rg_Theme.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    /*
-                     * Aplicar o tema com base na escolha do RadioButton
-                     *  */
-                    case R.id.rb_lightTheme:
-                        preferencesTheme.setCheckedButton(preferencesTheme.THEME_LIGHT);
-                        break;
-
-                    case R.id.rb_darkTheme:
-                        preferencesTheme.setCheckedButton(preferencesTheme.THEME_DARK);
-                        break;
-
-                    case R.id.rb_batteryTheme:
-                        preferencesTheme.setCheckedButton(preferencesTheme.THEME_BATTERY);
-                        break;
-
-                    case R.id.rb_systemTheme:
-                        preferencesTheme.setCheckedButton(preferencesTheme.THEME_SYSTEM);
-                        break;
-
-                    default:
-                        return;
-                }
-                // depois de selecionar o tema, será envocado o método setTheme()
-                preferencesTheme.setAppTheme();
+        rg_Theme.setOnCheckedChangeListener((group, checkedId) -> {
+            /*
+             * Aplicar o tema com base na escolha do RadioButton
+             *  */
+            if (checkedId == R.id.rb_lightTheme) {
+                preferencesTheme.setCheckedButton(preferencesTheme.THEME_LIGHT);
+            } else if (checkedId == R.id.rb_darkTheme) {
+                preferencesTheme.setCheckedButton(preferencesTheme.THEME_DARK);
+            } else if (checkedId == R.id.rb_batteryTheme) {
+                preferencesTheme.setCheckedButton(preferencesTheme.THEME_BATTERY);
+            } else if (checkedId == R.id.rb_systemTheme) {
+                preferencesTheme.setCheckedButton(preferencesTheme.THEME_SYSTEM);
+            } else {
+                return;
             }
+            // depois de selecionar o tema, será envocado o método setTheme()
+            preferencesTheme.setAppTheme();
         });
 
     }
@@ -126,15 +113,12 @@ public class TelaImpostacoes extends AppCompatActivity implements View.OnClickLi
             clearDataBuilder.setTitle(R.string.btn_clear_data);
             clearDataBuilder.setMessage(R.string.alert_dialog_message);
             clearDataBuilder.setIcon(R.drawable.transparent_icon_app);
-            clearDataBuilder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    clearApplicationData();
+            clearDataBuilder.setPositiveButton(R.string.yes, (dialog, which) -> {
+                clearApplicationData();
 
-                    Toast.makeText(getBaseContext(), getString(R.string.success_msg), Toast.LENGTH_LONG).show();
+                Toast.makeText(getBaseContext(), getString(R.string.success_msg), Toast.LENGTH_LONG).show();
 
-                    GestorVibrator.Vibrate(100L, getBaseContext());
-                }
+                GestorVibrator.Vibrate(100L, getBaseContext());
             });
             clearDataBuilder.setNegativeButton(R.string.no, null);
             clearDataBuilder.show();

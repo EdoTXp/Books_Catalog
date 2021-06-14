@@ -8,11 +8,11 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.NotificationManager;
 import android.content.ContentValues;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -61,23 +61,20 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         edtYearBook = findViewById(R.id.edtAno);
 
         //EVENTOS
-        edtYearBook.setOnKeyListener(new View.OnKeyListener() {
+        /*
+         * Método para fazer o cadastro usando o teclado do dispositivo
+         * */
+        edtYearBook.setOnKeyListener((v, keyCode, event) -> {
             /*
-             * Método para fazer o cadastro usando o teclado do dispositivo
-             * */
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                /*
-                 * Ao envocar o evento, será feito uma filtragem capturando somente a ação ACTION_UP.
-                 * Em seguida, será capturada a tecla enter para chamar a ação de onClick*/
-                if (event.getAction() == KeyEvent.ACTION_UP) {
-                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                        onClick(btnSave);
-                        return true;
-                    }
+             * Ao envocar o evento, será feito uma filtragem capturando somente a ação ACTION_UP.
+             * Em seguida, será capturada a tecla enter para chamar a ação de onClick*/
+            if (event.getAction() == KeyEvent.ACTION_UP) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    onClick(btnSave);
+                    return true;
                 }
-                return false;
             }
+            return false;
         });
 
         btnSave.setOnClickListener(this);
@@ -89,6 +86,12 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         if (v.getId() == R.id.btnSalvar && !clickEventIsClicked) {
             //clickEventIsClicked vira true
             clickEventIsClicked = true;
+
+            /* removendo os espaços brancos ao final da string
+             e caso a string tiver só espaços brancos, a verificação de string vazias
+             nas instruções abaixo dara um valor false */
+            edtTitleBook.setText(edtTitleBook.getText().toString().trim());
+            edtAuthorBook.setText(edtAuthorBook.getText().toString().trim());
 
             //Valores para saber se o campo respectivo estiver vazio
             boolean title = checkEditText(edtTitleBook),
@@ -130,12 +133,7 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
             }
 
             // handler utilizado para dar um delay ao evento de clicar para previnir multiplos cliques
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    clickEventIsClicked = false;
-                }
-            }, 1000);
+            new Handler().postDelayed(() -> clickEventIsClicked = false, 1000);
         }
     }
 
@@ -145,21 +143,36 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
          *  será mostrado uma animação e um text dizendo que o campo está vazio
          * No outro caso será resetado o edt com os valores padrão*/
 
-        if (edt.getText().toString().isEmpty()) {
+        int actualPadding = edt.getPaddingTop(); // serve para pegar o atual padding e coloca-lo nas próximas alterações
+
+        if (TextUtils.isEmpty(edt.getText())) {
             //criação da animação
             ObjectAnimator errorAnimation = ObjectAnimator.ofFloat(edt, "translationX", 20f);
             errorAnimation.setDuration(150); // a duração total da animação será de 150 millisegundos
             errorAnimation.setRepeatMode(ValueAnimator.REVERSE); // volta no local padrão
             errorAnimation.setRepeatCount(3); // repetir a animação 3 vezes
 
+
             edt.setHint(getString(R.string.hint_error));
             edt.setBackground(ContextCompat.getDrawable(this, R.drawable.layout_border_error));
+            edt.setPadding(
+                    actualPadding,
+                    actualPadding,
+                    actualPadding,
+                    actualPadding); //ajustando o padding
+
             errorAnimation.start();
             GestorVibrator.Vibrate(200, edt.getContext());
 
             return false;
         } else {
+
             edt.setBackground(ContextCompat.getDrawable(this, R.drawable.layout_border));
+            edt.setPadding(
+                    actualPadding,
+                    actualPadding,
+                    actualPadding,
+                    actualPadding); //ajustando o padding
 
             if (edt.getId() == R.id.edtTitulo)
                 edt.setHint(getString(R.string.hint_titulo));
@@ -187,7 +200,7 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
                         2
                 );
 
-        notification.setColor(Color.WHITE);
+        notification.setColor(getResources().getColor(R.color.colorPrimary));
         notification.setDurationVibrate(new long[]{0L, 200L, 150L, 200L});
         notification.setSound
                 (
@@ -207,4 +220,6 @@ public class TelaCadastrar extends AppCompatActivity implements View.OnClickList
         }
         notification.printNotification();
     }
+
+
 }

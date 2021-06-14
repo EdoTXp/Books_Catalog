@@ -12,7 +12,7 @@
     <string name="txt_autor">Autore</string>
     <string name="txt_cadastrar">Registrare</string>
     <string name="txt_id">Id</string>
-    <string name="txt_pesquisar">Libri incontrati: </string>
+    <string name="txt_pesquisar">Libri trovati: </string>
     <string name="txt_pesquisar_todos">Tutti</string>
     <string name="txt_pesquisarpor">Ricercare Per:</string>
     <string name="txt_titulo">Titolo</string>

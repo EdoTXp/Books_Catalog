@@ -11,7 +11,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -51,40 +50,31 @@ public class WindowPopUp {
 
         // criação do butão para compartilhar e adicionando o evento di click
         Button btnShare = popupView.findViewById(R.id.btnShareWindowPopUp);
-        btnShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, share);
-                sendIntent.setType("text/plain");
+        btnShare.setOnClickListener(v -> {
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, share);
+            sendIntent.setType("text/plain");
 
-                Intent shareIntent = Intent.createChooser(sendIntent, null);
-                activity.startActivity(shareIntent);
-                popupWindow.dismiss();
-            }
+            Intent shareIntent = Intent.createChooser(sendIntent, null);
+            activity.startActivity(shareIntent);
+            popupWindow.dismiss();
         });
 
         // criação do butão para buscar e adicionando o evento di click
         Button btnSearch = popupView.findViewById(R.id.btnSearchWindowPopUp);
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activity.startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(URL)));
-                popupWindow.dismiss();
-            }
+        btnSearch.setOnClickListener(v -> {
+            activity.startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(URL)));
+            popupWindow.dismiss();
         });
 
         // Adicionando o evento di click no PopupView
-        popupView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.performClick();
-                //Close the window when clicked
-                popupWindow.dismiss();
-                return true;
-            }
+        popupView.setOnTouchListener((v, event) -> {
+            v.performClick();
+            //Close the window when clicked
+            popupWindow.dismiss();
+            return true;
         });
     }
 }

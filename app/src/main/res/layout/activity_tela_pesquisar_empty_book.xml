@@ -2,7 +2,7 @@
   ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
   -->
 
-<!-- android:text="Non c'è nessun libro da cancellare!!" -->
+
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,18 +16,10 @@
     android:padding="16dp"
     tools:context=".activities.TelaPesquisar">
 
-    <TextView
-        android:layout_width="177dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/txt_pesquisar"
-        android:textColor="?attr/textcolor"
-        android:textSize="26sp" />
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
@@ -45,6 +37,7 @@
         android:textSize="20sp" />
 
     <Button
+        android:id="@+id/btnNewBook"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
         android:layout_marginStart="10dp"
@@ -54,7 +47,6 @@
         android:background="@drawable/layout_border"
         android:drawableEnd="@android:drawable/ic_menu_add"
         android:elegantTextHeight="false"
-        android:onClick="addNewBook"
         android:text="@string/btn_newBook"
         android:textColor="?attr/textcolor"
         android:textSize="20sp" />
