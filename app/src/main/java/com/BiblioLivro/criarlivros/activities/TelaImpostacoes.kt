@@ -1,182 +1,156 @@
 /*
  * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
  */
+package com.BiblioLivro.criarlivros.activities
 
-package com.BiblioLivro.criarlivros.activities;
+import androidx.appcompat.app.AppCompatActivity
+import android.widget.RadioGroup
+import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme
+import android.os.Bundle
+import com.BiblioLivro.criarlivros.R
+import android.content.DialogInterface
+import android.content.res.Resources
+import android.widget.Toast
+import com.BiblioLivro.criarlivros.gestores.GestorVibrator
 
-import android.content.res.Resources;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.RadioGroup;
-import android.widget.Toast;
+import android.os.Build
+import android.view.View
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
+import java.io.File
+import java.util.*
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.BiblioLivro.criarlivros.R;
-import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
-import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
-
-import java.io.File;
-import java.util.Locale;
-import java.util.Objects;
-
-public class TelaImpostacoes extends AppCompatActivity implements View.OnClickListener {
-
+class TelaImpostacoes : AppCompatActivity(), View.OnClickListener {
     // ATRIBUTOS
-    private RadioGroup rg_language, rg_Theme;
-    private SharedPreferencesTheme preferencesTheme;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private lateinit var radioGroupLanguage: RadioGroup
+    private lateinit var radioGroupTheme: RadioGroup
+    private lateinit var preferencesTheme: SharedPreferencesTheme
+    override fun onCreate(savedInstanceState: Bundle?) {
 
         /* Ao criar a Activity "TelaImpostacoes",
          *  será colocado o tema em base as preferências salvas
          *  no objeto "preferencesTheme".
          * */
-        preferencesTheme = new SharedPreferencesTheme(this);
-        preferencesTheme.setAppTheme();
+        preferencesTheme = SharedPreferencesTheme(this)
+        preferencesTheme.setAppTheme()
 
         // criação da Activity
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_impostacoes);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_tela_impostacoes)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         // Preenchendo os objetos
-        rg_language = findViewById(R.id.rg_language);
-        rg_Theme = findViewById(R.id.rg_theme);
-        Button btn_clearData = findViewById(R.id.btn_clear_data);
-
-        checkedRadioButtonByTheme();
-        getDefaultLanguage();
+        radioGroupLanguage = findViewById(R.id.rg_language)
+        radioGroupTheme = findViewById(R.id.rg_theme)
+        val clearDataButton = findViewById<Button>(R.id.btn_clear_data)
+        checkedRadioButtonByTheme()
+        defaultLanguage
 
 
         // Adicionado os eventos de click
-        btn_clearData.setOnClickListener(this);
-        rg_Theme.setOnCheckedChangeListener((group, checkedId) -> {
+        clearDataButton.setOnClickListener(this)
+        radioGroupTheme.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
             /*
              * Aplicar o tema com base na escolha do RadioButton
-             *  */
-            if (checkedId == R.id.rb_lightTheme) {
-                preferencesTheme.setCheckedButton(preferencesTheme.THEME_LIGHT);
-            } else if (checkedId == R.id.rb_darkTheme) {
-                preferencesTheme.setCheckedButton(preferencesTheme.THEME_DARK);
-            } else if (checkedId == R.id.rb_batteryTheme) {
-                preferencesTheme.setCheckedButton(preferencesTheme.THEME_BATTERY);
-            } else if (checkedId == R.id.rb_systemTheme) {
-                preferencesTheme.setCheckedButton(preferencesTheme.THEME_SYSTEM);
-            } else {
-                return;
-            }
+             *  */when (checkedId) {
+                 R.id.rb_lightTheme -> {
+                     preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_LIGHT
+                 }
+                 R.id.rb_darkTheme -> {
+                     preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_DARK
+                 }
+                 R.id.rb_batteryTheme -> {
+                     preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_BATTERY
+                 }
+                 R.id.rb_systemTheme -> {
+                     preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_SYSTEM
+                 }
+                 else -> {
+                     return@setOnCheckedChangeListener
+                 }
+             }
             // depois de selecionar o tema, será envocado o método setTheme()
-            preferencesTheme.setAppTheme();
-        });
-
-    }
-
-    private void checkedRadioButtonByTheme() {
-        /* Ao iniciar a activity,
-         * os radio buttons serão preenchidos de acordo com o que foi salvo no preferencesTheme
-         */
-        switch (preferencesTheme.getCheckedButton()) {
-            case 1:
-                rg_Theme.check(R.id.rb_darkTheme);
-                break;
-
-            case 2:
-                rg_Theme.check(R.id.rb_systemTheme);
-                break;
-
-            case 3:
-                rg_Theme.check(R.id.rb_batteryTheme);
-                break;
-
-            default:
-            case 0:
-                rg_Theme.check(R.id.rb_lightTheme);
-                break;
+            preferencesTheme.setAppTheme()
         }
     }
 
-    @Override
-    public void onClick(View v) {
+    private fun checkedRadioButtonByTheme() {
+        /* Ao iniciar a activity,
+         * os radio buttons serão preenchidos de acordo com o que foi salvo no preferencesTheme
+         */
+        when (preferencesTheme.checkedButton) {
+            1 -> radioGroupTheme.check(R.id.rb_darkTheme)
+            2 -> radioGroupTheme.check(R.id.rb_systemTheme)
+            3 -> radioGroupTheme.check(R.id.rb_batteryTheme)
+            0 -> radioGroupTheme.check(R.id.rb_lightTheme)
+            else -> radioGroupTheme.check(R.id.rb_lightTheme)
+        }
+    }
+
+    override fun onClick(v: View) {
         /*
          * Creando um diálogo para escolher se o usuário quer realmente apagar todos os dados
          *
          * */
-
-        if (v.getId() == R.id.btn_clear_data) {
-            AlertDialog.Builder clearDataBuilder = new AlertDialog.Builder(v.getContext());
-
-            clearDataBuilder.setTitle(R.string.btn_clear_data);
-            clearDataBuilder.setMessage(R.string.alert_dialog_message);
-            clearDataBuilder.setIcon(R.drawable.transparent_icon_app);
-            clearDataBuilder.setPositiveButton(R.string.yes, (dialog, which) -> {
-                clearApplicationData();
-
-                Toast.makeText(getBaseContext(), getString(R.string.success_msg), Toast.LENGTH_LONG).show();
-
-                GestorVibrator.Vibrate(100L, getBaseContext());
-            });
-            clearDataBuilder.setNegativeButton(R.string.no, null);
-            clearDataBuilder.show();
+        if (v.id == R.id.btn_clear_data) {
+            val clearDataBuilder = AlertDialog.Builder(v.context)
+            clearDataBuilder.setTitle(R.string.btn_clear_data)
+            clearDataBuilder.setMessage(R.string.alert_dialog_message)
+            clearDataBuilder.setIcon(R.drawable.transparent_icon_app)
+            clearDataBuilder.setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
+                clearApplicationData()
+                Toast.makeText(baseContext, getString(R.string.success_msg), Toast.LENGTH_LONG)
+                    .show()
+                GestorVibrator.vibrate(100L, baseContext)
+            }
+            clearDataBuilder.setNegativeButton(R.string.no, null)
+            clearDataBuilder.show()
         }
     }
 
-    private void clearApplicationData() {
-        File cacheDirectory = getCacheDir();
-        File applicationDirectory = new File(Objects.requireNonNull(cacheDirectory.getParent()));
+    private fun clearApplicationData() {
+        val cacheDirectory = cacheDir
+        val applicationDirectory = File(Objects.requireNonNull(cacheDirectory.parent))
         if (applicationDirectory.exists()) {
-            String[] fileNames = applicationDirectory.list();
-            assert fileNames != null;
-            for (String fileName : fileNames) {
-                if (!fileName.equals("lib")) {
-                    deleteFile(new File(applicationDirectory, fileName));
+            val fileNames = applicationDirectory.list()!!
+            for (fileName in fileNames) {
+                if (fileName != "lib") {
+                    deleteFile(File(applicationDirectory, fileName))
                 }
             }
         }
     }
 
-    private static boolean deleteFile(File file) {
-        boolean deletedAll = true;
-        if (file != null) {
-            if (file.isDirectory()) {
-                String[] children = file.list();
-
-                assert children != null;
-                for (String child : children) {
-                    deletedAll = deleteFile(new File(file, child)) && deletedAll;
-                }
+    private val defaultLanguage: Unit
+        get() {
+            val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                Resources.getSystem().configuration.locales[0]
             } else {
-                deletedAll = file.delete();
+                @Suppress("DEPRECATION")
+                Resources.getSystem().configuration.locale
+            }
+            when (locale.language) {
+                "en" -> radioGroupLanguage.check(R.id.rb_english)
+                "it" -> radioGroupLanguage.check(R.id.rb_italy)
+                "pt" -> radioGroupLanguage.check(R.id.rb_portuguese)
+                else -> radioGroupLanguage.check(R.id.rb_english)
             }
         }
 
-        return deletedAll;
-    }
-
-    private void getDefaultLanguage() {
-        Locale locale;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            locale = Resources.getSystem().getConfiguration().getLocales().get(0);
-        } else {
-            locale = Resources.getSystem().getConfiguration().locale;
-        }
-
-        switch (locale.getLanguage()) {
-            case "en":
-            default:
-                rg_language.check(R.id.rb_english);
-                break;
-            case "it":
-                rg_language.check(R.id.rb_italy);
-                break;
-            case "pt":
-                rg_language.check(R.id.rb_portuguese);
-                break;
+    companion object {
+        private fun deleteFile(file: File?): Boolean {
+            var deletedAll = true
+            if (file != null) {
+                if (file.isDirectory) {
+                    val children = file.list()!!
+                    for (child in children) {
+                        deletedAll = deleteFile(File(file, child)) && deletedAll
+                    }
+                } else {
+                    deletedAll = file.delete()
+                }
+            }
+            return deletedAll
         }
     }
-
 }

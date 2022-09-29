@@ -1,10 +1,8 @@
 /*
  * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
  */
+package com.BiblioLivro.criarlivros.model
 
-package com.BiblioLivro.criarlivros.model;
-
-public enum Order {
-    DESCENDANT,
-    ASCENDANT
+enum class Order {
+    DESCENDANT, ASCENDANT
 }

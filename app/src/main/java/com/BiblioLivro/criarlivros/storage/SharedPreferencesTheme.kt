@@ -1,69 +1,60 @@
 /*
  * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
  */
+package com.BiblioLivro.criarlivros.storage
 
-package com.BiblioLivro.criarlivros.storage;
+import android.content.Context
+import android.content.SharedPreferences
+import android.content.res.Configuration
+import androidx.appcompat.app.AppCompatDelegate
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
+class SharedPreferencesTheme(context: Context) {
+    private val preferences: SharedPreferences
+    private val context: Context
 
-import androidx.appcompat.app.AppCompatDelegate;
-
-public class SharedPreferencesTheme {
-    public final int THEME_UNDEFINED = -1;
-    public final int THEME_LIGHT = 0;
-    public final int THEME_DARK = 1;
-    public final int THEME_SYSTEM = 2;
-    public final int THEME_BATTERY = 3;
-
-    private final SharedPreferences preferences;
-    private final Context context;
-
-    public SharedPreferencesTheme(Context context) {
-        preferences = context.getSharedPreferences("theme", Context.MODE_PRIVATE);
-        this.context = context;
+    init {
+        preferences = context.getSharedPreferences("theme", Context.MODE_PRIVATE)
+        this.context = context
     }
 
-    public int getCheckedButton() {
-        return preferences.getInt("NightModeChoice", THEME_UNDEFINED);
-    }
-
-    public void setCheckedButton(int button) {
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("NightModeChoice", button);
-        editor.apply();
-    }
-
-    public void setAppTheme() {
-        switch (getCheckedButton()) {
-            case THEME_LIGHT:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                break;
-            case THEME_DARK:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                break;
-            case THEME_SYSTEM:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-                break;
-            case THEME_BATTERY:
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
-                break;
-
-            case THEME_UNDEFINED:
-            default:
-                switch (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) {
-                    case Configuration.UI_MODE_NIGHT_NO:
-                    case Configuration.UI_MODE_NIGHT_UNDEFINED:
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        break;
-
-                    case Configuration.UI_MODE_NIGHT_YES:
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        break;
-                }
-                break;
+    var checkedButton: Int
+        get() = preferences.getInt("NightModeChoice", THEME_UNDEFINED)
+        set(button) {
+            val editor = preferences.edit()
+            editor.putInt("NightModeChoice", button)
+            editor.apply()
         }
 
+    fun setAppTheme() {
+        when (checkedButton) {
+            THEME_LIGHT -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            THEME_DARK -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            THEME_SYSTEM -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            THEME_BATTERY -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+            THEME_UNDEFINED -> when (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO
+                )
+                Configuration.UI_MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES
+                )
+            }
+            else -> when (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
+                Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO
+                )
+                Configuration.UI_MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES
+                )
+            }
+        }
+    }
+
+    companion object {
+        const val THEME_UNDEFINED = -1
+        const val THEME_LIGHT = 0
+        const val THEME_DARK = 1
+        const val THEME_SYSTEM = 2
+        const val THEME_BATTERY = 3
     }
 }

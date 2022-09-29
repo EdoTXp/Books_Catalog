@@ -1,61 +1,54 @@
 /*
  * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
  */
+package com.BiblioLivro.criarlivros.activities
 
-package com.BiblioLivro.criarlivros.activities;
+import android.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.RecyclerView
+import com.BiblioLivro.criarlivros.customview.BookComponentAdapter
+import android.os.Bundle
+import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme
+import com.BiblioLivro.criarlivros.R
+import android.content.Intent
+import android.content.ContentValues
+import com.BiblioLivro.criarlivros.model.BookItem
+import android.widget.TextView
+import com.BiblioLivro.criarlivros.model.Order
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+import com.BiblioLivro.criarlivros.storage.DatabaseHelper
+import android.content.DialogInterface
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import java.lang.Exception
+import java.util.*
 
-
-import android.app.AlertDialog;
-import android.content.ContentValues;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.BiblioLivro.criarlivros.R;
-import com.BiblioLivro.criarlivros.customview.BookComponentAdapter;
-import com.BiblioLivro.criarlivros.model.BookItem;
-import com.BiblioLivro.criarlivros.model.Order;
-import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
-import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-public class TelaPesquisar extends AppCompatActivity implements View.OnClickListener {
-
+class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
     //ATRIBUTOS
-    private FloatingActionButton upButton;
-    private RecyclerView recyclerView;
-    private BookComponentAdapter bookAdapter;
-    private Button btnNewBook; // esse botão aparecerà quando não tiver nenhum livro na busca ou quando a busca não tiver nenhum resultado
-    private Menu menuFilter;
-    private int checked = 0;  // valor selecionado para executar o sort do bookAdapter
+    private lateinit var upButton: FloatingActionButton
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var bookAdapter: BookComponentAdapter
+    private lateinit var btnNewBook: Button // esse botão aparecerà quando não tiver nenhum livro na busca ou quando a busca não tiver nenhum resultado
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    private lateinit var menuFilter: Menu
+    private var checked = 0 // valor selecionado para executar o sort do bookAdapter
+    override fun onCreate(savedInstanceState: Bundle?) {
         //Método para setar o tema da activity ao iniciar
-        SharedPreferencesTheme sharedPreferences = new SharedPreferencesTheme(this);
-        sharedPreferences.setAppTheme();
+        val sharedPreferences = SharedPreferencesTheme(this)
+        sharedPreferences.setAppTheme()
 
         //Arrumando a Activity
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tela_pesquisar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_tela_pesquisar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         //preenchendo o botão upButton e adicionando um evento de click
-        upButton = findViewById(R.id.floatingActionButtonUp);
-        upButton.setOnClickListener(this);
+        upButton = findViewById(R.id.floatingActionButtonUp)
+        upButton.setOnClickListener(this)
 
         /*
          * Intent recebe dois parâmentros:
@@ -63,24 +56,22 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
          * na Notificação o id: R.id.rbPesquisarPorTodos
          * a chave: O valor do texto recebido na TelaPrincipal e no caso da notificação, um texto vazio
          * */
-        Intent it = getIntent();
-
+        val it = intent
         if (it != null) {
 
             // preenchimento dos parâmetros para passar à busca no database.
-            int tipo = it.getIntExtra("tipo", 0);
-            String chave = it.getStringExtra("chave");
+            val tipo = it.getIntExtra("tipo", 0)
+            val chave = it.getStringExtra("chave")
 
             //preenchimento da lista com os dados do database
-            List<ContentValues> lista = getContentValuesList(tipo, chave);
+            val lista = getContentValuesList(tipo, chave!!)
 
             /* Será feita a criação do RecyclerView
              * onde vai preencher BookComponentAdapter
              * e em seguida, adicioná-los ao RecyclerView
-             * */
-            if (lista.size() > 0) {
+             * */if (lista.isNotEmpty()) {
                 //preenchimeto do recyclerView com o file xml
-                recyclerView = findViewById(R.id.rv_pesquisar);
+                recyclerView = findViewById(R.id.rv_pesquisar)
 
                 /* Será criado um Array de Livros e preencidos com os valores vindos da "lista".
                  * Ao terminar o preenchimento de todos os livro,
@@ -89,220 +80,180 @@ public class TelaPesquisar extends AppCompatActivity implements View.OnClickList
                  */
 
                 //criação do Array de Livros
-                ArrayList<BookItem> bookItems = new ArrayList<>();
-                for (ContentValues cv : lista) {
-                    BookItem bookItem = new BookItem
-                            (
-                                    cv.getAsInteger("id"),
-                                    cv.getAsString("titulo"),
-                                    cv.getAsString("autor"),
-                                    cv.getAsInteger("ano")
-                            );
-
-                    bookItems.add(bookItem);
+                val bookItems = ArrayList<BookItem>()
+                for (cv in lista) {
+                    val bookItem = BookItem(
+                        cv.getAsInteger("id"),
+                        cv.getAsString("titulo"),
+                        cv.getAsString("autor"),
+                        cv.getAsInteger("ano")
+                    )
+                    bookItems.add(bookItem)
                 }
 
 
                 //adicionando os arrays de livros ao bookadapter
-                bookAdapter = new BookComponentAdapter(this, bookItems);
+                bookAdapter = BookComponentAdapter(this, bookItems)
 
                 //adicionando um contador de livros encontrados
-                final TextView bookResult = findViewById(R.id.txt_search_founded);
-                bookResult.setText(getString(R.string.txt_pesquisar).concat(" ").concat(Integer.toString(bookItems.size())));
+                val bookResult = findViewById<TextView>(R.id.txt_search_founded)
+                bookResult.text = "${getString(R.string.txt_pesquisar)} ${bookItems.size}"
 
                 //adicionando o bookAdapter, ordenadamente, ao reclycerView e adicionado o layout
-                recyclerView.setAdapter(bookAdapter);
-                bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT);
-                recyclerView.setLayoutManager(new LinearLayoutManager(this));
+                recyclerView.adapter = bookAdapter
+                bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
+                recyclerView.layoutManager = LinearLayoutManager(this)
 
                 /* Adicionando o evento de scroll onde se a posição do primeiro item for maior que zero,
                  * aparecerá visível o botão upButton senão ficará invisível
-                 */
-                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                        if (recyclerView.computeVerticalScrollOffset() != 0)
-                            upButton.setVisibility(View.VISIBLE);
-                        else upButton.setVisibility(View.INVISIBLE);
-
-                        super.onScrolled(recyclerView, dx, dy);
+                 */recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                    override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                        if (recyclerView.computeVerticalScrollOffset() != 0) upButton.visibility =
+                            View.VISIBLE else upButton.visibility = View.INVISIBLE
+                        super.onScrolled(recyclerView, dx, dy)
                     }
-                });
+                })
 
                 // Quando o bookAdapter ficará vazio, será desabilitdo o botão do menu "btnFilter"
-                bookAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-                    @Override
-                    public void onItemRangeChanged(int positionStart, int itemCount) {
+                bookAdapter.registerAdapterDataObserver(object : AdapterDataObserver() {
+                    override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
                         if (bookAdapter.itemIsEmpty()) {
-                            menuFilter.getItem(0).setEnabled(false);
-
-                            setContentView(R.layout.activity_tela_pesquisar_empty_book);
-                            btnNewBook = findViewById(R.id.btnNewBook);
-                            btnNewBook.setOnClickListener(v -> addNewBook());
-                            TextView empty_Book = findViewById(R.id.txt_emptyBook);
-                            empty_Book.setText(R.string.AllBookDeleted);
+                            menuFilter.getItem(0).isEnabled = false
+                            setContentView(R.layout.activity_tela_pesquisar_empty_book)
+                            btnNewBook = findViewById(R.id.btnNewBook)
+                            btnNewBook.setOnClickListener { addNewBook() }
+                            val emptyBook = findViewById<TextView>(R.id.txt_emptyBook)
+                            emptyBook.setText(R.string.AllBookDeleted)
                         }
                     }
-                });
-
-            }
-
-            /*Se a lista for vazia será exibido o layout Empty Book e
-             *será adiocionado o texto comforme o contexto
-             */
-            else {
-                setContentView(R.layout.activity_tela_pesquisar_empty_book);
-                btnNewBook = findViewById(R.id.btnNewBook);
-                btnNewBook.setOnClickListener(v -> addNewBook());
-                TextView empty_Book = findViewById(R.id.txt_emptyBook);
-                empty_Book.setText(R.string.FieldNotFound);
+                })
+            } else {
+                setContentView(R.layout.activity_tela_pesquisar_empty_book)
+                btnNewBook = findViewById(R.id.btnNewBook)
+                btnNewBook.setOnClickListener { addNewBook() }
+                val emptyBook = findViewById<TextView>(R.id.txt_emptyBook)
+                emptyBook.setText(R.string.FieldNotFound)
             }
         }
     }
 
-    private List<ContentValues> getContentValuesList(int tipo, String chave) {
-        List<ContentValues> booksList = new ArrayList<>();
+    private fun getContentValuesList(tipo: Int, chave: String): List<ContentValues> {
+        var booksList: List<ContentValues> = ArrayList()
 
         //realização da busca por Título
-        if (tipo == R.id.rbPesquisarPorTitulo) {
-            booksList = new DatabaseHelper(this).searchByTitle(chave);
-        }
-
-        /* realização da busca por ano
-         * se o ano não encontrar nenhum valor inteiro será feita uma busca por todos os objetos da lista
-         */
-        else if (tipo == R.id.rbPesquisarPorAno) {
-            try {
-                booksList = new DatabaseHelper(this).searchByYear(Integer.parseInt(Objects.requireNonNull(chave)));
-            } catch (Exception e) {
-                booksList = new DatabaseHelper(this).searchAll();
+        when (tipo) {
+            R.id.rbPesquisarPorTitulo -> {
+                booksList = DatabaseHelper(this).searchByTitle(chave)
+            }
+            R.id.rbPesquisarPorAno -> {
+                booksList = try {
+                    DatabaseHelper(this).searchByYear(chave.toInt())
+                } catch (e: Exception) {
+                    DatabaseHelper(this).searchAll()
+                }
+            }
+            R.id.rbPesquisarPorAutor -> {
+                booksList = DatabaseHelper(this).searchByAuthor(chave)
+            }
+            R.id.rbPesquisarPorTodos -> {
+                booksList = DatabaseHelper(this).searchAll()
             }
         }
-        //realização da busca por Autor
-        else if (tipo == R.id.rbPesquisarPorAutor) {
-            booksList = new DatabaseHelper(this).searchByAuthor(chave);
-        }
-
-        //realização da busca por todos os objetos
-        else if (tipo == R.id.rbPesquisarPorTodos) {
-            booksList = new DatabaseHelper(this).searchAll();
-        }
-        return booksList;
+        return booksList
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.filter_item_bar, menu);
-        menuFilter = menu;
-        return true;
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.filter_item_bar, menu)
+        menuFilter = menu
+        return true
     }
 
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
+    override fun onPrepareOptionsMenu(menu: Menu): Boolean {
 
         /* Método chamado quando algum resultado pesquisado não foi encontrado na lista,
          * será desativado o menu de ordenamento
          * */
-
-        if (bookAdapter == null) {
-            menu.findItem(R.id.btn_filter).setEnabled(false);
-        }
-        return super.onPrepareOptionsMenu(menu);
+        return super.onPrepareOptionsMenu(menu)
     }
 
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
         /*
          * Opções para escolher como ordenar os livros
          * */
-
-        if (item.getItemId() == R.id.btn_filter && bookAdapter.getItemCount() > 0) {
-            AlertDialog.Builder orderDialog = new AlertDialog.Builder(this);
-            orderDialog.setTitle(getString(R.string.order_txt));
-
-            final String[] orderOptions =
-                    {
-                            getString(R.string.txt_titulo).concat(" ↑"),
-                            getString(R.string.txt_titulo).concat(" ↓"),
-                            getString(R.string.txt_autor).concat(" ↑"),
-                            getString(R.string.txt_autor).concat(" ↓"),
-                            getString(R.string.txt_ano).concat(" ↑"),
-                            getString(R.string.txt_ano).concat(" ↓")
-                    };
-
-            orderDialog.setIcon(R.drawable.filter_img);
-            orderDialog.setSingleChoiceItems(orderOptions, checked, (dialog, which) -> {
-                switch (which) {
-                    case 0:
-                        bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT);
-                        dialog.dismiss();
-                        checked = which;
-                        break;
-
-                    case 1:
-                        bookAdapter.setSortOfAdapterView(1, Order.DESCENDANT);
-                        dialog.dismiss();
-                        checked = which;
-                        break;
-
-                    case 2:
-                        bookAdapter.setSortOfAdapterView(2, Order.ASCENDANT);
-                        dialog.dismiss();
-                        checked = which;
-                        break;
-
-                    case 3:
-                        bookAdapter.setSortOfAdapterView(2, Order.DESCENDANT);
-                        dialog.dismiss();
-                        checked = which;
-                        break;
-
-                    case 4:
-                        bookAdapter.setSortOfAdapterView(3, Order.ASCENDANT);
-                        dialog.dismiss();
-                        checked = which;
-                        break;
-
-                    case 5:
-                        bookAdapter.setSortOfAdapterView(3, Order.DESCENDANT);
-                        dialog.dismiss();
-                        checked = which;
-                        break;
-
-                    default:
-                        break;
+        if (item.itemId == R.id.btn_filter && bookAdapter.itemCount > 0) {
+            val orderDialog = AlertDialog.Builder(this)
+            orderDialog.setTitle(getString(R.string.order_txt))
+            val orderOptions = arrayOf(
+                getString(R.string.txt_titulo) + " ↑",
+                getString(R.string.txt_titulo) + " ↓",
+                getString(R.string.txt_autor) + " ↑",
+                getString(R.string.txt_autor) + " ↓",
+                getString(R.string.txt_ano) + " ↑",
+                getString(R.string.txt_ano) + " ↓"
+            )
+            orderDialog.setIcon(R.drawable.filter_img)
+            orderDialog.setSingleChoiceItems(
+                orderOptions,
+                checked
+            ) { dialog: DialogInterface, which: Int ->
+                when (which) {
+                    0 -> {
+                        bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
+                        dialog.dismiss()
+                        checked = which
+                    }
+                    1 -> {
+                        bookAdapter.setSortOfAdapterView(1, Order.DESCENDANT)
+                        dialog.dismiss()
+                        checked = which
+                    }
+                    2 -> {
+                        bookAdapter.setSortOfAdapterView(2, Order.ASCENDANT)
+                        dialog.dismiss()
+                        checked = which
+                    }
+                    3 -> {
+                        bookAdapter.setSortOfAdapterView(2, Order.DESCENDANT)
+                        dialog.dismiss()
+                        checked = which
+                    }
+                    4 -> {
+                        bookAdapter.setSortOfAdapterView(3, Order.ASCENDANT)
+                        dialog.dismiss()
+                        checked = which
+                    }
+                    5 -> {
+                        bookAdapter.setSortOfAdapterView(3, Order.DESCENDANT)
+                        dialog.dismiss()
+                        checked = which
+                    }
+                    else -> {}
                 }
-            });
-            orderDialog.setNegativeButton(R.string.email_btn_cancel, null);
-            orderDialog.show();
+            }
+            orderDialog.setNegativeButton(R.string.email_btn_cancel, null)
+            orderDialog.show()
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
 
-
-    @Override
-    public void onClick(View v) {
+    override fun onClick(v: View) {
 
 
         /* Evento chamado pelo upButton onde ao clicá-lo será scrolado o recycleView para a posição 0
          * e o botão se tornará invisível.
          */
-
-        if (v.getId() == R.id.floatingActionButtonUp) {
-            recyclerView.scrollToPosition(0);
-            upButton.setVisibility(View.INVISIBLE);
+        if (v.id == R.id.floatingActionButtonUp) {
+            recyclerView.scrollToPosition(0)
+            upButton.visibility = View.INVISIBLE
         }
     }
 
-    public void addNewBook() {
+    fun addNewBook() {
         /*Evento chamado pelo botão do layout "Tela Pesquisar Empty Book / No Book Found",
          * onde ao clicá-lo será iniciada a tela Cadastrar para que o usuário possa adiocionar
          * um novo livro.
          * */
-        startActivity(new Intent(this, TelaCadastrar.class));
-        finish();
+        startActivity(Intent(this, TelaCadastrar::class.java))
+        finish()
     }
 }
-

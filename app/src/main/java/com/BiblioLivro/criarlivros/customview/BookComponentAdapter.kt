@@ -1,305 +1,294 @@
 /*
  * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
  */
+package com.BiblioLivro.criarlivros.customview
 
-package com.BiblioLivro.criarlivros.customview;
+import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.content.ContentValues
+import android.content.Context
+import android.content.DialogInterface
+import android.text.InputFilter
+import android.text.InputFilter.LengthFilter
+import android.text.InputType
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.EditText
+import android.widget.Toast
+import androidx.annotation.IntRange
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
+import com.BiblioLivro.criarlivros.R
+import com.BiblioLivro.criarlivros.activities.WindowPopUp
+import com.BiblioLivro.criarlivros.gestores.GestorVibrator.vibrate
+import com.BiblioLivro.criarlivros.model.BookItem
+import com.BiblioLivro.criarlivros.model.Order
+import com.BiblioLivro.criarlivros.storage.DatabaseHelper
+import java.text.Normalizer
+import java.util.*
 
-import android.app.AlertDialog;
-import android.content.ContentValues;
-import android.content.Context;
-import android.text.InputFilter;
-import android.text.InputType;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.EditText;
-import android.widget.Toast;
+class BookComponentAdapter
 
-import androidx.annotation.IntRange;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.BiblioLivro.criarlivros.R;
-import com.BiblioLivro.criarlivros.activities.WindowPopUp;
-import com.BiblioLivro.criarlivros.gestores.GestorVibrator;
-import com.BiblioLivro.criarlivros.model.BookItem;
-import com.BiblioLivro.criarlivros.model.Order;
-import com.BiblioLivro.criarlivros.storage.DatabaseHelper;
-
-import java.text.Normalizer;
-import java.util.ArrayList;
-import java.util.Collections;
-
-
-public class BookComponentAdapter extends RecyclerView.Adapter<BookViewHolder> {
-
-    private final Context mContext;
-    private View view;
-    private final ArrayList<BookItem> bookItems;
-
-    /**
-     * @param context   onde vai ser inserido o BookComponentAdapter
-     * @param bookitems ArrayList de bookitem (int: Id, String: Título, String: Autor, int: Ano)
-     */
-    public BookComponentAdapter(Context context, ArrayList<BookItem> bookitems) {
-        mContext = context;
-        bookItems = bookitems;
+ (private val mContext: Context, private val bookItems: ArrayList<BookItem>) :
+    RecyclerView.Adapter<BookViewHolder>() {
+    private lateinit var view: View
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
+        val inflater = LayoutInflater.from(mContext)
+        view = inflater.inflate(R.layout.book_component, parent, false)
+        return BookViewHolder(view)
     }
 
-    @NonNull
-    @Override
-    public BookViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
-        view = inflater.inflate(R.layout.book_component, parent, false);
-        return new BookViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull final BookViewHolder holder, int position) {
+    override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         // Preenchimento dos dados nos textViews
-        holder.txtId.setText(String.valueOf(position + 1));
-        holder.txtTitulo.setText(bookItems.get(position).getBookTitle());
-        holder.txtAutor.setText(bookItems.get(position).getAuthorName());
-        holder.txtAno.setText(String.valueOf(bookItems.get(position).getBookYear()));
+        holder.txtId.text = (position + 1).toString()
+        holder.txtTitulo.text = bookItems[position].bookTitle
+        holder.txtAutor.text = bookItems[position].authorName
+        holder.txtAno.text = bookItems[position].bookYear.toString()
 
         // adicionando eventos
-        view.setOnLongClickListener(v -> {
-            GestorVibrator.Vibrate(100L, v.getContext());
-
-            String Share = v.getResources().getString(R.string.txt_id).concat(": ").concat(String.valueOf(bookItems.get(holder.getAdapterPosition()).getId()).concat("\n")
-                    .concat(v.getResources().getString(R.string.txt_titulo)).concat(": ").concat(bookItems.get(holder.getAdapterPosition()).getBookTitle()).concat("\n")
-                    .concat(v.getResources().getString(R.string.txt_autor)).concat(": ").concat(bookItems.get(holder.getAdapterPosition()).getAuthorName()).concat("\n")
-                    .concat(v.getResources().getString(R.string.txt_ano)).concat(": ").concat(String.valueOf(bookItems.get(holder.getAdapterPosition()).getBookYear())));
-
-            String URL = v.getResources().getString(R.string.Google_Search)
-                    .concat(bookItems.get(holder.getAdapterPosition()).getBookTitle())
-                    .concat(", ").concat(bookItems.get(holder.getAdapterPosition()).getAuthorName());
-
-            WindowPopUp windowPopUp = new WindowPopUp();
-            windowPopUp.showPopUpWindow(v, URL, Share, (AppCompatActivity) v.getContext());
-
-            return true;
-        });
-
-
-        holder.imgEdit.setOnClickListener(v -> {
-            final String[] editOption = {
-                    v.getResources().getString(R.string.txt_titulo).concat(": ").concat(bookItems.get(holder.getAdapterPosition()).getBookTitle()),
-                    v.getResources().getString(R.string.txt_autor).concat(": ").concat(bookItems.get(holder.getAdapterPosition()).getAuthorName()),
-                    v.getResources().getString(R.string.txt_ano).concat(": ").concat(Integer.toString(bookItems.get(holder.getAdapterPosition()).getBookYear()))
-            };
-
-
-            AlertDialog.Builder editDialog = new AlertDialog.Builder(v.getContext());
-
-            editDialog.setTitle(v.getContext().getResources().getString(R.string.edit_item_Title));
-            editDialog.setIcon(R.drawable.transparent_icon_app);
-            editDialog.setSingleChoiceItems(editOption, -1, (dialog, which) -> {
-                dialog.dismiss();
-                editElementAt(holder.getAdapterPosition(), which);
-
-            });
-            editDialog.setNegativeButton(R.string.email_btn_cancel, null);
-            editDialog.show();
-        });
-
-        holder.imgExcluir.setOnClickListener(v -> {
-            AlertDialog.Builder deleteDialog = new AlertDialog.Builder(v.getContext());
-
-            deleteDialog.setTitle(holder.itemView.getContext().getResources().getString(R.string.delete_item_Title).concat(bookItems.get(holder.getAdapterPosition()).getBookTitle()));
-            deleteDialog.setMessage(R.string.delete_item_msg);
-            deleteDialog.setIcon(R.drawable.transparent_icon_app);
-            deleteDialog.setPositiveButton(R.string.yes, (dialog, which) -> removeElementAt(holder.getAdapterPosition()));
-            deleteDialog.setNegativeButton(R.string.no, null);
-            deleteDialog.show();
-        });
-
-        Animation animation = AnimationUtils.loadAnimation(view.getContext(), android.R.anim.slide_in_left);
-        holder.itemView.startAnimation(animation);
+        view.setOnLongClickListener { v: View ->
+            vibrate(100L, v.context)
+            val shareBook = """
+                ${v.resources.getString(R.string.txt_id)}: ${bookItems[holder.adapterPosition].id}
+                ${v.resources.getString(R.string.txt_titulo)}: ${bookItems[holder.adapterPosition].bookTitle}
+                ${v.resources.getString(R.string.txt_autor)}: ${bookItems[holder.adapterPosition].authorName}
+                ${v.resources.getString(R.string.txt_ano)}: ${bookItems[holder.adapterPosition].bookYear}
+                """.trimIndent()
+            val bookUrl = v.resources.getString(R.string.Google_Search)+bookItems[holder.adapterPosition].bookTitle + ", " + bookItems[holder.adapterPosition].authorName
+            val windowPopUp = WindowPopUp()
+            windowPopUp.showPopUpWindow(v, bookUrl, shareBook, (v.context as AppCompatActivity))
+            true
+        }
+        holder.imgEdit.setOnClickListener { v: View ->
+            val editOption = arrayOf(
+                v.resources.getString(R.string.txt_titulo) + ": " + bookItems[holder.adapterPosition].bookTitle,
+                v.resources.getString(R.string.txt_autor) + ": " + bookItems[holder.adapterPosition].authorName,
+                v.resources.getString(R.string.txt_ano) + ": " + bookItems[holder.adapterPosition].bookYear.toString()
+            )
+            val editDialog = AlertDialog.Builder(v.context)
+            editDialog.setTitle(v.context.resources.getString(R.string.edit_item_Title))
+            editDialog.setIcon(R.drawable.transparent_icon_app)
+            editDialog.setSingleChoiceItems(editOption, -1) { dialog: DialogInterface, which: Int ->
+                dialog.dismiss()
+                editElementAt(holder.adapterPosition, which)
+            }
+            editDialog.setNegativeButton(R.string.email_btn_cancel, null)
+            editDialog.show()
+        }
+        holder.imgExcluir.setOnClickListener { v: View ->
+            val deleteDialog = AlertDialog.Builder(v.context)
+            deleteDialog.setTitle(holder.itemView.context.resources.getString(R.string.delete_item_Title) + bookItems[holder.adapterPosition].bookTitle)
+            deleteDialog.setMessage(R.string.delete_item_msg)
+            deleteDialog.setIcon(R.drawable.transparent_icon_app)
+            deleteDialog.setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
+                removeElementAt(
+                    holder.adapterPosition
+                )
+            }
+            deleteDialog.setNegativeButton(R.string.no, null)
+            deleteDialog.show()
+        }
+        val animation = AnimationUtils.loadAnimation(
+            view.context, android.R.anim.slide_in_left
+        )
+        holder.itemView.startAnimation(animation)
     }
 
-
-    private void removeElementAt(int position) {
+    private fun removeElementAt(position: Int) {
         /* Este método serve para remover cada item através da sua posição.
          *  Removendo da lista e do database e atualizando o recycleView
          */
         try {
-            Animation anim = AnimationUtils.loadAnimation(view.getContext(), android.R.anim.slide_out_right);
-            anim.setDuration(300);
-
-            view.startAnimation(anim);
-            DatabaseHelper db = new DatabaseHelper(view.getContext());
-            int actualPosition = getItemCount();
-
-            db.delete(bookItems.get(position).getId());
-            bookItems.remove(position);
-            notifyItemRemoved(position);
-            notifyItemRangeChanged(position, actualPosition);
-
-            GestorVibrator.Vibrate(100L, view.getContext());
-            Toast.makeText(view.getContext(), R.string.success_msg, Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            GestorVibrator.Vibrate(100L, view.getContext());
-            Toast.makeText
-                    (
-                            view.getContext(),
-                            R.string.error_msg
-                                    + "\n"
-                                    + e.toString(),
-                            Toast.LENGTH_LONG
-                    ).show();
+            val anim = AnimationUtils.loadAnimation(
+                view.context, android.R.anim.slide_out_right
+            )
+            anim.duration = 300
+            view.startAnimation(anim)
+            val db = DatabaseHelper(view.context)
+            val actualPosition = itemCount
+            db.delete(bookItems[position].id)
+            bookItems.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, actualPosition)
+            vibrate(100L, view.context)
+            Toast.makeText(view.context, R.string.success_msg, Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            vibrate(100L, view.context)
+            Toast.makeText(
+                view.context,
+                R.string.error_msg
+                    .toString() + "\n"
+                        + e,
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
     /**
      * @param position é a posição do livro
      * @param choose   se divide em 0: título,
-     *                 1: autor,
-     *                 2: ano.
-     *                 Será criado um AlertDialog com um EditText para modificar uma das opções
-     *                 e atualizá-las na lista e no database e atualizando o recycleView.
+     * 1: autor,
+     * 2: ano.
+     * Será criado um AlertDialog com um EditText para modificar uma das opções
+     * e atualizá-las na lista e no database e atualizando o recycleView.
      */
-    private void editElementAt(final int position, @IntRange(from = 0, to = 2) final int choose) {
+    private fun editElementAt(position: Int, @IntRange(from = 0, to = 2) choose: Int) {
         // criação do AlertDialog
-        final AlertDialog.Builder editDialog = new AlertDialog.Builder(view.getContext());
-        editDialog.setMessage(R.string.fill_field_bellow);
+        val editDialog = AlertDialog.Builder(view.context)
+        editDialog.setMessage(R.string.fill_field_bellow)
         // criação do EditText
-        final EditText textToChange = new EditText(view.getContext());
+        val textToChange = EditText(view.context)
         //adicionando um filtro para o editText limitando para 100 caractéres
-        textToChange.setFilters(new InputFilter[]{new InputFilter.LengthFilter(100)});
+        textToChange.filters = arrayOf<InputFilter>(LengthFilter(100))
 
         /*
          * Dependendo do choose,
          * será colocado o ícone e o título do AlertDialog,
          * o hint do editText*/
-        if (choose == 0) {
-            editDialog.setIcon(R.drawable.book_img);
-            editDialog.setTitle(R.string.txt_titulo);
-            textToChange.setHint(R.string.hint_titulo);
-        } else if (choose == 1) {
-            editDialog.setIcon(R.drawable.author_img);
-            editDialog.setTitle(R.string.txt_autor);
-            textToChange.setHint(R.string.hint_autor);
-        } else {
-            editDialog.setIcon(R.drawable.calendar_img);
-            editDialog.setTitle(R.string.txt_ano);
-            textToChange.setHint(R.string.hint_ano);
-            //adicionando um input de somente 4 números
-            textToChange.setInputType(InputType.TYPE_CLASS_NUMBER);
-            textToChange.setFilters(new InputFilter[]{new InputFilter.LengthFilter(4)});
+        when (choose) {
+            0 -> {
+                editDialog.setIcon(R.drawable.book_img)
+                editDialog.setTitle(R.string.txt_titulo)
+                textToChange.setHint(R.string.hint_titulo)
+            }
+            1 -> {
+                editDialog.setIcon(R.drawable.author_img)
+                editDialog.setTitle(R.string.txt_autor)
+                textToChange.setHint(R.string.hint_autor)
+            }
+            else -> {
+                editDialog.setIcon(R.drawable.calendar_img)
+                editDialog.setTitle(R.string.txt_ano)
+                textToChange.setHint(R.string.hint_ano)
+                //adicionando um input de somente 4 números
+                textToChange.inputType = InputType.TYPE_CLASS_NUMBER
+                textToChange.filters = arrayOf<InputFilter>(LengthFilter(4))
+            }
         }
-
-        editDialog.setView(textToChange);
-        editDialog.setPositiveButton(R.string.btn_Accept, (dialog, which) -> {
-            if (!textToChange.getText().toString().equals("")) {
+        editDialog.setView(textToChange)
+        editDialog.setPositiveButton(R.string.btn_Accept) { _: DialogInterface?, _: Int ->
+            if (textToChange.text.toString() != "") {
                 try {
-                    DatabaseHelper db = new DatabaseHelper(view.getContext());
-                    ContentValues cv = new ContentValues();
-
-                    switch (choose) {
-                        case 0:
-                            cv.put("titulo", textToChange.getText().toString());
-                            db.update(bookItems.get(position).getId(), cv);
-                            bookItems.get(position).setBookTitle(textToChange.getText().toString());
-                            break;
-
-                        case 1:
-                            cv.put("autor", textToChange.getText().toString());
-                            db.update(bookItems.get(position).getId(), cv);
-                            bookItems.get(position).setAuthorName(textToChange.getText().toString());
-                            break;
-
-                        case 2:
-                            cv.put("ano", textToChange.getText().toString());
-                            db.update(bookItems.get(position).getId(), cv);
-                            bookItems.get(position).setBookYear(Integer.parseInt(textToChange.getText().toString()));
-                            break;
-
-                        default:
-                            break;
-
+                    val db = DatabaseHelper(view.context)
+                    val cv = ContentValues()
+                    when (choose) {
+                        0 -> {
+                            cv.put("titulo", textToChange.text.toString())
+                            db.update(bookItems[position].id, cv)
+                            bookItems[position].bookTitle = textToChange.text.toString()
+                        }
+                        1 -> {
+                            cv.put("autor", textToChange.text.toString())
+                            db.update(bookItems[position].id, cv)
+                            bookItems[position].authorName = textToChange.text.toString()
+                        }
+                        2 -> {
+                            cv.put("ano", textToChange.text.toString())
+                            db.update(bookItems[position].id, cv)
+                            bookItems[position].bookYear = textToChange.text.toString().toInt()
+                        }
+                        else -> {}
                     }
-
-                    notifyItemChanged(position);
-                    GestorVibrator.Vibrate(100L, view.getContext());
-                    Toast.makeText(view.getContext(), R.string.success_msg, Toast.LENGTH_SHORT).show();
-
-                } catch (Exception e) {
-                    GestorVibrator.Vibrate(100L, view.getContext());
-                    Toast.makeText
-                            (
-                                    view.getContext(),
-                                    R.string.error_msg
-                                            + "\n"
-                                            + e.toString(),
-                                    Toast.LENGTH_LONG
-                            ).show();
+                    notifyItemChanged(position)
+                    vibrate(100L, view.context)
+                    Toast.makeText(view.context, R.string.success_msg, Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    vibrate(100L, view.context)
+                    Toast.makeText(
+                        view.context,
+                        R.string.error_msg
+                            .toString() + "\n"
+                                + e,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
-            } else
-                Toast.makeText(view.getContext(), R.string.email_notextinsert, Toast.LENGTH_SHORT).show();
-
-        });
-
-        editDialog.setNegativeButton(R.string.email_btn_cancel, (dialog, which) -> Toast.makeText(view.getContext(), view.getResources().getString(R.string.canceled_operation), Toast.LENGTH_SHORT).show());
-        editDialog.show();
+            } else Toast.makeText(view.context, R.string.email_notextinsert, Toast.LENGTH_SHORT)
+                .show()
+        }
+        editDialog.setNegativeButton(R.string.email_btn_cancel) { _: DialogInterface?, _: Int ->
+            Toast.makeText(
+                view.context,
+                view.resources.getString(R.string.canceled_operation),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        editDialog.show()
     }
 
     /**
      * Os livros serão ordenados pelos (título, autor e ano) em ordem (ascendente e descendente)
      *
      * @param order_by vai dos números 1 ao 3 onde:
-     *                 1 - título do livro.
-     *                 2 - autor do livro.
-     *                 3 - ano do livro.
+     * 1 - título do livro.
+     * 2 - autor do livro.
+     * 3 - ano do livro.
      * @param order    se divide em:
-     *                 ASCENDANT - em ascendente.
-     *                 DESCENDANT - em descendente.
+     * ASCENDANT - em ascendente.
+     * DESCENDANT - em descendente.
      */
-    public void setSortOfAdapterView(@IntRange(from = 1, to = 3) final int order_by, final Order order) {
-        Collections.sort(bookItems, (o1, o2) -> {
-            if (bookItems.size() > 1) {
-                switch (order_by) {
-                    case 1: // ordenar pelo títolo
-                        if (order == Order.ASCENDANT) // ascendente
-                            return Normalizer.normalize(o1.getBookTitle().toUpperCase(), Normalizer.Form.NFD)
-                                    .compareTo(Normalizer.normalize(o2.getBookTitle().toUpperCase(), Normalizer.Form.NFD));
-                        else // descendente
-                            return Normalizer.normalize(o2.getBookTitle().toUpperCase(), Normalizer.Form.NFD).
-                                    compareTo(Normalizer.normalize(o1.getBookTitle().toUpperCase(), Normalizer.Form.NFD));
-
-                    case 2: // ordenar pelo autor
-                        if (order == Order.ASCENDANT) // ascendente
-                            return Normalizer.normalize(o1.getAuthorName().toUpperCase(), Normalizer.Form.NFD)
-                                    .compareTo(Normalizer.normalize(o2.getAuthorName().toUpperCase(), Normalizer.Form.NFD));
-                        else // descendente
-                            return Normalizer.normalize(o2.getAuthorName().toUpperCase(), Normalizer.Form.NFD)
-                                    .compareTo(Normalizer.normalize(o1.getAuthorName().toUpperCase(), Normalizer.Form.NFD));
-
-                    case 3: // ordenar pelo ano
-                        if (order == Order.ASCENDANT) // ascendente
-                            return Integer.compare(o1.getBookYear(), o2.getBookYear());
-                        else // descendente
-                            return Integer.compare(o2.getBookYear(), o1.getBookYear());
-
-                    default:
-                        return 0;
+    @SuppressLint("NotifyDataSetChanged")
+    fun setSortOfAdapterView(@IntRange(from = 1, to = 3) order_by: Int, order: Order) {
+        bookItems.sortWith { o1: BookItem, o2: BookItem ->
+            if (bookItems.size > 1) {
+                when (order_by) {
+                    1 -> if (order === Order.ASCENDANT) // ascendente
+                        return@sortWith Normalizer.normalize(
+                            o1.bookTitle.uppercase(Locale.getDefault()),
+                            Normalizer.Form.NFD
+                        )
+                            .compareTo(
+                                Normalizer.normalize(
+                                    o2.bookTitle.uppercase(Locale.getDefault()),
+                                    Normalizer.Form.NFD
+                                )
+                            ) else  // descendente
+                        return@sortWith Normalizer.normalize(
+                            o2.bookTitle.uppercase(Locale.getDefault()),
+                            Normalizer.Form.NFD
+                        ).compareTo(
+                            Normalizer.normalize(
+                                o1.bookTitle.uppercase(Locale.getDefault()),
+                                Normalizer.Form.NFD
+                            )
+                        )
+                    2 -> if (order === Order.ASCENDANT) // ascendente
+                        return@sortWith Normalizer.normalize(
+                            o1.authorName.uppercase(Locale.getDefault()),
+                            Normalizer.Form.NFD
+                        )
+                            .compareTo(
+                                Normalizer.normalize(
+                                    o2.authorName.uppercase(Locale.getDefault()),
+                                    Normalizer.Form.NFD
+                                )
+                            ) else  // descendente
+                        return@sortWith Normalizer.normalize(
+                            o2.authorName.uppercase(Locale.getDefault()),
+                            Normalizer.Form.NFD
+                        )
+                            .compareTo(
+                                Normalizer.normalize(
+                                    o1.authorName.uppercase(Locale.getDefault()),
+                                    Normalizer.Form.NFD
+                                )
+                            )
+                    3 -> if (order === Order.ASCENDANT) // ascendente
+                        return@sortWith o1.bookYear.compareTo(o2.bookYear) else  // descendente
+                        return@sortWith o2.bookYear.compareTo(o1.bookYear)
+                    else -> return@sortWith 0
                 }
-            } else
-                return 0;
-        });
-        notifyDataSetChanged();
+            } else return@sortWith 0
+        }
+        notifyDataSetChanged()
     }
 
-    @Override
-    public int getItemCount() {
-        return bookItems.size();
+    override fun getItemCount(): Int {
+        return bookItems.size
     }
 
-    public boolean itemIsEmpty() {
-        return getItemCount() == 0;
+    fun itemIsEmpty(): Boolean {
+        return itemCount == 0
     }
-
 }

@@ -1,22 +1,14 @@
 /*
  * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
  */
+package com.BiblioLivro.criarlivros.activities
 
-package com.BiblioLivro.criarlivros.activities;
+import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 
-import android.app.Application;
-
-import androidx.appcompat.app.AppCompatDelegate;
-
-
-public class App extends Application {
-
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode());
+class App : Application() {
+    override fun onCreate() {
+        super.onCreate()
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode())
     }
-
 }
-
