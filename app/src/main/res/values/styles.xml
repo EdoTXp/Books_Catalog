@@ -1,9 +1,7 @@
 <!--
   ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
   -->
-
 <resources>
-
     <!-- Base application theme. -->
     <!-- Day / Night mode -->
     <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
@@ -19,6 +17,7 @@
         <item name="borderbackground">@color/background</item>
         <item name="borderBackgroundError">@color/errorBorder</item>
         <item name="buttonbackground">@color/background</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="menubarbackground">@color/colorPrimaryText</item>
         <item name="alertDialogTitleIcon">@color/colorPrimaryText</item>

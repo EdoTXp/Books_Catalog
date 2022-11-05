@@ -62,7 +62,7 @@ class TelaCadastrar : AppCompatActivity(), View.OnClickListener {
                     return@setOnKeyListener true
                 }
             }
-            false
+            return@setOnKeyListener false
         }
         btnSave.setOnClickListener(this)
     }
@@ -162,6 +162,9 @@ class TelaCadastrar : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun printNotification() {
+
+        // TODO Correge l'errore della notifica quando usi Android 13
+
         val bodyTextNotification = getString(R.string.Notification_Text_1) +" \"" + edtTitleBook.text.toString() + "\" " + getString(R.string.Notification_Text_2)
         val notification = GestorNotification(
             this,

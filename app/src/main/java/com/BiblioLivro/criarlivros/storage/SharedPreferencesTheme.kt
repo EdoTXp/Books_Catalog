@@ -17,7 +17,7 @@ class SharedPreferencesTheme(context: Context) {
         this.context = context
     }
 
-    var checkedButton: Int
+    var checkedButton
         get() = preferences.getInt("NightModeChoice", THEME_UNDEFINED)
         set(button) {
             val editor = preferences.edit()

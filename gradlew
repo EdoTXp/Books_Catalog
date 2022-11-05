@@ -1,5 +1,9 @@
 #!/usr/bin/env sh
 
+#
+# Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+#
+
 ##############################################################################
 ##
 ##  Gradle start up script for UN*X

@@ -15,9 +15,9 @@
         android:icon="@mipmap/iconapp"
         android:roundIcon="@mipmap/iconapp_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppSplash">
 
-        <activity
+        <!--activity
             android:name=".activities.SplashScreen"
             android:screenOrientation="fullSensor"
             android:exported="true">
@@ -25,11 +25,17 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity> -->
 
         <activity
             android:name=".activities.TelaPrincipal"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="fullSensor"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
 
         <activity
             android:name=".activities.TelaCadastrar"

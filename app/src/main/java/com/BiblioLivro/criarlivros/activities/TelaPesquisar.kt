@@ -24,6 +24,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import java.lang.Exception
 import java.util.*
 
@@ -35,7 +36,7 @@ class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
     private lateinit var btnNewBook: Button // esse botão aparecerà quando não tiver nenhum livro na busca ou quando a busca não tiver nenhum resultado
 
     private lateinit var menuFilter: Menu
-    private var checked = 0 // valor selecionado para executar o sort do bookAdapter
+    private var checked : Int = 0 // valor selecionado para executar o sort do bookAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         //Método para setar o tema da activity ao iniciar
         val sharedPreferences = SharedPreferencesTheme(this)
@@ -97,7 +98,9 @@ class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
 
                 //adicionando um contador de livros encontrados
                 val bookResult = findViewById<TextView>(R.id.txt_search_founded)
-                bookResult.text = "${getString(R.string.txt_pesquisar)} ${bookItems.size}"
+                val quantityOfBookResult = "${getString(R.string.txt_pesquisar)} ${bookItems.size}"
+
+                bookResult.text = quantityOfBookResult
 
                 //adicionando o bookAdapter, ordenadamente, ao reclycerView e adicionado o layout
                 recyclerView.adapter = bookAdapter
@@ -200,7 +203,7 @@ class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
                     0 -> {
                         bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
                         dialog.dismiss()
-                        checked = which
+                        checked = 0
                     }
                     1 -> {
                         bookAdapter.setSortOfAdapterView(1, Order.DESCENDANT)
@@ -227,7 +230,12 @@ class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
                         dialog.dismiss()
                         checked = which
                     }
-                    else -> {}
+                    else -> {
+                        bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
+                        dialog.dismiss()
+                        checked = 0
+                        Toast.makeText(this, getString(R.string.error_msg), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
             orderDialog.setNegativeButton(R.string.email_btn_cancel, null)

@@ -26,16 +26,16 @@ class GestorNotification(
     priority: Int
 ) {
     //ATRIBUTOS
-    private var builder: NotificationCompat.Builder? = null
-    private var activity: AppCompatActivity? = null
-    private var sound: Uri? = null
+    private lateinit var builder: NotificationCompat.Builder
+    private lateinit var activity: AppCompatActivity
+    private lateinit var sound: Uri
     private lateinit var pattern: LongArray
 
 
     init {
         if (priority >= -2 && priority <= 2) {
-            this.activity = activity
-            builder = NotificationCompat.Builder(this.activity!!, CHANNEL_ID)
+            this.activity = activity!!
+            builder = NotificationCompat.Builder(this.activity, CHANNEL_ID)
                 .setSmallIcon(icon)
                 .setContentTitle(title)
                 .setContentText(text)
@@ -49,7 +49,7 @@ class GestorNotification(
      * @param color é utilizado para definir a cor background da notificação
      */
     fun setColor(color: Int) {
-        builder!!.color = color
+        builder.color = color
     }
 
     /**
@@ -62,15 +62,17 @@ class GestorNotification(
      */
     fun setDurationVibrate(pattern: LongArray) {
         this.pattern = pattern
-        builder!!.setVibrate(pattern)
+        builder.setVibrate(pattern)
     }
 
     /**
      * @param sound é utilizado para executar um som durante a notificação
      */
     fun setSound(sound: Uri?) {
-        this.sound = sound
-        builder!!.setSound(sound)
+        if (sound != null) {
+            this.sound = sound
+        }
+        builder.setSound(sound)
     }
 
     /**
@@ -106,8 +108,8 @@ class GestorNotification(
      * Método utilizado para imprimir a notificação
      */
     fun printNotification() {
-        val notificationManager = NotificationManagerCompat.from(activity!!)
-        notificationManager.notify(0, builder!!.build())
+        val notificationManager = NotificationManagerCompat.from(activity)
+        notificationManager.notify(0, builder.build())
     }
 
     /**

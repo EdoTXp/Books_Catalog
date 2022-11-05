@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  -->
+<resources>
+    <style name="Theme.AppSplash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/colorPrimary</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/iconapp_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">20000</item>
+        <item name="postSplashScreenTheme">@style/AppTheme</item>
+        <!-- Status bar and Nav bar configs -->
+        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:navigationBarColor">@color/colorPrimary</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

@@ -42,7 +42,9 @@ class BookComponentAdapter
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         // Preenchimento dos dados nos textViews
-        holder.txtId.text = (position + 1).toString()
+        val normalId = "${position + 1}"
+
+        holder.txtId.text = (normalId)
         holder.txtTitulo.text = bookItems[position].bookTitle
         holder.txtAutor.text = bookItems[position].authorName
         holder.txtAno.text = bookItems[position].bookYear.toString()

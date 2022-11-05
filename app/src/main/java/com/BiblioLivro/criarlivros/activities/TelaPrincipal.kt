@@ -22,6 +22,7 @@ import android.view.*
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.BiblioLivro.criarlivros.BuildConfig
 import java.text.SimpleDateFormat
 import java.util.*
@@ -36,6 +37,7 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
         val preferencesTheme = SharedPreferencesTheme(this)
         preferencesTheme.setAppTheme()
         super.onCreate(savedInstanceState)
+        installSplashScreen()
         setContentView(R.layout.activity_tela_principal)
 
         //ATRIBUTOS LOCAIS

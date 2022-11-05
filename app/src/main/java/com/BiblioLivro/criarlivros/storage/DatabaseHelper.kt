@@ -12,11 +12,11 @@ import java.util.ArrayList
 class DatabaseHelper(context: Context?) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
     override fun onCreate(db: SQLiteDatabase) {
-        val CREATE_TABLE_CATALOGO = "CREATE TABLE catalogo (" +
+        val createTableCatalogo = "CREATE TABLE catalogo (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "titulo TEXT, autor TEXT," +
                 "ano INTEGER);"
-        db.execSQL(CREATE_TABLE_CATALOGO)
+        db.execSQL(createTableCatalogo)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
