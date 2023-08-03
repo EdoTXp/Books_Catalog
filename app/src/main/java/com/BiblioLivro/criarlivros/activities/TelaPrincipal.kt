@@ -1,31 +1,36 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
 package com.BiblioLivro.criarlivros.activities
 
-import androidx.appcompat.app.AppCompatActivity
-import android.widget.RadioGroup
-import android.widget.EditText
-import android.os.Bundle
-import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme
-import com.BiblioLivro.criarlivros.R
-import android.content.Intent
-import com.BiblioLivro.criarlivros.gestores.GestorVibrator
-import android.widget.Toast
-import com.BiblioLivro.criarlivros.storage.DatabaseHelper
-import android.text.InputType
 import android.content.DialogInterface
-import androidx.core.app.ShareCompat.IntentBuilder
+import android.content.Intent
+import android.os.Bundle
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
-import android.view.*
+import android.text.InputType
+import android.view.Gravity
+import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Button
+import android.widget.EditText
+import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ShareCompat.IntentBuilder
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.BiblioLivro.criarlivros.BuildConfig
+import com.BiblioLivro.criarlivros.R
+import com.BiblioLivro.criarlivros.gestores.GestorVibrator
+import com.BiblioLivro.criarlivros.storage.DatabaseHelper
+import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
     RadioGroup.OnCheckedChangeListener {
@@ -37,7 +42,9 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
         val preferencesTheme = SharedPreferencesTheme(this)
         preferencesTheme.setAppTheme()
         super.onCreate(savedInstanceState)
+        //iniciando a splashscreen
         installSplashScreen()
+
         setContentView(R.layout.activity_tela_principal)
 
         //ATRIBUTOS LOCAIS
@@ -52,12 +59,13 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
          * */edtSearch.setOnKeyListener { _: View?, keyCode: Int, event: KeyEvent ->
             /*
              * Ao envocar o evento, será feito uma filtragem capturando somente a ação ACTION_UP.
-             * Em seguida, será capturada a tecla enter para chamar a ação de onClick*/if (event.action == KeyEvent.ACTION_UP) {
-            if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                onClick(btnSearch)
-                return@setOnKeyListener true
+             * Em seguida, será capturada a tecla enter para chamar a ação de onClick*/
+            if (event.action == KeyEvent.ACTION_UP) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    onClick(btnSearch)
+                    return@setOnKeyListener true
+                }
             }
-        }
             false
         }
         btnRegister.setOnClickListener(this)
@@ -113,6 +121,7 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
                 startActivity(it)
                 return true
             }
+
             R.id.menu_feedback -> { // Criação do AlertDialog para cadastrar o e-mail
                 val emailDialog = AlertDialog.Builder(this)
 
@@ -192,11 +201,13 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
 
                 // exibindo a versão do app
             }
+
             R.id.menu_app_version -> {
                 GestorVibrator.vibrate(100L, this)
                 Toast.makeText(this, BuildConfig.VERSION_NAME, Toast.LENGTH_LONG).show()
                 return true
             }
+
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -223,6 +234,7 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
                 edtSearch.setHint(R.string.hint_ano)
                 edtSearch.contentDescription = getString(R.string.txt_AccessDescriptionYear)
             }
+
             R.id.rbPesquisarPorAutor -> {
                 edtSearch.filters = arrayOf<InputFilter>(LengthFilter(100))
                 edtSearch.setHint(R.string.hint_autor)
@@ -230,6 +242,7 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS
                 edtSearch.contentDescription = getString(R.string.txt_AccessDescriptionAuthor)
             }
+
             R.id.rbPesquisarPorTitulo -> {
                 edtSearch.filters = arrayOf<InputFilter>(LengthFilter(100))
                 edtSearch.setHint(R.string.hint_titulo)
@@ -237,6 +250,7 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS
                 edtSearch.contentDescription = getString(R.string.txt_AccessDescriptionTitle)
             }
+
             R.id.rbPesquisarPorTodos -> {
                 edtSearch.isEnabled = false
                 edtSearch.hint = ""

@@ -1,30 +1,30 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
 package com.BiblioLivro.criarlivros.activities
 
-import androidx.appcompat.app.AppCompatActivity
-import android.widget.EditText
-import android.os.Bundle
-import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme
-import com.BiblioLivro.criarlivros.R
-import android.content.ContentValues
-import com.BiblioLivro.criarlivros.storage.DatabaseHelper
-import com.BiblioLivro.criarlivros.gestores.GestorVibrator
-import android.widget.Toast
-import android.text.TextUtils
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import androidx.core.content.ContextCompat
-import com.BiblioLivro.criarlivros.gestores.GestorNotification
-import android.os.Build
-import android.os.Looper
 import android.app.NotificationManager
+import android.content.ContentValues
 import android.net.Uri
+import android.os.Build
+import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
+import android.text.TextUtils
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import com.BiblioLivro.criarlivros.R
+import com.BiblioLivro.criarlivros.gestores.GestorNotification
+import com.BiblioLivro.criarlivros.gestores.GestorVibrator
+import com.BiblioLivro.criarlivros.storage.DatabaseHelper
+import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme
 
 class TelaCadastrar : AppCompatActivity(), View.OnClickListener {
     //ATRIBUTOS
@@ -52,7 +52,9 @@ class TelaCadastrar : AppCompatActivity(), View.OnClickListener {
         //EVENTOS
         /*
          * Método para fazer o cadastro usando o teclado do dispositivo
-         * */edtYearBook.setOnKeyListener { _: View?, keyCode: Int, event: KeyEvent ->
+         *
+         * */
+        edtYearBook.setOnKeyListener { _: View?, keyCode: Int, event: KeyEvent ->
             /*
              * Ao envocar o evento, será feito uma filtragem capturando somente a ação ACTION_UP.
              * Em seguida, será capturada a tecla enter para chamar a ação de onClick*/
@@ -74,7 +76,8 @@ class TelaCadastrar : AppCompatActivity(), View.OnClickListener {
 
             /* removendo os espaços brancos ao final da string
              e caso a string tiver só espaços brancos, a verificação de string vazias
-             nas instruções abaixo dara um valor false */edtTitleBook.setText(
+             nas instruções abaixo dara um valor false */
+            edtTitleBook.setText(
                 edtTitleBook.text.toString().trim { it <= ' ' })
             edtAuthorBook.setText(edtAuthorBook.text.toString().trim { it <= ' ' })
 
@@ -82,6 +85,7 @@ class TelaCadastrar : AppCompatActivity(), View.OnClickListener {
             val title = checkEditText(edtTitleBook)
             val author = checkEditText(edtAuthorBook)
             val year = checkEditText(edtYearBook)
+
             if (title && author && year) {
                 //Criação do ContentValues e preenchendo com os valores definidos pelo usuário e limpando todos os espaços em branco.
                 val cv = ContentValues()
@@ -153,8 +157,10 @@ class TelaCadastrar : AppCompatActivity(), View.OnClickListener {
             when (edt.id) {
                 R.id.edtTitulo -> edt.hint =
                     getString(R.string.hint_titulo)
+
                 R.id.edtAutor -> edt.hint =
                     getString(R.string.hint_autor)
+
                 else -> edt.hint = getString(R.string.hint_ano)
             }
             true
@@ -163,9 +169,12 @@ class TelaCadastrar : AppCompatActivity(), View.OnClickListener {
 
     private fun printNotification() {
 
-        // TODO Correge l'errore della notifica quando usi Android 13
+        // TODO Correge l'errore della notifica quando usa Android 13
 
-        val bodyTextNotification = getString(R.string.Notification_Text_1) +" \"" + edtTitleBook.text.toString() + "\" " + getString(R.string.Notification_Text_2)
+        val bodyTextNotification =
+            getString(R.string.Notification_Text_1) + " \"" + edtTitleBook.text.toString() + "\" " + getString(
+                R.string.Notification_Text_2
+            )
         val notification = GestorNotification(
             this,
             R.drawable.transparent_icon_app,
