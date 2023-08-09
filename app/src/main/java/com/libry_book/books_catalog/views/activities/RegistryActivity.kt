@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.activities
+package com.libry_book.books_catalog.views.activities
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
@@ -20,13 +20,13 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.BiblioLivro.criarlivros.R
-import com.BiblioLivro.criarlivros.gestores.GestorNotification
-import com.BiblioLivro.criarlivros.gestores.GestorVibrator
-import com.BiblioLivro.criarlivros.storage.DatabaseHelper
-import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme
+import com.libry_book.books_catalog.R
+import com.libry_book.books_catalog.gestores.GestorNotification
+import com.libry_book.books_catalog.gestores.GestorVibrator
+import com.libry_book.books_catalog.storage.DatabaseHelper
+import com.libry_book.books_catalog.storage.SharedPreferencesTheme
 
-class TelaCadastrar : AppCompatActivity(), View.OnClickListener {
+class RegistryActivity : AppCompatActivity(), View.OnClickListener {
     //ATRIBUTOS
     private lateinit var edtTitleBook: EditText
     private lateinit var edtAuthorBook: EditText

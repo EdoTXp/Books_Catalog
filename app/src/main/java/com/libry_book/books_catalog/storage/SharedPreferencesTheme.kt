@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.storage
+package com.libry_book.books_catalog.storage
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -35,14 +35,17 @@ class SharedPreferencesTheme(context: Context) {
                 Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> AppCompatDelegate.setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_NO
                 )
+
                 Configuration.UI_MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_YES
                 )
             }
+
             else -> when (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) {
                 Configuration.UI_MODE_NIGHT_NO, Configuration.UI_MODE_NIGHT_UNDEFINED -> AppCompatDelegate.setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_NO
                 )
+
                 Configuration.UI_MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_YES
                 )

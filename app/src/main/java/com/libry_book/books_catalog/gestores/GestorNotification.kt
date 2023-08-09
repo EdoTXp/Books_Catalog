@@ -1,22 +1,25 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.gestores
+package com.libry_book.books_catalog.gestores
 
-import androidx.appcompat.app.AppCompatActivity
-import android.app.NotificationManager
-import android.os.Build
+import android.Manifest
 import android.app.NotificationChannel
-import android.media.AudioAttributes
-import androidx.core.app.NotificationManagerCompat
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.TaskStackBuilder
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.media.AudioAttributes
 import android.net.Uri
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import com.BiblioLivro.criarlivros.activities.TelaPesquisar
-import com.BiblioLivro.criarlivros.R
+import androidx.core.app.NotificationManagerCompat
+import com.libry_book.books_catalog.R
+import com.libry_book.books_catalog.views.activities.SearchActivity
 
 class GestorNotification(
     activity: AppCompatActivity?,
@@ -109,6 +112,20 @@ class GestorNotification(
      */
     fun printNotification() {
         val notificationManager = NotificationManagerCompat.from(activity)
+        if (ActivityCompat.checkSelfPermission(
+                activity,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
         notificationManager.notify(0, builder.build())
     }
 
@@ -117,7 +134,7 @@ class GestorNotification(
      * será exibido a TelaPesquisar
      */
     private fun setPendingIntent(): PendingIntent {
-        val intent = Intent(activity, TelaPesquisar::class.java)
+        val intent = Intent(activity, SearchActivity::class.java)
         intent.putExtra("tipo", R.id.rbPesquisarPorTodos)
         intent.putExtra("chave", "")
         val stackBuilder = TaskStackBuilder.create(activity)

@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.activities
+package com.libry_book.books_catalog
 
 import android.app.Application
 import androidx.appcompat.app.AppCompatDelegate

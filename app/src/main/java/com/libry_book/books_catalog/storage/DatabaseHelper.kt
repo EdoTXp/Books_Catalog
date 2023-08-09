@@ -1,13 +1,12 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.storage
+package com.libry_book.books_catalog.storage
 
-import android.database.sqlite.SQLiteOpenHelper
-import android.database.sqlite.SQLiteDatabase
 import android.content.ContentValues
 import android.content.Context
-import java.util.ArrayList
+import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelper(context: Context?) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {

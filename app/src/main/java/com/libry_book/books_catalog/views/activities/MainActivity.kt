@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.activities
+package com.libry_book.books_catalog.views.activities
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -23,16 +23,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat.IntentBuilder
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.BiblioLivro.criarlivros.BuildConfig
-import com.BiblioLivro.criarlivros.R
-import com.BiblioLivro.criarlivros.gestores.GestorVibrator
-import com.BiblioLivro.criarlivros.storage.DatabaseHelper
-import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme
+import com.libry_book.books_catalog.BuildConfig
+import com.libry_book.books_catalog.R
+import com.libry_book.books_catalog.gestores.GestorVibrator
+import com.libry_book.books_catalog.storage.DatabaseHelper
+import com.libry_book.books_catalog.storage.SharedPreferencesTheme
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
-class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
+class MainActivity : AppCompatActivity(), View.OnClickListener,
     RadioGroup.OnCheckedChangeListener {
     //ATRIBUTOS
     private lateinit var rdgSearchBy: RadioGroup
@@ -78,7 +78,7 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
         var it: Intent? = null
         val id = v.id // Criar a Intent para a nova Tela Cadastrar
         if (id == R.id.btnCadastrar) {
-            it = Intent(this, TelaCadastrar::class.java)
+            it = Intent(this, RegistryActivity::class.java)
 
             /*
              * Abrir a nova Tela Pesquisar se o campo "edtPesquisar" estiver preenchido.
@@ -94,7 +94,7 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
 
             //Criar a nova Intent para a nova Tela Pesquisar se existir algum dado
             if (DatabaseHelper(this).tableIsExist()) {
-                it = Intent(this, TelaPesquisar::class.java)
+                it = Intent(this, SearchActivity::class.java)
                 it.putExtra("tipo", rdgSearchBy.checkedRadioButtonId)
                 it.putExtra("chave", edtSearch.text.toString())
             } else {
@@ -117,7 +117,7 @@ class TelaPrincipal : AppCompatActivity(), View.OnClickListener,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_settings -> { //Iniciando a nova Tela Impostações
-                val it = Intent(this, TelaImpostacoes::class.java)
+                val it = Intent(this, SettingsActivity::class.java)
                 startActivity(it)
                 return true
             }

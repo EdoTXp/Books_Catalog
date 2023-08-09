@@ -8,16 +8,16 @@
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
-        android:name=".activities.App"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/iconapp"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/iconapp_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        
+
         <activity
-            android:name=".activities.TelaPrincipal"
+            android:name=".views.activities.MainActivity"
             android:exported="true"
             android:screenOrientation="fullSensor">
             <intent-filter>
@@ -27,33 +27,33 @@
         </activity>
 
         <activity
-            android:name=".activities.TelaCadastrar"
+            android:name=".views.activities.RegistryActivity"
             android:label="@string/title_activity_tela_cadastrar"
-            android:parentActivityName=".activities.TelaPrincipal"
+            android:parentActivityName=".views.activities.MainActivity"
             android:screenOrientation="fullSensor">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.TelaPrincipal" />
+                android:value=".views.activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".activities.TelaPesquisar"
+            android:name=".views.activities.SearchActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_tela_pesquisar"
-            android:parentActivityName=".activities.TelaPrincipal">
+            android:parentActivityName=".views.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.TelaPrincipal" />
+                android:value=".views.activities.MainActivity" />
         </activity>
 
         <activity
-            android:name=".activities.TelaImpostacoes"
+            android:name=".views.activities.SettingsActivity"
             android:label="@string/menu_settings"
-            android:parentActivityName=".activities.TelaPrincipal"
+            android:parentActivityName=".views.activities.MainActivity"
             android:screenOrientation="fullSensor">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.TelaPrincipal" />
+                android:value=".views.activities.MainActivity" />
         </activity>
 
     </application>

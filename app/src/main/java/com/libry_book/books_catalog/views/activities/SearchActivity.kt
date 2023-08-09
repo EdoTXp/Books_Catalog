@@ -1,34 +1,32 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.activities
+package com.libry_book.books_catalog.views.activities
 
 import android.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import androidx.recyclerview.widget.RecyclerView
-import com.BiblioLivro.criarlivros.customview.BookComponentAdapter
-import android.os.Bundle
-import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme
-import com.BiblioLivro.criarlivros.R
-import android.content.Intent
 import android.content.ContentValues
-import com.BiblioLivro.criarlivros.model.BookItem
-import android.widget.TextView
-import com.BiblioLivro.criarlivros.model.Order
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
-import com.BiblioLivro.criarlivros.storage.DatabaseHelper
 import android.content.DialogInterface
+import android.content.Intent
+import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
-import java.lang.Exception
-import java.util.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.AdapterDataObserver
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.libry_book.books_catalog.R
+import com.libry_book.books_catalog.models.BookItem
+import com.libry_book.books_catalog.models.Order
+import com.libry_book.books_catalog.storage.DatabaseHelper
+import com.libry_book.books_catalog.storage.SharedPreferencesTheme
+import com.libry_book.books_catalog.views.customview.BookComponentAdapter
 
-class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
+class SearchActivity : AppCompatActivity(), View.OnClickListener {
     //ATRIBUTOS
     private lateinit var upButton: FloatingActionButton
     private lateinit var recyclerView: RecyclerView
@@ -36,7 +34,7 @@ class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
     private lateinit var btnNewBook: Button // esse botão aparecerà quando não tiver nenhum livro na busca ou quando a busca não tiver nenhum resultado
 
     private lateinit var menuFilter: Menu
-    private var checked : Int = 0 // valor selecionado para executar o sort do bookAdapter
+    private var checked: Int = 0 // valor selecionado para executar o sort do bookAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         //Método para setar o tema da activity ao iniciar
         val sharedPreferences = SharedPreferencesTheme(this)
@@ -148,6 +146,7 @@ class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
             R.id.rbPesquisarPorTitulo -> {
                 booksList = DatabaseHelper(this).searchByTitle(chave)
             }
+
             R.id.rbPesquisarPorAno -> {
                 booksList = try {
                     DatabaseHelper(this).searchByYear(chave.toInt())
@@ -155,9 +154,11 @@ class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
                     DatabaseHelper(this).searchAll()
                 }
             }
+
             R.id.rbPesquisarPorAutor -> {
                 booksList = DatabaseHelper(this).searchByAuthor(chave)
             }
+
             R.id.rbPesquisarPorTodos -> {
                 booksList = DatabaseHelper(this).searchAll()
             }
@@ -205,36 +206,43 @@ class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
                         dialog.dismiss()
                         checked = 0
                     }
+
                     1 -> {
                         bookAdapter.setSortOfAdapterView(1, Order.DESCENDANT)
                         dialog.dismiss()
                         checked = which
                     }
+
                     2 -> {
                         bookAdapter.setSortOfAdapterView(2, Order.ASCENDANT)
                         dialog.dismiss()
                         checked = which
                     }
+
                     3 -> {
                         bookAdapter.setSortOfAdapterView(2, Order.DESCENDANT)
                         dialog.dismiss()
                         checked = which
                     }
+
                     4 -> {
                         bookAdapter.setSortOfAdapterView(3, Order.ASCENDANT)
                         dialog.dismiss()
                         checked = which
                     }
+
                     5 -> {
                         bookAdapter.setSortOfAdapterView(3, Order.DESCENDANT)
                         dialog.dismiss()
                         checked = which
                     }
+
                     else -> {
                         bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
                         dialog.dismiss()
                         checked = 0
-                        Toast.makeText(this, getString(R.string.error_msg), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, getString(R.string.error_msg), Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }
@@ -261,7 +269,7 @@ class TelaPesquisar : AppCompatActivity(), View.OnClickListener {
          * onde ao clicá-lo será iniciada a tela Cadastrar para que o usuário possa adiocionar
          * um novo livro.
          * */
-        startActivity(Intent(this, TelaCadastrar::class.java))
+        startActivity(Intent(this, RegistryActivity::class.java))
         finish()
     }
 }

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  ~ Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
   -->
-
-
 
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,7 +12,7 @@
     android:isScrollContainer="true"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".activities.TelaPesquisar">
+    tools:context=".views.activities.SearchActivity">
 
     <ImageView
         android:layout_width="wrap_content"

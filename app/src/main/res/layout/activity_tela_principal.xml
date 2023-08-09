@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundcolor"
     android:orientation="vertical"
     android:paddingLeft="16dp"
-    android:background="?attr/backgroundcolor"
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
@@ -17,7 +16,7 @@
     android:scrollbarStyle="outsideOverlay"
     android:scrollbars="horizontal|vertical"
     android:soundEffectsEnabled="true"
-    tools:context=".activities.TelaPrincipal"
+    tools:context=".views.activities.MainActivity"
     tools:menu="@menu/menubar">
 
     <ScrollView
@@ -34,8 +33,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginBottom="20sp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:scrollbars="horizontal|vertical"
                 tools:ignore="UseCompoundDrawables">
@@ -47,10 +46,10 @@
                     android:src="@drawable/booklogo_img" />
 
                 <TextView
-                    android:layout_marginStart="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginStart="5dp"
                     android:text="@string/app_name"
                     android:textColor="?attr/textcolor"
                     android:textSize="@dimen/logo_text" />
@@ -92,9 +91,9 @@
                         android:id="@+id/rbPesquisarPorTitulo"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
+                        android:buttonTint="?attr/colorAccent"
                         android:checked="true"
                         android:text="@string/txt_titulo"
-                        android:buttonTint="?attr/colorAccent"
                         android:textColor="?attr/textcolor"
                         android:textSize="20sp" />
 
@@ -102,8 +101,8 @@
                         android:id="@+id/rbPesquisarPorAutor"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:text="@string/txt_autor"
                         android:buttonTint="?attr/colorAccent"
+                        android:text="@string/txt_autor"
                         android:textColor="?attr/textcolor"
                         android:textSize="20sp" />
 
@@ -111,8 +110,8 @@
                         android:id="@+id/rbPesquisarPorAno"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:text="@string/txt_ano"
                         android:buttonTint="?attr/colorAccent"
+                        android:text="@string/txt_ano"
                         android:textColor="?attr/textcolor"
                         android:textSize="20sp" />
 
@@ -120,8 +119,8 @@
                         android:id="@+id/rbPesquisarPorTodos"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"
-                        android:text="@string/txt_pesquisar_todos"
                         android:buttonTint="?attr/colorAccent"
+                        android:text="@string/txt_pesquisar_todos"
                         android:textColor="?attr/textcolor"
                         android:textSize="20sp" />
                 </RadioGroup>
@@ -131,14 +130,14 @@
                 android:id="@+id/edtPesquisar"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
+                android:backgroundTint="?attr/textColorHint"
+                android:ellipsize="end"
                 android:focusable="auto"
                 android:foregroundTint="?attr/backgroundcolor"
-                android:ellipsize="end"
                 android:hint="@string/hint_titulo"
                 android:importantForAutofill="no"
-                android:backgroundTint="?attr/textColorHint"
-                android:maxLength="100"
                 android:inputType="textCapWords"
+                android:maxLength="100"
                 android:textColor="?attr/textcolor"
                 android:textColorHighlight="?attr/textcolor"
                 android:textColorHint="@color/colorTextHint" />
@@ -146,9 +145,9 @@
             <Button
                 android:id="@+id/btnPesquisar"
                 android:layout_width="match_parent"
-                android:background="@drawable/layout_border"
                 android:layout_height="@dimen/button_height"
                 android:layout_marginBottom="10sp"
+                android:background="@drawable/layout_border"
                 android:contentDescription="@string/SearchButton_AccessDescription"
                 android:drawableEnd="@android:drawable/ic_menu_search"
                 android:text="@string/btn_Pesquisar"

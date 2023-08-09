@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  ~ Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +17,7 @@
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
     android:scrollbars="horizontal|vertical"
-    tools:context=".activities.TelaCadastrar">
+    tools:context=".views.activities.RegistryActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -58,9 +58,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
                 android:text="@string/txt_cadastrar"
                 android:textColor="?attr/textcolor"
-                android:drawablePadding="5dp"
                 android:textSize="28sp"
                 app:drawableStartCompat="@drawable/clipboard" />
 
@@ -81,12 +81,12 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/layout_border"
                 android:ellipsize="end"
-                android:padding="10dp"
                 android:hint="@string/hint_titulo"
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:inputType="textCapWords"
                 android:maxLength="100"
+                android:padding="10dp"
                 android:textColor="?attr/textcolor"
                 android:textColorHint="?attr/textColorHint"
                 android:textSize="24sp" />
@@ -110,10 +110,10 @@
                 android:ellipsize="end"
                 android:hint="@string/hint_autor"
                 android:imeOptions="actionNext"
-                android:padding="10dp"
                 android:importantForAutofill="no"
                 android:inputType="textCapWords|textPersonName"
                 android:maxLength="100"
+                android:padding="10dp"
                 android:textColor="?attr/textcolor"
                 android:textColorHint="?attr/textColorHint"
                 android:textSize="24sp" />
@@ -136,11 +136,11 @@
                 android:layout_marginTop="4dp"
                 android:background="@drawable/layout_border"
                 android:hint="@string/hint_ano"
-                android:importantForAutofill="no"
                 android:imeOptions="actionSend"
-                android:padding="10dp"
+                android:importantForAutofill="no"
                 android:inputType="number"
                 android:maxLength="4"
+                android:padding="10dp"
                 android:singleLine="true"
                 android:soundEffectsEnabled="true"
                 android:textColor="?attr/textcolor"

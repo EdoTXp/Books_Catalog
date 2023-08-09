@@ -1,7 +1,7 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.customview
+package com.libry_book.books_catalog.views.customview
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -20,18 +20,17 @@ import android.widget.Toast
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.BiblioLivro.criarlivros.R
-import com.BiblioLivro.criarlivros.activities.WindowPopUp
-import com.BiblioLivro.criarlivros.gestores.GestorVibrator.vibrate
-import com.BiblioLivro.criarlivros.model.BookItem
-import com.BiblioLivro.criarlivros.model.Order
-import com.BiblioLivro.criarlivros.storage.DatabaseHelper
+import com.libry_book.books_catalog.R
+import com.libry_book.books_catalog.gestores.GestorVibrator.vibrate
+import com.libry_book.books_catalog.models.BookItem
+import com.libry_book.books_catalog.models.Order
+import com.libry_book.books_catalog.storage.DatabaseHelper
+import com.libry_book.books_catalog.views.activities.WindowPopUp
 import java.text.Normalizer
 import java.util.*
 
 class BookComponentAdapter
-
- (private val mContext: Context, private val bookItems: ArrayList<BookItem>) :
+    (private val mContext: Context, private val bookItems: ArrayList<BookItem>) :
     RecyclerView.Adapter<BookViewHolder>() {
     private lateinit var view: View
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
@@ -58,7 +57,8 @@ class BookComponentAdapter
                 ${v.resources.getString(R.string.txt_autor)}: ${bookItems[holder.adapterPosition].authorName}
                 ${v.resources.getString(R.string.txt_ano)}: ${bookItems[holder.adapterPosition].bookYear}
                 """.trimIndent()
-            val bookUrl = v.resources.getString(R.string.Google_Search)+bookItems[holder.adapterPosition].bookTitle + ", " + bookItems[holder.adapterPosition].authorName
+            val bookUrl =
+                v.resources.getString(R.string.Google_Search) + bookItems[holder.adapterPosition].bookTitle + ", " + bookItems[holder.adapterPosition].authorName
             val windowPopUp = WindowPopUp()
             windowPopUp.showPopUpWindow(v, bookUrl, shareBook, (v.context as AppCompatActivity))
             true
@@ -155,11 +155,13 @@ class BookComponentAdapter
                 editDialog.setTitle(R.string.txt_titulo)
                 textToChange.setHint(R.string.hint_titulo)
             }
+
             1 -> {
                 editDialog.setIcon(R.drawable.author_img)
                 editDialog.setTitle(R.string.txt_autor)
                 textToChange.setHint(R.string.hint_autor)
             }
+
             else -> {
                 editDialog.setIcon(R.drawable.calendar_img)
                 editDialog.setTitle(R.string.txt_ano)
@@ -181,16 +183,19 @@ class BookComponentAdapter
                             db.update(bookItems[position].id, cv)
                             bookItems[position].bookTitle = textToChange.text.toString()
                         }
+
                         1 -> {
                             cv.put("autor", textToChange.text.toString())
                             db.update(bookItems[position].id, cv)
                             bookItems[position].authorName = textToChange.text.toString()
                         }
+
                         2 -> {
                             cv.put("ano", textToChange.text.toString())
                             db.update(bookItems[position].id, cv)
                             bookItems[position].bookYear = textToChange.text.toString().toInt()
                         }
+
                         else -> {}
                     }
                     notifyItemChanged(position)
@@ -255,6 +260,7 @@ class BookComponentAdapter
                                 Normalizer.Form.NFD
                             )
                         )
+
                     2 -> if (order === Order.ASCENDANT) // ascendente
                         return@sortWith Normalizer.normalize(
                             o1.authorName.uppercase(Locale.getDefault()),
@@ -276,9 +282,11 @@ class BookComponentAdapter
                                     Normalizer.Form.NFD
                                 )
                             )
+
                     3 -> if (order === Order.ASCENDANT) // ascendente
                         return@sortWith o1.bookYear.compareTo(o2.bookYear) else  // descendente
                         return@sortWith o2.bookYear.compareTo(o1.bookYear)
+
                     else -> return@sortWith 0
                 }
             } else return@sortWith 0

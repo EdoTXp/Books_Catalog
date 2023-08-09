@@ -8,7 +8,7 @@ apply plugin: 'org.jetbrains.kotlin.android'
 android {
     compileSdkVersion 33
     defaultConfig {
-        applicationId "com.BiblioLivro.criarlivros"
+        applicationId "com.libry_book.books_catalog"
         minSdkVersion 22
         targetSdkVersion 33
         versionCode 7
@@ -21,7 +21,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    namespace 'com.BiblioLivro.criarlivros'
+    namespace 'com.libry_book.books_catalog'
 }
 
 dependencies {

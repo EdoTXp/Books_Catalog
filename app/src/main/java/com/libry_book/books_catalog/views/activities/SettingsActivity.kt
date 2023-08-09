@@ -1,26 +1,25 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.activities
+package com.libry_book.books_catalog.views.activities
 
-import androidx.appcompat.app.AppCompatActivity
-import android.widget.RadioGroup
-import com.BiblioLivro.criarlivros.storage.SharedPreferencesTheme
-import android.os.Bundle
-import com.BiblioLivro.criarlivros.R
 import android.content.DialogInterface
 import android.content.res.Resources
-import android.widget.Toast
-import com.BiblioLivro.criarlivros.gestores.GestorVibrator
-
 import android.os.Build
+import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.RadioGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.libry_book.books_catalog.R
+import com.libry_book.books_catalog.gestores.GestorVibrator
+import com.libry_book.books_catalog.storage.SharedPreferencesTheme
 import java.io.File
 import java.util.*
 
-class TelaImpostacoes : AppCompatActivity(), View.OnClickListener {
+class SettingsActivity : AppCompatActivity(), View.OnClickListener {
     // ATRIBUTOS
     private lateinit var radioGroupLanguage: RadioGroup
     private lateinit var radioGroupTheme: RadioGroup
@@ -53,22 +52,26 @@ class TelaImpostacoes : AppCompatActivity(), View.OnClickListener {
             /*
              * Aplicar o tema com base na escolha do RadioButton
              *  */when (checkedId) {
-                 R.id.rb_lightTheme -> {
-                     preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_LIGHT
-                 }
-                 R.id.rb_darkTheme -> {
-                     preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_DARK
-                 }
-                 R.id.rb_batteryTheme -> {
-                     preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_BATTERY
-                 }
-                 R.id.rb_systemTheme -> {
-                     preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_SYSTEM
-                 }
-                 else -> {
-                     return@setOnCheckedChangeListener
-                 }
-             }
+            R.id.rb_lightTheme -> {
+                preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_LIGHT
+            }
+
+            R.id.rb_darkTheme -> {
+                preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_DARK
+            }
+
+            R.id.rb_batteryTheme -> {
+                preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_BATTERY
+            }
+
+            R.id.rb_systemTheme -> {
+                preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_SYSTEM
+            }
+
+            else -> {
+                return@setOnCheckedChangeListener
+            }
+        }
             // depois de selecionar o tema, será envocado o método setTheme()
             preferencesTheme.setAppTheme()
         }

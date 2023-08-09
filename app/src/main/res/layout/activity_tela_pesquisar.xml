@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  ~ Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,7 +12,7 @@
     android:isScrollContainer="true"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".activities.TelaPesquisar">
+    tools:context=".views.activities.SearchActivity">
 
 
     <TextView
@@ -21,11 +21,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
+        android:drawablePadding="5dp"
         android:text="@string/txt_pesquisar"
         android:textColor="?attr/textcolor"
-        android:drawablePadding="5dp"
         android:textSize="26sp"
-        app:drawableStartCompat="@drawable/book_founded" />
+        app:drawableStartCompat="@drawable/book_founded_img" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -47,11 +47,11 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
             android:clickable="true"
+            android:contentDescription="@string/description_floatingActionButton"
             android:focusable="true"
             android:visibility="invisible"
             app:backgroundTint="?attr/textcolor"
             app:fabSize="mini"
-            android:contentDescription="@string/description_floatingActionButton"
             app:srcCompat="@android:drawable/arrow_up_float" />
 
     </RelativeLayout>

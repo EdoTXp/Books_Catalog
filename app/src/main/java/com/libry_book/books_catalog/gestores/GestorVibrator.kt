@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.gestores
+package com.libry_book.books_catalog.gestores
 
 import android.content.Context
-import android.os.Vibrator
 import android.os.Build
 import android.os.VibrationEffect
+import android.os.Vibrator
 import android.os.VibratorManager
 
 object GestorVibrator {
@@ -17,10 +17,11 @@ object GestorVibrator {
     @Suppress("DEPRECATION")
     @JvmStatic
     fun vibrate(milliseconds: Long, context: Context) {
-        val vibrator : Vibrator
+        val vibrator: Vibrator
         when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                val vibratorManager = context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                val vibratorManager =
+                    context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
                 vibrator = vibratorManager.defaultVibrator
                 vibrator.vibrate(
                     VibrationEffect.createOneShot(
@@ -29,6 +30,7 @@ object GestorVibrator {
                     )
                 )
             }
+
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
                 vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 vibrator.vibrate(
@@ -38,6 +40,7 @@ object GestorVibrator {
                     )
                 )
             }
+
             else -> {
                 vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 vibrator.vibrate(milliseconds)

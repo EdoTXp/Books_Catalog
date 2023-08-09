@@ -1,25 +1,25 @@
 /*
- * Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+ * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.activities
+package com.libry_book.books_catalog.views.activities
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
-import android.view.LayoutInflater
-import com.BiblioLivro.criarlivros.R
-import android.widget.LinearLayout
-import android.graphics.drawable.ColorDrawable
-import android.view.Gravity
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.PopupWindow
+import androidx.appcompat.app.AppCompatActivity
+import com.libry_book.books_catalog.R
 
 class WindowPopUp {
-    fun showPopUpWindow(view: View, URL: String?, share: String?, activity: AppCompatActivity) {
+    fun showPopUpWindow(view: View, url: String?, share: String?, activity: AppCompatActivity) {
 
         // recebendo o service para preencher
         val inflater = (view.context
@@ -58,7 +58,7 @@ class WindowPopUp {
             activity.startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse(URL)
+                    Uri.parse(url)
                 )
             )
             popupWindow.dismiss()

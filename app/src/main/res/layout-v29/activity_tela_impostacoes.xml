@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
+  ~ Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +13,7 @@
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context=".activities.TelaImpostacoes">
+    tools:context=".views.activities.SettingsActivity">
 
 
     <ScrollView

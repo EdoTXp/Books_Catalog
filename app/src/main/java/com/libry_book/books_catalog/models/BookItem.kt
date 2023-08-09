@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.BiblioLivro.criarlivros.model
+package com.libry_book.books_catalog.models
 
 class BookItem(val id: Int, var bookTitle: String, var authorName: String, var bookYear: Int)
