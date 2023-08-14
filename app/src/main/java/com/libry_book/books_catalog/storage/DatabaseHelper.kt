@@ -37,21 +37,21 @@ class DatabaseHelper(context: Context?) :
         db.delete(DATABASE_NAME, "id LIKE ?", arrayOf("%$id%"))
     }
 
-    fun searchByTitle(titulo: String): List<ContentValues> {
+    fun searchByTitle(title: String): List<ContentValues> {
         val sql = "SELECT * FROM catalogo WHERE titulo LIKE ?"
-        val where = arrayOf("%$titulo%")
+        val where = arrayOf("%$title%")
         return search(sql, where)
     }
 
-    fun searchByAuthor(autor: String): List<ContentValues> {
+    fun searchByAuthor(author: String): List<ContentValues> {
         val sql = "SELECT * FROM catalogo WHERE autor LIKE ?"
-        val where = arrayOf("%$autor%")
+        val where = arrayOf("%$author%")
         return search(sql, where)
     }
 
-    fun searchByYear(ano: Int): List<ContentValues> {
+    fun searchByYear(year: Int): List<ContentValues> {
         val sql = "SELECT * FROM catalogo WHERE ano=?"
-        val where = arrayOf(ano.toString())
+        val where = arrayOf(year.toString())
         return search(sql, where)
     }
 

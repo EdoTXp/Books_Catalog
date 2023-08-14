@@ -5,10 +5,6 @@ package com.libry_book.books_catalog.views.activities
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.app.NotificationManager
-import android.content.ContentValues
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -20,17 +16,20 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
 import com.libry_book.books_catalog.R
-import com.libry_book.books_catalog.gestores.GestorNotification
 import com.libry_book.books_catalog.gestores.GestorVibrator
-import com.libry_book.books_catalog.storage.DatabaseHelper
 import com.libry_book.books_catalog.storage.SharedPreferencesTheme
+import com.libry_book.books_catalog.viewmodel.RegistryViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegistryActivity : AppCompatActivity(), View.OnClickListener {
     //ATRIBUTOS
     private lateinit var edtTitleBook: EditText
     private lateinit var edtAuthorBook: EditText
     private lateinit var edtYearBook: EditText
+    private lateinit var registryViewModel: RegistryViewModel
     private var clickEventIsClicked =
         false //variável utilizada para saber se já foi clicado mais de uma vez
 
@@ -48,7 +47,7 @@ class RegistryActivity : AppCompatActivity(), View.OnClickListener {
         edtTitleBook = findViewById(R.id.edtTitulo)
         edtAuthorBook = findViewById(R.id.edtAutor)
         edtYearBook = findViewById(R.id.edtAno)
-
+        registryViewModel = ViewModelProvider(this)[RegistryViewModel::class.java]
         //EVENTOS
         /*
          * Método para fazer o cadastro usando o teclado do dispositivo
@@ -69,8 +68,8 @@ class RegistryActivity : AppCompatActivity(), View.OnClickListener {
         btnSave.setOnClickListener(this)
     }
 
-    override fun onClick(v: View) {
-        if (v.id == R.id.btnSalvar && !clickEventIsClicked) {
+    override fun onClick(view: View) {
+        if (view.id == R.id.btnSalvar && !clickEventIsClicked) {
             //clickEventIsClicked vira true
             clickEventIsClicked = true
 
@@ -87,20 +86,12 @@ class RegistryActivity : AppCompatActivity(), View.OnClickListener {
             val year = checkEditText(edtYearBook)
 
             if (title && author && year) {
-                //Criação do ContentValues e preenchendo com os valores definidos pelo usuário e limpando todos os espaços em branco.
-                val cv = ContentValues()
-                cv.put("titulo", edtTitleBook.text.toString())
-                cv.put("autor", edtAuthorBook.text.toString())
-                cv.put("ano", edtYearBook.text.toString())
-
-                /* Criando a conexão com o database e passando o ContentValues para a inserção de dados.
-                 * Se a operação ocorrer com sucesso, será imprimido a notificação e será limpado os campos.
-                 * Caso contrário, será exibida uma mensagem de erro.
-                 */
-                val dh = DatabaseHelper(this)
-                if (dh.insert(cv) > 0) {
+                val titleBook = edtTitleBook.text.toString()
+                val authorBook = edtAuthorBook.text.toString()
+                val yearBook = edtYearBook.text.toString()
+                if (registryViewModel.registerBooks(titleBook, authorBook, yearBook)) {
                     //imprimir a notificação
-                    printNotification()
+                    // printNotification()
 
                     // limpando os campos e passando o foco ao edtTitleBook
                     edtTitleBook.setText("")
@@ -109,11 +100,11 @@ class RegistryActivity : AppCompatActivity(), View.OnClickListener {
                     edtTitleBook.requestFocus()
                 } else {
                     val msg = getString(R.string.error_msg)
-                    GestorVibrator.vibrate(100L, v.context)
+                    GestorVibrator.vibrate(100L, view.context)
                     Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
                 }
             } else {
-                GestorVibrator.vibrate(100L, v.context)
+                GestorVibrator.vibrate(100L, view.context)
             }
 
             // handler utilizado para dar um delay ao evento de clicar para previnir multiplos cliques
@@ -167,38 +158,38 @@ class RegistryActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun printNotification() {
+    /*  private fun printNotification() {
 
-        // TODO Correge l'errore della notifica quando usa Android 13
+          // TODO Correge l'errore della notifica quando usa Android 13
 
-        val bodyTextNotification =
-            getString(R.string.Notification_Text_1) + " \"" + edtTitleBook.text.toString() + "\" " + getString(
-                R.string.Notification_Text_2
-            )
-        val notification = GestorNotification(
-            this,
-            R.drawable.transparent_icon_app,
-            getString(R.string.Notification_Title),
-            bodyTextNotification,
-            2
-        )
-        notification.setColor(R.color.colorPrimary)
-        notification.setDurationVibrate(longArrayOf(0L, 200L, 150L, 200L))
-        notification.setSound(
-            Uri.parse(
-                "android.resource://"
-                        + baseContext.packageName
-                        + "/"
-                        + R.raw.recycle
-            )
-        )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            notification.createChannelId(
-                getString(R.string.Notification_Channel),
-                getString(R.string.Notification_Description),
-                getSystemService(NotificationManager::class.java)
-            )
-        }
-        notification.printNotification()
-    }
+          val bodyTextNotification =
+              getString(R.string.Notification_Text_1) + " \"" + edtTitleBook.text.toString() + "\" " + getString(
+                  R.string.Notification_Text_2
+              )
+          val notification = GestorNotification(
+              this,
+              R.drawable.transparent_icon_app,
+              getString(R.string.Notification_Title),
+              bodyTextNotification,
+              2
+          )
+          notification.setColor(R.color.colorPrimary)
+          notification.setDurationVibrate(longArrayOf(0L, 200L, 150L, 200L))
+          notification.setSound(
+              Uri.parse(
+                  "android.resource://"
+                          + baseContext.packageName
+                          + "/"
+                          + R.raw.recycle
+              )
+          )
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+              notification.createChannelId(
+                  getString(R.string.Notification_Channel),
+                  getString(R.string.Notification_Description),
+                  getSystemService(NotificationManager::class.java)
+              )
+          }
+          notification.printNotification()
+      }*/
 }
