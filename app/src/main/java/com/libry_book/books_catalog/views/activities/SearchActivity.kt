@@ -22,7 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.libry_book.books_catalog.R
 import com.libry_book.books_catalog.models.BookItem
 import com.libry_book.books_catalog.models.Order
-import com.libry_book.books_catalog.storage.DatabaseHelper
+import com.libry_book.books_catalog.storage.DatabaseHelperImpl
 import com.libry_book.books_catalog.storage.SharedPreferencesTheme
 import com.libry_book.books_catalog.views.customview.BookComponentAdapter
 
@@ -144,23 +144,23 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
         //realização da busca por Título
         when (tipo) {
             R.id.rbPesquisarPorTitulo -> {
-                booksList = DatabaseHelper(this).searchByTitle(chave)
+                booksList = DatabaseHelperImpl(this).searchByTitle(chave)
             }
 
             R.id.rbPesquisarPorAno -> {
                 booksList = try {
-                    DatabaseHelper(this).searchByYear(chave.toInt())
+                    DatabaseHelperImpl(this).searchByYear(chave.toInt())
                 } catch (e: Exception) {
-                    DatabaseHelper(this).searchAll()
+                    DatabaseHelperImpl(this).searchAll()
                 }
             }
 
             R.id.rbPesquisarPorAutor -> {
-                booksList = DatabaseHelper(this).searchByAuthor(chave)
+                booksList = DatabaseHelperImpl(this).searchByAuthor(chave)
             }
 
             R.id.rbPesquisarPorTodos -> {
-                booksList = DatabaseHelper(this).searchAll()
+                booksList = DatabaseHelperImpl(this).searchAll()
             }
         }
         return booksList

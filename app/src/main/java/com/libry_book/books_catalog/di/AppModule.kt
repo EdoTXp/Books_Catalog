@@ -8,6 +8,7 @@ import android.app.Application
 import com.libry_book.books_catalog.repositories.BookRepository
 import com.libry_book.books_catalog.repositories.BookRepositoryImpl
 import com.libry_book.books_catalog.storage.DatabaseHelper
+import com.libry_book.books_catalog.storage.DatabaseHelperImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +21,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideBookDatabase(appContext: Application): DatabaseHelper {
-        return DatabaseHelper(appContext)
+        return DatabaseHelperImpl(appContext)
     }
 
     @Provides

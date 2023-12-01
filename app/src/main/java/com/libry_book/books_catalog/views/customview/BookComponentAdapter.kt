@@ -24,7 +24,7 @@ import com.libry_book.books_catalog.R
 import com.libry_book.books_catalog.gestores.GestorVibrator.vibrate
 import com.libry_book.books_catalog.models.BookItem
 import com.libry_book.books_catalog.models.Order
-import com.libry_book.books_catalog.storage.DatabaseHelper
+import com.libry_book.books_catalog.storage.DatabaseHelperImpl
 import com.libry_book.books_catalog.views.activities.WindowPopUp
 import java.text.Normalizer
 import java.util.*
@@ -108,7 +108,7 @@ class BookComponentAdapter
             )
             anim.duration = 300
             view.startAnimation(anim)
-            val db = DatabaseHelper(view.context)
+            val db = DatabaseHelperImpl(view.context)
             val actualPosition = itemCount
             db.delete(bookItems[position].id)
             bookItems.removeAt(position)
@@ -175,7 +175,7 @@ class BookComponentAdapter
         editDialog.setPositiveButton(R.string.btn_Accept) { _: DialogInterface?, _: Int ->
             if (textToChange.text.toString() != "") {
                 try {
-                    val db = DatabaseHelper(view.context)
+                    val db = DatabaseHelperImpl(view.context)
                     val cv = ContentValues()
                     when (choose) {
                         0 -> {

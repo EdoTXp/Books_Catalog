@@ -26,7 +26,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.libry_book.books_catalog.BuildConfig
 import com.libry_book.books_catalog.R
 import com.libry_book.books_catalog.gestores.GestorVibrator
-import com.libry_book.books_catalog.storage.DatabaseHelper
+import com.libry_book.books_catalog.storage.DatabaseHelperImpl
 import com.libry_book.books_catalog.storage.SharedPreferencesTheme
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
             }
 
             //Criar a nova Intent para a nova Tela Pesquisar se existir algum dado
-            if (DatabaseHelper(this).tableIsExist()) {
+            if (DatabaseHelperImpl(this).tableIsExist()) {
                 it = Intent(this, SearchActivity::class.java)
                 it.putExtra("tipo", rdgSearchBy.checkedRadioButtonId)
                 it.putExtra("chave", edtSearch.text.toString())
