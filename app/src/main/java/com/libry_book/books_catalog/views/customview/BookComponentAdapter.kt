@@ -227,7 +227,7 @@ class BookComponentAdapter
     /**
      * Os livros serão ordenados pelos (título, autor e ano) em ordem (ascendente e descendente)
      *
-     * @param order_by vai dos números 1 ao 3 onde:
+     * @param orderBy vai dos números 1 ao 3 onde:
      * 1 - título do livro.
      * 2 - autor do livro.
      * 3 - ano do livro.
@@ -236,10 +236,10 @@ class BookComponentAdapter
      * DESCENDANT - em descendente.
      */
     @SuppressLint("NotifyDataSetChanged")
-    fun setSortOfAdapterView(@IntRange(from = 1, to = 3) order_by: Int, order: Order) {
+    fun setSortOfAdapterView(@IntRange(from = 1, to = 3) orderBy: Int, order: Order) {
         bookItems.sortWith { o1: BookItem, o2: BookItem ->
             if (bookItems.size > 1) {
-                when (order_by) {
+                when (orderBy) {
                     1 -> if (order === Order.ASCENDANT) // ascendente
                         return@sortWith Normalizer.normalize(
                             o1.bookTitle.uppercase(Locale.getDefault()),

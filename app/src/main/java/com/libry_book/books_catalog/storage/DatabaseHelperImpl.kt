@@ -9,7 +9,12 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
 class DatabaseHelperImpl(context: Context?) :
-    SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION), DatabaseHelper {
+    SQLiteOpenHelper(
+        context,
+        DATABASE_NAME,
+        null,
+        DATABASE_VERSION,
+    ), DatabaseHelper {
 
     companion object {
         private const val DATABASE_NAME = "catalogo"

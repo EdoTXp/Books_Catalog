@@ -18,33 +18,20 @@ object GestorVibrator {
     @JvmStatic
     fun vibrate(milliseconds: Long, context: Context) {
         val vibrator: Vibrator
-        when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                val vibratorManager =
-                    context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
-                vibrator = vibratorManager.defaultVibrator
-                vibrator.vibrate(
-                    VibrationEffect.createOneShot(
-                        milliseconds,
-                        VibrationEffect.DEFAULT_AMPLITUDE
-                    )
-                )
-            }
 
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> {
-                vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                vibrator.vibrate(
-                    VibrationEffect.createOneShot(
-                        milliseconds,
-                        VibrationEffect.DEFAULT_AMPLITUDE
-                    )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vibratorManager =
+                context.getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vibrator = vibratorManager.defaultVibrator
+            vibrator.vibrate(
+                VibrationEffect.createOneShot(
+                    milliseconds,
+                    VibrationEffect.DEFAULT_AMPLITUDE
                 )
-            }
-
-            else -> {
-                vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                vibrator.vibrate(milliseconds)
-            }
+            )
+        } else {
+            vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            vibrator.vibrate(milliseconds)
         }
     }
 }

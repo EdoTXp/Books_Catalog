@@ -5,7 +5,6 @@ package com.libry_book.books_catalog.views.activities
 
 import android.content.DialogInterface
 import android.content.res.Resources
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -126,12 +125,8 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
 
     private val defaultLanguage: Unit
         get() {
-            val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                Resources.getSystem().configuration.locales[0]
-            } else {
-                @Suppress("DEPRECATION")
-                Resources.getSystem().configuration.locale
-            }
+            val locale: Locale = Resources.getSystem().configuration.locales[0]
+
             when (locale.language) {
                 "en" -> radioGroupLanguage.check(R.id.rb_english)
                 "it" -> radioGroupLanguage.check(R.id.rb_italy)
