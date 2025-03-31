@@ -18,8 +18,7 @@
 
         <activity
             android:name=".views.activities.MainActivity"
-            android:exported="true"
-            android:screenOrientation="fullSensor">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -29,8 +28,7 @@
         <activity
             android:name=".views.activities.RegistryActivity"
             android:label="@string/title_activity_tela_cadastrar"
-            android:parentActivityName=".views.activities.MainActivity"
-            android:screenOrientation="fullSensor">
+            android:parentActivityName=".views.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.activities.MainActivity" />
@@ -49,8 +47,7 @@
         <activity
             android:name=".views.activities.SettingsActivity"
             android:label="@string/menu_settings"
-            android:parentActivityName=".views.activities.MainActivity"
-            android:screenOrientation="fullSensor">
+            android:parentActivityName=".views.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".views.activities.MainActivity" />
