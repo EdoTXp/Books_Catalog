@@ -7,22 +7,20 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.edit
 
-class SharedPreferencesTheme(context: Context) {
-    private val preferences: SharedPreferences
-    private val context: Context
-
-    init {
-        preferences = context.getSharedPreferences("theme", Context.MODE_PRIVATE)
-        this.context = context
-    }
+class SharedPreferencesTheme(private val context: Context) {
+    private val preferences: SharedPreferences = context.getSharedPreferences(
+        "theme",
+        Context.MODE_PRIVATE,
+    )
 
     var checkedButton
         get() = preferences.getInt("NightModeChoice", THEME_UNDEFINED)
         set(button) {
-            val editor = preferences.edit()
-            editor.putInt("NightModeChoice", button)
-            editor.apply()
+            preferences.edit {
+                putInt("NightModeChoice", button)
+            }
         }
 
     fun setAppTheme() {

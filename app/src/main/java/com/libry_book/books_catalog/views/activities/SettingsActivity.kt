@@ -95,18 +95,19 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
          *
          * */
         if (v.id == R.id.btn_clear_data) {
-            val clearDataBuilder = AlertDialog.Builder(v.context)
-            clearDataBuilder.setTitle(R.string.btn_clear_data)
-            clearDataBuilder.setMessage(R.string.alert_dialog_message)
-            clearDataBuilder.setIcon(R.drawable.transparent_icon_app)
-            clearDataBuilder.setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
-                clearApplicationData()
-                Toast.makeText(baseContext, getString(R.string.success_msg), Toast.LENGTH_LONG)
-                    .show()
-                GestorVibrator.vibrate(100L, baseContext)
-            }
-            clearDataBuilder.setNegativeButton(R.string.no, null)
-            clearDataBuilder.show()
+            AlertDialog.Builder(v.context)
+                .setTitle(R.string.btn_clear_data)
+                .setMessage(R.string.alert_dialog_message)
+                .setIcon(R.drawable.transparent_icon_app)
+                .setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
+                    clearApplicationData()
+                    Toast.makeText(baseContext, getString(R.string.success_msg), Toast.LENGTH_LONG)
+                        .show()
+                    GestorVibrator.vibrate(100L, baseContext)
+                }
+                .setNegativeButton(R.string.no, null)
+                .create()
+                .show()
         }
     }
 

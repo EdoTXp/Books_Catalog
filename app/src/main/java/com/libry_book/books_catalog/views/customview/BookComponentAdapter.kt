@@ -6,7 +6,6 @@ package com.libry_book.books_catalog.views.customview
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.ContentValues
-import android.content.Context
 import android.content.DialogInterface
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
@@ -16,6 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
@@ -29,14 +30,34 @@ import com.libry_book.books_catalog.views.activities.WindowPopUp
 import java.text.Normalizer
 import java.util.*
 
-class BookComponentAdapter
-    (private val mContext: Context, private val bookItems: ArrayList<BookItem>) :
-    RecyclerView.Adapter<BookViewHolder>() {
-    private lateinit var view: View
+class BookComponentAdapter(
+    //  private val mContext: Context,
+    private val bookItems: ArrayList<BookItem>,
+) :
+    RecyclerView.Adapter<BookComponentAdapter.BookViewHolder>() {
+    private lateinit var itemView: View
+
+    inner class BookViewHolder internal constructor(itemView: View) :
+        RecyclerView.ViewHolder(itemView) {
+
+        val txtId: TextView = itemView.findViewById(R.id.book_component_ID)
+        val txtTitulo: TextView = itemView.findViewById(R.id.txt_titlebookcomponent)
+        val txtAutor: TextView = itemView.findViewById(R.id.txtauthorbookcomponent)
+        val txtAno: TextView = itemView.findViewById(R.id.txt_anobookcomponent)
+        val imgEdit: ImageView = itemView.findViewById(R.id.img_bookedit)
+        val imgExcluir: ImageView = itemView.findViewById(R.id.img_bookdelete)
+    }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookViewHolder {
-        val inflater = LayoutInflater.from(mContext)
-        view = inflater.inflate(R.layout.book_component, parent, false)
-        return BookViewHolder(view)
+        val inflater = LayoutInflater.from(parent.context)
+
+        itemView = inflater.inflate(
+            R.layout.book_component,
+            parent,
+            false,
+        )
+        return BookViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
@@ -49,7 +70,7 @@ class BookComponentAdapter
         holder.txtAno.text = bookItems[position].bookYear.toString()
 
         // adicionando eventos
-        view.setOnLongClickListener { v: View ->
+        itemView.setOnLongClickListener { v: View ->
             vibrate(100L, v.context)
             val shareBook = """
                 ${v.resources.getString(R.string.txt_id)}: ${bookItems[holder.adapterPosition].id}
@@ -93,7 +114,7 @@ class BookComponentAdapter
             deleteDialog.show()
         }
         val animation = AnimationUtils.loadAnimation(
-            view.context, android.R.anim.slide_in_left
+            itemView.context, android.R.anim.slide_in_left
         )
         holder.itemView.startAnimation(animation)
     }
@@ -104,22 +125,22 @@ class BookComponentAdapter
          */
         try {
             val anim = AnimationUtils.loadAnimation(
-                view.context, android.R.anim.slide_out_right
+                itemView.context, android.R.anim.slide_out_right
             )
             anim.duration = 300
-            view.startAnimation(anim)
-            val db = DatabaseHelperImpl(view.context)
+            itemView.startAnimation(anim)
+            val db = DatabaseHelperImpl(itemView.context)
             val actualPosition = itemCount
             db.delete(bookItems[position].id)
             bookItems.removeAt(position)
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, actualPosition)
-            vibrate(100L, view.context)
-            Toast.makeText(view.context, R.string.success_msg, Toast.LENGTH_SHORT).show()
+            vibrate(100L, itemView.context)
+            Toast.makeText(itemView.context, R.string.success_msg, Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            vibrate(100L, view.context)
+            vibrate(100L, itemView.context)
             Toast.makeText(
-                view.context,
+                itemView.context,
                 R.string.error_msg
                     .toString() + "\n"
                         + e,
@@ -138,10 +159,10 @@ class BookComponentAdapter
      */
     private fun editElementAt(position: Int, @IntRange(from = 0, to = 2) choose: Int) {
         // criação do AlertDialog
-        val editDialog = AlertDialog.Builder(view.context)
+        val editDialog = AlertDialog.Builder(itemView.context)
         editDialog.setMessage(R.string.fill_field_bellow)
         // criação do EditText
-        val textToChange = EditText(view.context)
+        val textToChange = EditText(itemView.context)
         //adicionando um filtro para o editText limitando para 100 caractéres
         textToChange.filters = arrayOf<InputFilter>(LengthFilter(100))
 
@@ -175,7 +196,7 @@ class BookComponentAdapter
         editDialog.setPositiveButton(R.string.btn_Accept) { _: DialogInterface?, _: Int ->
             if (textToChange.text.toString() != "") {
                 try {
-                    val db = DatabaseHelperImpl(view.context)
+                    val db = DatabaseHelperImpl(itemView.context)
                     val cv = ContentValues()
                     when (choose) {
                         0 -> {
@@ -199,25 +220,26 @@ class BookComponentAdapter
                         else -> {}
                     }
                     notifyItemChanged(position)
-                    vibrate(100L, view.context)
-                    Toast.makeText(view.context, R.string.success_msg, Toast.LENGTH_SHORT).show()
+                    vibrate(100L, itemView.context)
+                    Toast.makeText(itemView.context, R.string.success_msg, Toast.LENGTH_SHORT)
+                        .show()
                 } catch (e: Exception) {
-                    vibrate(100L, view.context)
+                    vibrate(100L, itemView.context)
                     Toast.makeText(
-                        view.context,
+                        itemView.context,
                         R.string.error_msg
                             .toString() + "\n"
                                 + e,
                         Toast.LENGTH_LONG
                     ).show()
                 }
-            } else Toast.makeText(view.context, R.string.email_notextinsert, Toast.LENGTH_SHORT)
+            } else Toast.makeText(itemView.context, R.string.email_notextinsert, Toast.LENGTH_SHORT)
                 .show()
         }
         editDialog.setNegativeButton(R.string.email_btn_cancel) { _: DialogInterface?, _: Int ->
             Toast.makeText(
-                view.context,
-                view.resources.getString(R.string.canceled_operation),
+                itemView.context,
+                itemView.resources.getString(R.string.canceled_operation),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -294,11 +316,8 @@ class BookComponentAdapter
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int {
-        return bookItems.size
-    }
+    override fun getItemCount(): Int = bookItems.size
 
-    fun itemIsEmpty(): Boolean {
-        return itemCount == 0
-    }
+    fun itemsIsEmpty(): Boolean = bookItems.isEmpty()
+
 }

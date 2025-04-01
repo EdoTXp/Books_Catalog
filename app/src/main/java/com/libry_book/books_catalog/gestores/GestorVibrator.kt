@@ -15,7 +15,7 @@ object GestorVibrator {
      * @param context:      receber o SystemService
      */
     @Suppress("DEPRECATION")
-    @JvmStatic
+
     fun vibrate(milliseconds: Long, context: Context) {
         val vibrator: Vibrator
 

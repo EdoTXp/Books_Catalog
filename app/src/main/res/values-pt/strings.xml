@@ -47,7 +47,7 @@
     <string name="menu_feedback">Críticas &amp; Sugestões</string>
     <string name="email_textHint">Escreva uma mensagem aqui dizendo o que você gostaria de ver ou algo que não funciona neste aplicativo.</string>
     <string name="logo_AccessDescription">Logo do App</string>
-    <string name="SearchButton_AccessDescription">Botão usado para pesquisar livros com base nas opções selecionadas anteriormente.</string>
+    <string name="SearchButton_AccessDescription">Pesquisar livros com base nas opções selecionadas anteriormente.</string>
     <string name="txt_AccessDescriptionYear">Campo a ser preenchido apenas com números, onde eles representam o ano. Exemplo: 2020.</string>
     <string name="txt_AccessDescriptionTitle">Campo para preencher o título do livro. O máximo de caracteres disponíveis é 100.</string>
     <string name="txt_AccessDescriptionAuthor">Campo para preencher o nome do autor do livro. O máximo de caracteres disponíveis é 100.</string>

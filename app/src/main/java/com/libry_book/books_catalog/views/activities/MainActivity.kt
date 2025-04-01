@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         //iniciando a splashscreen
         installSplashScreen()
 
-        setContentView(R.layout.activity_tela_principal)
+        setContentView(R.layout.activity_main)
 
         //ATRIBUTOS LOCAIS
         val btnRegister = findViewById<Button>(R.id.btnCadastrar)
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         var it: Intent? = null
         val id = v.id // Criar a Intent para a nova Tela Cadastrar
         if (id == R.id.btnCadastrar) {
-            it = Intent(this, RegistryActivity::class.java)
+            it = Intent(this, InsertBookActivity::class.java)
 
             /*
              * Abrir a nova Tela Pesquisar se o campo "edtPesquisar" estiver preenchido.

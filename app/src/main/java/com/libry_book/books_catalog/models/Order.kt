@@ -4,5 +4,6 @@
 package com.libry_book.books_catalog.models
 
 enum class Order {
-    DESCENDANT, ASCENDANT
+    DESCENDANT,
+    ASCENDANT,
 }

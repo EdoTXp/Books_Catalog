@@ -5,10 +5,13 @@
 package com.libry_book.books_catalog.viewmodel
 
 
+import android.Manifest
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.content.Context
 import android.text.TextUtils
 import android.widget.EditText
+import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import com.libry_book.books_catalog.R
@@ -19,12 +22,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class RegistryViewModel @Inject constructor(private val bookRepository: BookRepository) :
+class InsertBookViewModel @Inject constructor(private val bookRepository: BookRepository) :
     ViewModel() {
     private val notificationService = NotificationService()
 
 
-    fun registerBooks(titleBook: String, authorBook: String, yearBook: String): Boolean {
+    fun insertBook(titleBook: String, authorBook: String, yearBook: String): Boolean {
         return bookRepository.insert(titleBook, authorBook, yearBook) > 0
     }
 
@@ -74,8 +77,9 @@ class RegistryViewModel @Inject constructor(private val bookRepository: BookRepo
         }
     }
 
-    fun pushNotification(message: String) {
-        notificationService.execute(message)
+    @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
+    fun pushNotification(context: Context, textTitle: String, message: String) {
+        notificationService.execute(context, textTitle, message)
         print(message)
     }
 

@@ -59,11 +59,12 @@
             <Button
                 android:id="@+id/btnCadastrar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="20sp"
                 android:background="@drawable/layout_border"
                 android:drawableEnd="@android:drawable/ic_menu_add"
                 android:elegantTextHeight="false"
+                android:padding="8dp"
                 android:text="@string/txt_cadastrar"
                 android:textColor="?attr/textcolor"
                 android:textSize="20sp" />
@@ -89,7 +90,7 @@
 
                     <RadioButton
                         android:id="@+id/rbPesquisarPorTitulo"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:buttonTint="?attr/colorAccent"
                         android:checked="true"
@@ -99,7 +100,7 @@
 
                     <RadioButton
                         android:id="@+id/rbPesquisarPorAutor"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:buttonTint="?attr/colorAccent"
                         android:text="@string/txt_autor"
@@ -108,7 +109,7 @@
 
                     <RadioButton
                         android:id="@+id/rbPesquisarPorAno"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:buttonTint="?attr/colorAccent"
                         android:text="@string/txt_ano"
@@ -117,7 +118,7 @@
 
                     <RadioButton
                         android:id="@+id/rbPesquisarPorTodos"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:buttonTint="?attr/colorAccent"
                         android:text="@string/txt_pesquisar_todos"
@@ -145,11 +146,12 @@
             <Button
                 android:id="@+id/btnPesquisar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
                 android:background="@drawable/layout_border"
                 android:contentDescription="@string/SearchButton_AccessDescription"
                 android:drawableEnd="@android:drawable/ic_menu_search"
+                android:padding="8dp"
                 android:text="@string/btn_Pesquisar"
                 android:textAlignment="center"
                 android:textColor="?attr/textcolor"

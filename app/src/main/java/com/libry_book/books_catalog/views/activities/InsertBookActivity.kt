@@ -16,16 +16,16 @@ import androidx.lifecycle.ViewModelProvider
 import com.libry_book.books_catalog.R
 import com.libry_book.books_catalog.gestores.GestorVibrator
 import com.libry_book.books_catalog.storage.SharedPreferencesTheme
-import com.libry_book.books_catalog.viewmodel.RegistryViewModel
+import com.libry_book.books_catalog.viewmodel.InsertBookViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RegistryActivity : AppCompatActivity(), View.OnClickListener {
+class InsertBookActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var edtTitleBook: EditText
     private lateinit var edtAuthorBook: EditText
     private lateinit var edtYearBook: EditText
     private lateinit var btnSave: Button
-    private lateinit var registryViewModel: RegistryViewModel
+    private lateinit var insertBookViewModel: InsertBookViewModel
     private lateinit var sharedPreferencesTheme: SharedPreferencesTheme
 
     //variável utilizada para saber se já foi clicado mais de uma vez
@@ -34,7 +34,7 @@ class RegistryActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tela_cadastrar)
+        setContentView(R.layout.activity_insert_book)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         title = getString(R.string.title_activity_tela_cadastrar)
 
@@ -50,7 +50,7 @@ class RegistryActivity : AppCompatActivity(), View.OnClickListener {
         edtTitleBook = findViewById(R.id.edtTitulo)
         edtAuthorBook = findViewById(R.id.edtAutor)
         edtYearBook = findViewById(R.id.edtAno)
-        registryViewModel = ViewModelProvider(this)[RegistryViewModel::class.java]
+        insertBookViewModel = ViewModelProvider(this)[InsertBookViewModel::class.java]
 
         //EVENTOS
         /*
@@ -85,18 +85,20 @@ class RegistryActivity : AppCompatActivity(), View.OnClickListener {
             edtAuthorBook.setText(edtAuthorBook.text.toString().trim { it <= ' ' })
 
             //Valores para saber se o campo respectivo estiver vazio
-            val title = registryViewModel.checkEditText(edtTitleBook)
-            val author = registryViewModel.checkEditText(edtAuthorBook)
-            val year = registryViewModel.checkEditText(edtYearBook)
+            val title = insertBookViewModel.checkEditText(edtTitleBook)
+            val author = insertBookViewModel.checkEditText(edtAuthorBook)
+            val year = insertBookViewModel.checkEditText(edtYearBook)
 
             if (title && author && year) {
                 val titleBook = edtTitleBook.text.toString()
                 val authorBook = edtAuthorBook.text.toString()
                 val yearBook = edtYearBook.text.toString()
-                if (registryViewModel.registerBooks(titleBook, authorBook, yearBook)) {
+                if (insertBookViewModel.insertBook(titleBook, authorBook, yearBook)) {
                     //imprimir a notificação
                     // printNotification()
-                    registryViewModel.pushNotification(
+                    insertBookViewModel.pushNotification(
+                        this,
+                        "Livro inserido",
                         getString(R.string.Notification_Text_1) + " \"" + edtTitleBook.text.toString() + "\" " + getString(
                             R.string.Notification_Text_2
                         )

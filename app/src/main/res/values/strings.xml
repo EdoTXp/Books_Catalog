@@ -52,7 +52,7 @@
     <string name="menu_feedback">Critics &amp; Suggestions</string>
     <string name="email_textHint">Write a message here telling what you would like to see or something that doesn\'t work in this app.</string>
     <string name="logo_AccessDescription">App\'s Logo</string>
-    <string name="SearchButton_AccessDescription">Button used to search books based on the options selected before.</string>
+    <string name="SearchButton_AccessDescription">Search books based on the options selected before.</string>
     <string name="txt_AccessDescriptionYear">Field to be filled only with numbers, where they represent the year. Example: 2020.</string>
     <string name="txt_AccessDescriptionTitle">Field to fill in the title of the book. The maximum available characters are 100.</string>
     <string name="txt_AccessDescriptionAuthor">Field to fill in the name of the author of the book. The maximum available characters are 100.</string>

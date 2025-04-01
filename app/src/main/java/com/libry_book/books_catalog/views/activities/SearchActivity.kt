@@ -25,10 +25,11 @@ import com.libry_book.books_catalog.models.Order
 import com.libry_book.books_catalog.storage.DatabaseHelperImpl
 import com.libry_book.books_catalog.storage.SharedPreferencesTheme
 import com.libry_book.books_catalog.views.customview.BookComponentAdapter
+import androidx.core.view.get
 
 class SearchActivity : AppCompatActivity(), View.OnClickListener {
     //ATRIBUTOS
-    private lateinit var upButton: FloatingActionButton
+    private lateinit var fabUp: FloatingActionButton
     private lateinit var recyclerView: RecyclerView
     private lateinit var bookAdapter: BookComponentAdapter
     private lateinit var btnNewBook: Button // esse botão aparecerà quando não tiver nenhum livro na busca ou quando a busca não tiver nenhum resultado
@@ -46,8 +47,8 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         //preenchendo o botão upButton e adicionando um evento de click
-        upButton = findViewById(R.id.floatingActionButtonUp)
-        upButton.setOnClickListener(this)
+        fabUp = findViewById(R.id.fab_up)
+        fabUp.setOnClickListener(this)
 
         /*
          * Intent recebe dois parâmentros:
@@ -92,7 +93,7 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
 
 
                 //adicionando os arrays de livros ao bookadapter
-                bookAdapter = BookComponentAdapter(this, bookItems)
+                bookAdapter = BookComponentAdapter(bookItems)
 
                 //adicionando um contador de livros encontrados
                 val bookResult = findViewById<TextView>(R.id.txt_search_founded)
@@ -109,8 +110,8 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                  * aparecerá visível o botão upButton senão ficará invisível
                  */recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                        if (recyclerView.computeVerticalScrollOffset() != 0) upButton.visibility =
-                            View.VISIBLE else upButton.visibility = View.INVISIBLE
+                        if (recyclerView.computeVerticalScrollOffset() != 0) fabUp.visibility =
+                            View.VISIBLE else fabUp.visibility = View.INVISIBLE
                         super.onScrolled(recyclerView, dx, dy)
                     }
                 })
@@ -118,8 +119,8 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                 // Quando o bookAdapter ficará vazio, será desabilitdo o botão do menu "btnFilter"
                 bookAdapter.registerAdapterDataObserver(object : AdapterDataObserver() {
                     override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-                        if (bookAdapter.itemIsEmpty()) {
-                            menuFilter.getItem(0).isEnabled = false
+                        if (bookAdapter.itemsIsEmpty()) {
+                            menuFilter[0].isEnabled = false
                             setContentView(R.layout.activity_tela_pesquisar_empty_book)
                             btnNewBook = findViewById(R.id.btnNewBook)
                             btnNewBook.setOnClickListener { addNewBook() }
@@ -150,7 +151,7 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
             R.id.rbPesquisarPorAno -> {
                 booksList = try {
                     DatabaseHelperImpl(this).searchByYear(chave.toInt())
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     DatabaseHelperImpl(this).searchAll()
                 }
             }
@@ -258,9 +259,9 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
         /* Evento chamado pelo upButton onde ao clicá-lo será scrolado o recycleView para a posição 0
          * e o botão se tornará invisível.
          */
-        if (v.id == R.id.floatingActionButtonUp) {
+        if (v.id == R.id.fab_up) {
             recyclerView.scrollToPosition(0)
-            upButton.visibility = View.INVISIBLE
+            fabUp.visibility = View.INVISIBLE
         }
     }
 
@@ -269,7 +270,7 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
          * onde ao clicá-lo será iniciada a tela Cadastrar para que o usuário possa adiocionar
          * um novo livro.
          * */
-        startActivity(Intent(this, RegistryActivity::class.java))
+        startActivity(Intent(this, InsertBookActivity::class.java))
         finish()
     }
 }

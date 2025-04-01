@@ -2,7 +2,7 @@
   ~ Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -20,41 +20,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="10dp"
         android:drawablePadding="5dp"
         android:text="@string/txt_pesquisar"
         android:textColor="?attr/textcolor"
         android:textSize="26sp"
-        app:drawableStartCompat="@drawable/book_founded_img" />
+        app:drawableStartCompat="@drawable/book_founded_img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_pesquisar"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_search_founded">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_pesquisar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="16dp">
+    </androidx.recyclerview.widget.RecyclerView>
 
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButtonUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="10dp"
-            android:clickable="true"
-            android:contentDescription="@string/description_floatingActionButton"
-            android:focusable="true"
-            android:visibility="invisible"
-            app:backgroundTint="?attr/textcolor"
-            app:fabSize="mini"
-            app:srcCompat="@android:drawable/arrow_up_float" />
-
-    </RelativeLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="@string/description_floatingActionButton"
+        android:focusable="true"
+        android:visibility="invisible"
+        app:backgroundTint="?attr/textcolor"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/arrow_up_float" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
