@@ -57,7 +57,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/btnCadastrar"
+                android:id="@+id/btnInsert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20sp"
@@ -144,7 +144,7 @@
                 android:textColorHint="@color/colorTextHint" />
 
             <Button
-                android:id="@+id/btnPesquisar"
+                android:id="@+id/btnSearch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"

@@ -3,22 +3,21 @@
  */
 package com.libry_book.books_catalog.views.activities
 
-import android.content.DialogInterface
+
 import android.content.res.Resources
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.libry_book.books_catalog.R
-import com.libry_book.books_catalog.gestores.GestorVibrator
+import com.libry_book.books_catalog.services.app_services.AlertDialogService
+import com.libry_book.books_catalog.services.app_services.VibratorService
 import com.libry_book.books_catalog.storage.SharedPreferencesTheme
 import java.io.File
 import java.util.*
 
-class SettingsActivity : AppCompatActivity(), View.OnClickListener {
+class SettingsActivity : AppCompatActivity() {
     // ATRIBUTOS
     private lateinit var radioGroupLanguage: RadioGroup
     private lateinit var radioGroupTheme: RadioGroup
@@ -46,31 +45,65 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
 
 
         // Adicionado os eventos de click
-        clearDataButton.setOnClickListener(this)
+        clearDataButton.setOnClickListener {
+            AlertDialogService.showDialog(
+                this,
+                message = getString(R.string.alert_dialog_message),
+                title = getString(R.string.btn_clear_data),
+                positiveAction = {
+                    if (clearApplicationData()) {
+                        Toast.makeText(
+                            baseContext,
+                            getString(R.string.success_msg),
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                        VibratorService.vibrate(
+                            baseContext,
+                            100L,
+                        )
+                    } else {
+                        Toast.makeText(
+                            baseContext,
+                            getString(R.string.error_msg),
+                            Toast.LENGTH_LONG
+                        )
+                            .show()
+                        VibratorService.vibrate(
+                            baseContext,
+                            100L,
+                        )
+                    }
+                },
+                negativeAction = null
+            )
+        }
         radioGroupTheme.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
             /*
              * Aplicar o tema com base na escolha do RadioButton
-             *  */when (checkedId) {
-            R.id.rb_lightTheme -> {
-                preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_LIGHT
-            }
+             *
+             */
+            when (checkedId) {
+                R.id.rb_lightTheme -> {
+                    preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_LIGHT
+                }
 
-            R.id.rb_darkTheme -> {
-                preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_DARK
-            }
+                R.id.rb_darkTheme -> {
+                    preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_DARK
+                }
 
-            R.id.rb_batteryTheme -> {
-                preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_BATTERY
-            }
+                R.id.rb_batteryTheme -> {
+                    preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_BATTERY
+                }
 
-            R.id.rb_systemTheme -> {
-                preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_SYSTEM
-            }
+                R.id.rb_systemTheme -> {
+                    preferencesTheme.checkedButton = SharedPreferencesTheme.THEME_SYSTEM
+                }
 
-            else -> {
-                return@setOnCheckedChangeListener
+                else -> {
+                    return@setOnCheckedChangeListener
+                }
             }
-        }
             // depois de selecionar o tema, será envocado o método setTheme()
             preferencesTheme.setAppTheme()
         }
@@ -89,39 +122,18 @@ class SettingsActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    override fun onClick(v: View) {
-        /*
-         * Creando um diálogo para escolher se o usuário quer realmente apagar todos os dados
-         *
-         * */
-        if (v.id == R.id.btn_clear_data) {
-            AlertDialog.Builder(v.context)
-                .setTitle(R.string.btn_clear_data)
-                .setMessage(R.string.alert_dialog_message)
-                .setIcon(R.drawable.transparent_icon_app)
-                .setPositiveButton(R.string.yes) { _: DialogInterface?, _: Int ->
-                    clearApplicationData()
-                    Toast.makeText(baseContext, getString(R.string.success_msg), Toast.LENGTH_LONG)
-                        .show()
-                    GestorVibrator.vibrate(100L, baseContext)
-                }
-                .setNegativeButton(R.string.no, null)
-                .create()
-                .show()
-        }
-    }
-
-    private fun clearApplicationData() {
+    private fun clearApplicationData(): Boolean {
         val cacheDirectory = cacheDir
         val applicationDirectory = File(Objects.requireNonNull(cacheDirectory.parent))
         if (applicationDirectory.exists()) {
             val fileNames = applicationDirectory.list()!!
             for (fileName in fileNames) {
                 if (fileName != "lib") {
-                    deleteFile(File(applicationDirectory, fileName))
+                    return deleteFile(File(applicationDirectory, fileName))
                 }
             }
         }
+        return false
     }
 
     private val defaultLanguage: Unit

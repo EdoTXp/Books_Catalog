@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
-package com.libry_book.books_catalog.views.customview
+package com.libry_book.books_catalog.views.adapters
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -22,7 +22,7 @@ import androidx.annotation.IntRange
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.libry_book.books_catalog.R
-import com.libry_book.books_catalog.gestores.GestorVibrator.vibrate
+import com.libry_book.books_catalog.services.app_services.VibratorService
 import com.libry_book.books_catalog.models.BookItem
 import com.libry_book.books_catalog.models.Order
 import com.libry_book.books_catalog.storage.DatabaseHelperImpl
@@ -33,8 +33,7 @@ import java.util.*
 class BookComponentAdapter(
     //  private val mContext: Context,
     private val bookItems: ArrayList<BookItem>,
-) :
-    RecyclerView.Adapter<BookComponentAdapter.BookViewHolder>() {
+) : RecyclerView.Adapter<BookComponentAdapter.BookViewHolder>() {
     private lateinit var itemView: View
 
     inner class BookViewHolder internal constructor(itemView: View) :
@@ -71,17 +70,28 @@ class BookComponentAdapter(
 
         // adicionando eventos
         itemView.setOnLongClickListener { v: View ->
-            vibrate(100L, v.context)
+            VibratorService.vibrate(
+                v.context,
+                100L,
+            )
+
             val shareBook = """
                 ${v.resources.getString(R.string.txt_id)}: ${bookItems[holder.adapterPosition].id}
                 ${v.resources.getString(R.string.txt_titulo)}: ${bookItems[holder.adapterPosition].bookTitle}
                 ${v.resources.getString(R.string.txt_autor)}: ${bookItems[holder.adapterPosition].authorName}
                 ${v.resources.getString(R.string.txt_ano)}: ${bookItems[holder.adapterPosition].bookYear}
                 """.trimIndent()
+
             val bookUrl =
                 v.resources.getString(R.string.Google_Search) + bookItems[holder.adapterPosition].bookTitle + ", " + bookItems[holder.adapterPosition].authorName
+
             val windowPopUp = WindowPopUp()
-            windowPopUp.showPopUpWindow(v, bookUrl, shareBook, (v.context as AppCompatActivity))
+            windowPopUp.showPopUpWindow(
+                v,
+                bookUrl,
+                shareBook,
+                (v.context as AppCompatActivity),
+            )
             true
         }
         holder.imgEdit.setOnClickListener { v: View ->
@@ -120,9 +130,7 @@ class BookComponentAdapter(
     }
 
     private fun removeElementAt(position: Int) {
-        /* Este método serve para remover cada item através da sua posição.
-         *  Removendo da lista e do database e atualizando o recycleView
-         */
+
         try {
             val anim = AnimationUtils.loadAnimation(
                 itemView.context, android.R.anim.slide_out_right
@@ -134,17 +142,31 @@ class BookComponentAdapter(
             db.delete(bookItems[position].id)
             bookItems.removeAt(position)
             notifyItemRemoved(position)
-            notifyItemRangeChanged(position, actualPosition)
-            vibrate(100L, itemView.context)
-            Toast.makeText(itemView.context, R.string.success_msg, Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            vibrate(100L, itemView.context)
+            notifyItemRangeChanged(
+                position,
+                actualPosition,
+            )
+
+            VibratorService.vibrate(
+                itemView.context,
+                100L,
+            )
+
             Toast.makeText(
                 itemView.context,
-                R.string.error_msg
-                    .toString() + "\n"
-                        + e,
-                Toast.LENGTH_LONG
+                R.string.success_msg,
+                Toast.LENGTH_SHORT,
+            ).show()
+        } catch (e: Exception) {
+            VibratorService.vibrate(
+                itemView.context,
+                100L,
+            )
+
+            Toast.makeText(
+                itemView.context,
+                R.string.error_msg.toString() + "\n" + e,
+                Toast.LENGTH_LONG,
             ).show()
         }
     }
@@ -220,20 +242,33 @@ class BookComponentAdapter(
                         else -> {}
                     }
                     notifyItemChanged(position)
-                    vibrate(100L, itemView.context)
-                    Toast.makeText(itemView.context, R.string.success_msg, Toast.LENGTH_SHORT)
-                        .show()
-                } catch (e: Exception) {
-                    vibrate(100L, itemView.context)
+                    VibratorService.vibrate(
+                        itemView.context,
+                        100L,
+                    )
+
                     Toast.makeText(
                         itemView.context,
-                        R.string.error_msg
-                            .toString() + "\n"
-                                + e,
+                        R.string.success_msg,
+                        Toast.LENGTH_SHORT,
+                    )
+                        .show()
+                } catch (e: Exception) {
+                    VibratorService.vibrate(
+                        itemView.context,
+                        100L,
+                    )
+                    Toast.makeText(
+                        itemView.context,
+                        R.string.error_msg.toString() + "\n" + e,
                         Toast.LENGTH_LONG
                     ).show()
                 }
-            } else Toast.makeText(itemView.context, R.string.email_notextinsert, Toast.LENGTH_SHORT)
+            } else Toast.makeText(
+                itemView.context,
+                R.string.email_notextinsert,
+                Toast.LENGTH_SHORT,
+            )
                 .show()
         }
         editDialog.setNegativeButton(R.string.email_btn_cancel) { _: DialogInterface?, _: Int ->
@@ -264,46 +299,37 @@ class BookComponentAdapter(
                 when (orderBy) {
                     1 -> if (order === Order.ASCENDANT) // ascendente
                         return@sortWith Normalizer.normalize(
-                            o1.bookTitle.uppercase(Locale.getDefault()),
-                            Normalizer.Form.NFD
-                        )
-                            .compareTo(
-                                Normalizer.normalize(
-                                    o2.bookTitle.uppercase(Locale.getDefault()),
-                                    Normalizer.Form.NFD
-                                )
-                            ) else  // descendente
-                        return@sortWith Normalizer.normalize(
-                            o2.bookTitle.uppercase(Locale.getDefault()),
-                            Normalizer.Form.NFD
+                            o1.bookTitle.uppercase(Locale.getDefault()), Normalizer.Form.NFD
                         ).compareTo(
                             Normalizer.normalize(
-                                o1.bookTitle.uppercase(Locale.getDefault()),
-                                Normalizer.Form.NFD
+                                o2.bookTitle.uppercase(Locale.getDefault()), Normalizer.Form.NFD
+                            )
+                        ) else  // descendente
+                        return@sortWith Normalizer.normalize(
+                            o2.bookTitle.uppercase(Locale.getDefault()), Normalizer.Form.NFD
+                        ).compareTo(
+                            Normalizer.normalize(
+                                o1.bookTitle.uppercase(Locale.getDefault()), Normalizer.Form.NFD
                             )
                         )
 
                     2 -> if (order === Order.ASCENDANT) // ascendente
                         return@sortWith Normalizer.normalize(
-                            o1.authorName.uppercase(Locale.getDefault()),
-                            Normalizer.Form.NFD
-                        )
-                            .compareTo(
-                                Normalizer.normalize(
-                                    o2.authorName.uppercase(Locale.getDefault()),
-                                    Normalizer.Form.NFD
-                                )
-                            ) else  // descendente
-                        return@sortWith Normalizer.normalize(
-                            o2.authorName.uppercase(Locale.getDefault()),
-                            Normalizer.Form.NFD
-                        )
-                            .compareTo(
-                                Normalizer.normalize(
-                                    o1.authorName.uppercase(Locale.getDefault()),
-                                    Normalizer.Form.NFD
-                                )
+                            o1.authorName.uppercase(Locale.getDefault()), Normalizer.Form.NFD
+                        ).compareTo(
+                            Normalizer.normalize(
+                                o2.authorName.uppercase(Locale.getDefault()),
+                                Normalizer.Form.NFD
                             )
+                        ) else  // descendente
+                        return@sortWith Normalizer.normalize(
+                            o2.authorName.uppercase(Locale.getDefault()), Normalizer.Form.NFD
+                        ).compareTo(
+                            Normalizer.normalize(
+                                o1.authorName.uppercase(Locale.getDefault()),
+                                Normalizer.Form.NFD
+                            )
+                        )
 
                     3 -> if (order === Order.ASCENDANT) // ascendente
                         return@sortWith o1.bookYear.compareTo(o2.bookYear) else  // descendente

@@ -19,7 +19,7 @@ interface DatabaseHelper {
 
     fun searchByYear(year: Int): List<ContentValues>
 
-    fun tableIsExist(): Boolean
+    fun tableExist(): Boolean
 
     fun searchAll(): List<ContentValues>
 }

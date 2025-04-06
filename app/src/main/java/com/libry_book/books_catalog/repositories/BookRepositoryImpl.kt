@@ -28,7 +28,7 @@ class BookRepositoryImpl(private val databaseHelper: DatabaseHelper) : BookRepos
     }
 
     override fun tableIsExist(): Boolean {
-        return databaseHelper.tableIsExist()
+        return databaseHelper.tableExist()
     }
 
 

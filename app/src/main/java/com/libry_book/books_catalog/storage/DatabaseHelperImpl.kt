@@ -72,7 +72,7 @@ class DatabaseHelperImpl(context: Context?) :
         return search(sql, null)
     }
 
-    override fun tableIsExist(): Boolean {
+    override fun tableExist(): Boolean {
         val sql = "SELECT * FROM $TABLE_NAME"
         val verifyTable = search(sql, null)
         return verifyTable.isNotEmpty()

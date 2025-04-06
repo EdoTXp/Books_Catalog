@@ -14,7 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.libry_book.books_catalog.R
-import com.libry_book.books_catalog.gestores.GestorVibrator
+import com.libry_book.books_catalog.services.app_services.VibratorService
 import com.libry_book.books_catalog.storage.SharedPreferencesTheme
 import com.libry_book.books_catalog.viewmodel.InsertBookViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -111,11 +111,21 @@ class InsertBookActivity : AppCompatActivity(), View.OnClickListener {
                     edtTitleBook.requestFocus()
                 } else {
                     val msg = getString(R.string.error_msg)
-                    GestorVibrator.vibrate(100L, view.context)
-                    Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
+                    VibratorService.vibrate(
+                        view.context,
+                        100L,
+                    )
+                    Toast.makeText(
+                        this,
+                        msg,
+                        Toast.LENGTH_LONG,
+                    ).show()
                 }
             } else {
-                GestorVibrator.vibrate(100L, view.context)
+                VibratorService.vibrate(
+                    view.context,
+                    100L,
+                )
             }
 
             // handler utilizado para dar um delay ao evento de clicar para previnir multiplos cliques

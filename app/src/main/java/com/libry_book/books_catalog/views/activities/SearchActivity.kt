@@ -3,9 +3,7 @@
  */
 package com.libry_book.books_catalog.views.activities
 
-import android.app.AlertDialog
 import android.content.ContentValues
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -24,10 +22,11 @@ import com.libry_book.books_catalog.models.BookItem
 import com.libry_book.books_catalog.models.Order
 import com.libry_book.books_catalog.storage.DatabaseHelperImpl
 import com.libry_book.books_catalog.storage.SharedPreferencesTheme
-import com.libry_book.books_catalog.views.customview.BookComponentAdapter
+import com.libry_book.books_catalog.views.adapters.BookComponentAdapter
 import androidx.core.view.get
+import com.libry_book.books_catalog.services.app_services.AlertDialogService
 
-class SearchActivity : AppCompatActivity(), View.OnClickListener {
+class SearchActivity : AppCompatActivity() {
     //ATRIBUTOS
     private lateinit var fabUp: FloatingActionButton
     private lateinit var recyclerView: RecyclerView
@@ -48,7 +47,10 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
 
         //preenchendo o botão upButton e adicionando um evento de click
         fabUp = findViewById(R.id.fab_up)
-        fabUp.setOnClickListener(this)
+        fabUp.setOnClickListener {
+            recyclerView.scrollToPosition(0)
+            fabUp.visibility = View.INVISIBLE
+        }
 
         /*
          * Intent recebe dois parâmentros:
@@ -186,8 +188,6 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
          * Opções para escolher como ordenar os livros
          * */
         if (item.itemId == R.id.btn_filter && bookAdapter.itemCount > 0) {
-            val orderDialog = AlertDialog.Builder(this)
-            orderDialog.setTitle(getString(R.string.order_txt))
             val orderOptions = arrayOf(
                 getString(R.string.txt_titulo) + " ↑",
                 getString(R.string.txt_titulo) + " ↓",
@@ -196,74 +196,65 @@ class SearchActivity : AppCompatActivity(), View.OnClickListener {
                 getString(R.string.txt_ano) + " ↑",
                 getString(R.string.txt_ano) + " ↓"
             )
-            orderDialog.setIcon(R.drawable.filter_img)
-            orderDialog.setSingleChoiceItems(
-                orderOptions,
-                checked
-            ) { dialog: DialogInterface, which: Int ->
-                when (which) {
-                    0 -> {
-                        bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
-                        dialog.dismiss()
-                        checked = 0
-                    }
 
-                    1 -> {
-                        bookAdapter.setSortOfAdapterView(1, Order.DESCENDANT)
-                        dialog.dismiss()
-                        checked = which
-                    }
+            AlertDialogService.showDialogWithSingleChoiceItems(
+                this,
+                getString(R.string.order_txt),
+                items = orderOptions,
+                checkedItem = checked,
+                negativeButton = getString(R.string.email_btn_cancel),
+                checkedAction = { dialog, which ->
+                    when (which) {
+                        0 -> {
+                            bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
+                            dialog.dismiss()
+                            checked = 0
+                        }
 
-                    2 -> {
-                        bookAdapter.setSortOfAdapterView(2, Order.ASCENDANT)
-                        dialog.dismiss()
-                        checked = which
-                    }
+                        1 -> {
+                            bookAdapter.setSortOfAdapterView(1, Order.DESCENDANT)
+                            dialog.dismiss()
+                            checked = which
+                        }
 
-                    3 -> {
-                        bookAdapter.setSortOfAdapterView(2, Order.DESCENDANT)
-                        dialog.dismiss()
-                        checked = which
-                    }
+                        2 -> {
+                            bookAdapter.setSortOfAdapterView(2, Order.ASCENDANT)
+                            dialog.dismiss()
+                            checked = which
+                        }
 
-                    4 -> {
-                        bookAdapter.setSortOfAdapterView(3, Order.ASCENDANT)
-                        dialog.dismiss()
-                        checked = which
-                    }
+                        3 -> {
+                            bookAdapter.setSortOfAdapterView(2, Order.DESCENDANT)
+                            dialog.dismiss()
+                            checked = which
+                        }
 
-                    5 -> {
-                        bookAdapter.setSortOfAdapterView(3, Order.DESCENDANT)
-                        dialog.dismiss()
-                        checked = which
-                    }
+                        4 -> {
+                            bookAdapter.setSortOfAdapterView(3, Order.ASCENDANT)
+                            dialog.dismiss()
+                            checked = which
+                        }
 
-                    else -> {
-                        bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
-                        dialog.dismiss()
-                        checked = 0
-                        Toast.makeText(this, getString(R.string.error_msg), Toast.LENGTH_SHORT)
-                            .show()
+                        5 -> {
+                            bookAdapter.setSortOfAdapterView(3, Order.DESCENDANT)
+                            dialog.dismiss()
+                            checked = which
+                        }
+
+                        else -> {
+                            bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
+                            dialog.dismiss()
+                            checked = 0
+                            Toast.makeText(this, getString(R.string.error_msg), Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
-                }
-            }
-            orderDialog.setNegativeButton(R.string.email_btn_cancel, null)
-            orderDialog.show()
+                },
+            )
         }
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onClick(v: View) {
-
-
-        /* Evento chamado pelo upButton onde ao clicá-lo será scrolado o recycleView para a posição 0
-         * e o botão se tornará invisível.
-         */
-        if (v.id == R.id.fab_up) {
-            recyclerView.scrollToPosition(0)
-            fabUp.visibility = View.INVISIBLE
-        }
-    }
 
     fun addNewBook() {
         /*Evento chamado pelo botão do layout "Tela Pesquisar Empty Book / No Book Found",

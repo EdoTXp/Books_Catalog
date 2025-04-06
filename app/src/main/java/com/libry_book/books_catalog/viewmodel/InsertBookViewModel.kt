@@ -15,17 +15,15 @@ import androidx.annotation.RequiresPermission
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import com.libry_book.books_catalog.R
-import com.libry_book.books_catalog.gestores.GestorVibrator
+import com.libry_book.books_catalog.services.app_services.VibratorService
 import com.libry_book.books_catalog.repositories.BookRepository
-import com.libry_book.books_catalog.services.NotificationService
+import com.libry_book.books_catalog.services.app_services.NotificationService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class InsertBookViewModel @Inject constructor(private val bookRepository: BookRepository) :
     ViewModel() {
-    private val notificationService = NotificationService()
-
 
     fun insertBook(titleBook: String, authorBook: String, yearBook: String): Boolean {
         return bookRepository.insert(titleBook, authorBook, yearBook) > 0
@@ -53,7 +51,10 @@ class InsertBookViewModel @Inject constructor(private val bookRepository: BookRe
                 actualPadding
             ) //ajustando o padding
             errorAnimation.start()
-            GestorVibrator.vibrate(200, edt.context)
+            VibratorService.vibrate(
+                edt.context,
+                200L,
+            )
             false
         } else {
             edt.background = ContextCompat.getDrawable(edt.context, R.drawable.layout_border)
@@ -79,8 +80,12 @@ class InsertBookViewModel @Inject constructor(private val bookRepository: BookRe
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
     fun pushNotification(context: Context, textTitle: String, message: String) {
-        notificationService.execute(context, textTitle, message)
-        print(message)
+        NotificationService.showNotification(
+            context,
+            textTitle,
+            message,
+        )
+
     }
 
 }

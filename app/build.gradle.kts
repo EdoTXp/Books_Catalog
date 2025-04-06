@@ -14,7 +14,7 @@ android {
         minSdk = 26
         targetSdk = 33
         versionCode = 8
-        versionName = "8.0.0 New Era"
+        versionName = "8.0.5 New Era"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
