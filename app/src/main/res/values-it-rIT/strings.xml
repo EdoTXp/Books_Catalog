@@ -78,4 +78,6 @@
     <string name="canceled_operation">Operazione cancellata</string>
     <string name="fill_field_bellow">Riempire il campo sottostante …</string>
     <string name="btn_Pesquisar">Ricercare</string>
+    <string name="empty_field_error">Questo campo non può essere vuoto</string>
+    <string name="recycler_view_books_content_description">Lista di Libri</string>
 </resources>

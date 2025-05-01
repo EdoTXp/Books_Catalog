@@ -115,7 +115,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="4dp"
-        android:maxLength="4"
         android:maxLines="1"
         android:text="@string/hint_ano"
         android:textColor="?attr/textcolor"

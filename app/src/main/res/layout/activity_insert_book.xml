@@ -4,162 +4,150 @@
   ~ Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundcolor"
+    android:background="?attr/backgroundColor"
     android:isScrollContainer="true"
-    android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingTop="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp"
     android:scrollbars="horizontal|vertical"
     tools:context=".views.activities.InsertBookActivity">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none"
-        tools:ignore="UselessParent">
 
-        <LinearLayout
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/logo_AccessDescription"
+        app:layout_constraintEnd_toStartOf="@+id/textView6"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/booklogo_img" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/app_name"
+        android:textSize="@dimen/logo_text"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_book_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_book_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@drawable/layout_border"
+            android:hint="@string/hint_titulo"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="textCapWords"
+            android:maxLength="100"
+            android:padding="10dp"
+            android:textColor="?attr/textcolor"
+            android:textColorHint="?attr/textColorHint"
+            android:textSize="24sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16sp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                tools:ignore="UseCompoundDrawables">
 
-                <ImageView
-                    android:layout_width="@dimen/logo_width"
-                    android:layout_height="@dimen/logo_height"
-                    android:contentDescription="@string/logo_AccessDescription"
-                    android:src="@drawable/booklogo_img" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_book_author"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_book_title">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/app_name"
-                    android:textColor="?attr/textcolor"
-                    android:textSize="@dimen/logo_text" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_book_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_border"
+            android:ellipsize="end"
+            android:hint="@string/hint_autor"
+            android:imeOptions="actionNext"
+            android:importantForAutofill="no"
+            android:inputType="textCapWords|textPersonName"
+            android:maxLength="100"
+            android:padding="10dp"
+            android:textColor="?attr/textcolor"
+            android:textColorHint="?attr/textColorHint"
+            android:textSize="24sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5dp"
-                android:text="@string/txt_cadastrar"
-                android:textColor="?attr/textcolor"
-                android:textSize="28sp"
-                app:drawableStartCompat="@drawable/clipboard" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layout_book_year"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_book_author">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5sp"
-                android:drawablePadding="5dp"
-                android:text="@string/txt_titulo"
-                android:textColor="?attr/textcolor"
-                android:textSize="20sp"
-                app:drawableStartCompat="@drawable/book_img"
-                app:drawableTint="?attr/textcolor" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_book_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_border"
+            android:hint="@string/hint_ano"
+            android:imeOptions="actionSend"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:maxLength="4"
+            android:padding="10dp"
+            android:singleLine="true"
+            android:soundEffectsEnabled="true"
+            android:textColor="?attr/textcolor"
+            android:textColorHint="?attr/textColorHint"
+            android:textSize="24sp" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/edtTitulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/layout_border"
-                android:ellipsize="end"
-                android:hint="@string/hint_titulo"
-                android:imeOptions="actionNext"
-                android:importantForAutofill="no"
-                android:inputType="textCapWords"
-                android:maxLength="100"
-                android:padding="10dp"
-                android:textColor="?attr/textcolor"
-                android:textColorHint="?attr/textColorHint"
-                android:textSize="24sp" />
+    <Button
+        android:id="@+id/btn_save_book"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/layout_border"
+        android:drawableEnd="@android:drawable/ic_menu_save"
+        android:padding="8dp"
+        android:text="@string/btn_Salvar"
+        android:textColor="?attr/textcolor"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layout_book_year" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10sp"
-                android:drawablePadding="5dp"
-                android:text="@string/txt_autor"
-                android:textColor="?attr/textcolor"
-                android:textSize="20sp"
-                app:drawableStartCompat="@drawable/author_img"
-                app:drawableTint="?attr/textcolor" />
 
-            <EditText
-                android:id="@+id/edtAutor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/layout_border"
-                android:ellipsize="end"
-                android:hint="@string/hint_autor"
-                android:imeOptions="actionNext"
-                android:importantForAutofill="no"
-                android:inputType="textCapWords|textPersonName"
-                android:maxLength="100"
-                android:padding="10dp"
-                android:textColor="?attr/textcolor"
-                android:textColorHint="?attr/textColorHint"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10sp"
-                android:drawablePadding="5dp"
-                android:text="@string/txt_ano"
-                android:textColor="?attr/textcolor"
-                android:textSize="20sp"
-                app:drawableStartCompat="@drawable/calendar_img"
-                app:drawableTint="?attr/textcolor" />
-
-            <EditText
-                android:id="@+id/edtAno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/layout_border"
-                android:hint="@string/hint_ano"
-                android:imeOptions="actionSend"
-                android:importantForAutofill="no"
-                android:inputType="number"
-                android:maxLength="4"
-                android:padding="10dp"
-                android:singleLine="true"
-                android:soundEffectsEnabled="true"
-                android:textColor="?attr/textcolor"
-                android:textColorHint="?attr/textColorHint"
-                android:textSize="24sp" />
-
-            <Button
-                android:id="@+id/btnSalvar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@drawable/layout_border"
-                android:drawableEnd="@android:drawable/ic_menu_save"
-                android:padding="8dp"
-                android:text="@string/btn_Salvar"
-                android:textColor="?attr/textcolor"
-                android:textSize="20sp" />
-
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

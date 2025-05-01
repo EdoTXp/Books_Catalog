@@ -1,18 +1,18 @@
 plugins {
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.devtool.ksp)
 }
 
 android {
-    namespace = "com.libry_book.books_catalog"
-    compileSdk = 35
+    namespace = "com.deiovannagroup.books_catalog"
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.libry_book.books_catalog"
+        applicationId = "com.deiovannagroup.books_catalog"
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 36
         versionCode = 8
         versionName = "8.0.5 New Era"
 
@@ -41,33 +41,35 @@ android {
 
     buildFeatures {
         buildConfig = true
+        viewBinding = true
     }
     buildToolsVersion = "36.0.0"
     ndkVersion = "29.0.13113456 rc1"
 }
 
 dependencies {
-    // Dagger hilt dependency
-    kapt("com.google.dagger:hilt-compiler:2.56.1")
-    implementation("com.google.dagger:hilt-android:2.56.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    // KSP hilt dependency
+    ksp(libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
 
     // Kotlin Core dependencies
-    implementation("androidx.preference:preference-ktx:1.2.1")
-    implementation("androidx.core:core-ktx:1.15.0")
+    implementation(libs.androidx.preference.ktx)
+    implementation(libs.androidx.core.ktx)
 
     // Test dependencies
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.2.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
     // View Model dependency
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     // View components dependencies
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
-    implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.cardview:cardview:1.0.0")
-    implementation("com.google.android.material:material:1.12.0")
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.cardview)
+    implementation(libs.material)
 }

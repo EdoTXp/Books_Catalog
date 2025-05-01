@@ -4,8 +4,8 @@
 
 <resources>
     <declare-styleable name="ds">
-        <attr name="backgroundcolor" format="color" />
-        <attr name="secundarybackgroundcolor" format="color" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="secondaryBackgroundColor" format="color" />
         <attr name="linebordercolor" format="color" />
         <attr name="textcolor" format="color" />
         <attr name="textColorHint" format="color" />

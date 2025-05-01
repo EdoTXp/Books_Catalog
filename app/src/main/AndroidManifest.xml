@@ -17,40 +17,31 @@
         android:theme="@style/AppTheme">
 
         <activity
+            android:name=".views.activities.InsertBookActivity"
+            android:exported="false"
+            android:label="@string/title_activity_tela_cadastrar"
+            android:parentActivityName=".views.activities.MainActivity" />
+
+        <activity
+            android:name=".views.activities.SearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:exported="true"
+            android:label="@string/title_activity_tela_pesquisar"
+            android:parentActivityName=".views.activities.MainActivity" />
+
+        <activity
+            android:name=".views.activities.SettingsActivity"
+            android:exported="false"
+            android:label="@string/menu_settings"
+            android:parentActivityName=".views.activities.MainActivity" />
+
+        <activity
             android:name=".views.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".views.activities.InsertBookActivity"
-            android:label="@string/title_activity_tela_cadastrar"
-            android:parentActivityName=".views.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.activities.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".views.activities.SearchActivity"
-            android:configChanges="orientation|screenSize"
-            android:label="@string/title_activity_tela_pesquisar"
-            android:parentActivityName=".views.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.activities.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".views.activities.SettingsActivity"
-            android:label="@string/menu_settings"
-            android:parentActivityName=".views.activities.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".views.activities.MainActivity" />
         </activity>
 
     </application>

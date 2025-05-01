@@ -3,14 +3,17 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#121212</color>
-    <color name="colorSecundary">#181818</color>
-    <color name="colorPrimaryText">#B8B8B8</color>
-    <color name="lineBorder">#008577</color>
-    <color name="colorAccent">#D8D8D8</color>
-    <color name="errorBorder">#FF6362</color>
-    <color name="colorMenubarBackground">#181818</color>
-    <color name="colorTextHint">#929E9D</color>
-    <color name="background">#080808</color>
-    <color name="windowPopUpBackground">#222222</color>
+    <color name="white">#FFFCFCFC</color>
+    <color name="black">#FF000000</color>
+
+    <color name="colorPrimary">#FF121212</color>
+    <color name="colorSecondary">#FF181818</color>
+    <color name="colorPrimaryText">@color/white</color>
+    <color name="lineBorder">#FF008577</color>
+    <color name="colorAccent">#FFD8D8D8</color>
+    <color name="errorBorder">#FFFF6362</color>
+    <color name="colorMenubarBackground">#FF181818</color>
+    <color name="colorTextHint">#FF929E9D</color>
+    <color name="background">#FF080808</color>
+    <color name="windowPopUpBackground">#FF222222</color>
 </resources>

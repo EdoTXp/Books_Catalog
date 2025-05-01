@@ -82,4 +82,6 @@
     <string name="canceled_operation">Operation canceled</string>
     <string name="fill_field_bellow">Fill the field below …</string>
     <string name="btn_Pesquisar">Search</string>
+    <string name="empty_field_error">This field must not be empty</string>
+    <string name="recycler_view_books_content_description">List of Books</string>
 </resources>
