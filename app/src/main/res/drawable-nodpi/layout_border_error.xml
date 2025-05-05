@@ -4,11 +4,11 @@
   -->
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="?attr/borderbackground" />
+    <solid android:color="@color/background" />
 
     <stroke
         android:width="1dip"
-        android:color="?attr/borderBackgroundError" />
+        android:color="@color/errorBorder" />
 
     <corners android:radius="5dip" />
 

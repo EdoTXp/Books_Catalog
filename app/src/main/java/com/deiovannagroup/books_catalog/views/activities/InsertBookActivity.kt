@@ -19,7 +19,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -27,13 +26,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.setPadding
 import com.deiovannagroup.books_catalog.R
 import com.deiovannagroup.books_catalog.utils.setSupportActionBar
 import com.deiovannagroup.books_catalog.utils.showToastAndVibrate
 import com.deiovannagroup.books_catalog.viewmodel.InsertBookViewModel
 import com.deiovannagroup.books_catalog.databinding.ActivityInsertBookBinding
-import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -74,10 +72,7 @@ class InsertBookActivity : AppCompatActivity() {
             return@setOnKeyListener false
         }
 
-        binding.btnSaveBook.setOnClickListener { view ->
-            insertBook()
-
-        }
+        binding.btnSaveBook.setOnClickListener { insertBook() }
     }
 
     private fun setEdgeToEdgeLayout() {
@@ -112,11 +107,7 @@ class InsertBookActivity : AppCompatActivity() {
                 binding.edtBookYear.text?.clear()
                 binding.edtBookTitle.requestFocus()
             } else {
-                showToastAndVibrate(
-                    getString(
-                        R.string.error_msg
-                    ),
-                )
+                showToastAndVibrate(getString(R.string.error_msg))
             }
         }
 
@@ -211,29 +202,19 @@ class InsertBookActivity : AppCompatActivity() {
 
 
     private fun validateAllFields(): Boolean {
-        val isNameValid = validateField(binding.edtBookTitle)
-        val isEmailValid = validateField(binding.edtBookAuthor)
-        val isPasswordValid = validateField(binding.edtBookYear)
+        val isNameValid = validateField(binding.layoutBookTitle)
+        val isEmailValid = validateField(binding.layoutBookAuthor)
+        val isPasswordValid = validateField(binding.layoutBookYear)
 
         return isNameValid && isEmailValid && isPasswordValid
     }
 
-    private fun validateField(editText: TextInputEditText): Boolean {
-        return if (editText.text.toString().isEmpty()) {
-            editText.error = getString(R.string.empty_field_error)
-            editText.background = AppCompatResources.getDrawable(
-                this,
-                R.drawable.layout_border_error,
-            )
-            editText.setPadding(10)
+    private fun validateField(textLayout: TextInputLayout): Boolean {
+        return if (textLayout.editText?.text.toString().isEmpty()) {
+            textLayout.error = getString(R.string.empty_field_error)
             false
         } else {
-            editText.error = null
-            editText.background = AppCompatResources.getDrawable(
-                this,
-                R.drawable.layout_border,
-            )
-            editText.setPadding(10)
+            textLayout.error = null
             true
         }
     }

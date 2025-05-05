@@ -5,8 +5,6 @@ package com.deiovannagroup.books_catalog.views.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.InputFilter
 import android.text.InputFilter.LengthFilter
 import android.text.InputType
@@ -18,7 +16,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
@@ -30,24 +30,51 @@ import com.deiovannagroup.books_catalog.databinding.ActivityMainBinding
 import com.deiovannagroup.books_catalog.services.app_services.AlertDialogService
 import com.deiovannagroup.books_catalog.services.email_service.EmailService
 import com.deiovannagroup.books_catalog.utils.showToastAndVibrate
+import com.deiovannagroup.books_catalog.viewmodel.MainViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    private val mainViewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setupSplashScreen()
+        setDefaultTheme()
+        installSplashScreen()
         setEdgeToEdgeLayout()
         initMenuBar()
         initListeners()
     }
 
+    private fun setDefaultTheme() {
+        when (mainViewModel.getSavedTheme()) {
+            AppCompatDelegate.MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_YES
+            )
+
+            AppCompatDelegate.MODE_NIGHT_NO -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_NO
+            )
+
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
+            )
+
+            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
+            )
+        }
+
+    }
 
     private fun setEdgeToEdgeLayout() {
         enableEdgeToEdge()
@@ -130,19 +157,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun setupSplashScreen() {
-        val splashScreen = installSplashScreen()
-        var keepSplash = true
-        val delay = 1200L
-
-        // Replace this timer with your logic to load data on the splash screen.
-        splashScreen.setKeepOnScreenCondition { keepSplash }
-        Handler(Looper.getMainLooper()).postDelayed({
-            keepSplash = false
-        }, delay)
-    }
-
 
     private fun initMenuBar() {
         addMenuProvider(object : MenuProvider {
@@ -257,7 +271,6 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        //Criar a nova Intent para a nova Tela Pesquisar se existir algum dado
         val intent = Intent(
             this,
             SearchActivity::class.java,

@@ -29,7 +29,7 @@ class SettingsViewModel @Inject constructor(
             success = success && deleted
         }
 
-        val sharedPrefsDir = File(context.filesDir.parent, "shared_prefs")
+        val sharedPrefsDir = File(context.filesDir.parent, "settings_prefs")
         if (sharedPrefsDir.exists() && sharedPrefsDir.isDirectory) {
             sharedPrefsDir.listFiles()?.forEach { file ->
                 val deleted = file.delete()
@@ -39,12 +39,4 @@ class SettingsViewModel @Inject constructor(
 
         return success
     }
-
-    /* private fun deleteRecursively(file: File): Boolean {
-         return if (file.isDirectory) {
-             file.listFiles()?.all { deleteRecursively(it) } == true && file.delete()
-         } else {
-             file.delete()
-         }
-     }*/
 }

@@ -34,10 +34,8 @@
                 android:layout_margin="16dp"
                 android:drawablePadding="5dp"
                 android:text="@string/action_choose_Language"
-                android:textColor="?attr/textcolor"
                 android:textSize="20sp"
-                app:drawableStartCompat="@drawable/globe_img"
-                app:drawableTint="?attr/textcolor" />
+                app:drawableStartCompat="@drawable/globe_img" />
 
             <HorizontalScrollView
                 android:layout_width="wrap_content"
@@ -66,7 +64,6 @@
                             android:buttonTint="?attr/colorAccent"
                             android:checked="true"
                             android:text="@string/english"
-                            android:textColor="?attr/textcolor"
                             android:textSize="16sp" />
 
                         <RadioButton
@@ -79,7 +76,6 @@
                             android:layout_marginBottom="10dp"
                             android:buttonTint="?attr/colorAccent"
                             android:text="@string/italy"
-                            android:textColor="?attr/textcolor"
                             android:textSize="16sp" />
 
                         <RadioButton
@@ -92,7 +88,6 @@
                             android:layout_marginBottom="10dp"
                             android:buttonTint="?attr/colorAccent"
                             android:text="@string/portuguese"
-                            android:textColor="?attr/textcolor"
                             android:textSize="16sp" />
 
                     </RadioGroup>
@@ -116,10 +111,8 @@
                 android:layout_margin="16dp"
                 android:drawablePadding="5dp"
                 android:text="@string/menu_darkMode"
-                android:textColor="?attr/textcolor"
                 android:textSize="20sp"
-                app:drawableStartCompat="@drawable/moon_img"
-                app:drawableTint="?attr/textcolor" />
+                app:drawableStartCompat="@drawable/moon_img" />
 
             <HorizontalScrollView
                 android:layout_width="wrap_content"
@@ -143,7 +136,6 @@
                         android:buttonTint="?attr/colorAccent"
                         android:checked="true"
                         android:text="@string/lightTheme"
-                        android:textColor="?attr/textcolor"
                         android:textSize="16sp" />
 
 
@@ -157,7 +149,6 @@
                         android:layout_marginBottom="10dp"
                         android:buttonTint="?attr/colorAccent"
                         android:text="@string/darkTheme"
-                        android:textColor="?attr/textcolor"
                         android:textSize="16sp" />
 
                     <RadioButton
@@ -170,7 +161,6 @@
                         android:layout_marginBottom="10dp"
                         android:buttonTint="?attr/colorAccent"
                         android:text="@string/batteryTheme"
-                        android:textColor="?attr/textcolor"
                         android:textSize="16sp" />
 
                 </RadioGroup>
@@ -193,10 +183,8 @@
                 android:layout_margin="16dp"
                 android:drawablePadding="5dp"
                 android:text="@string/menu_data"
-                android:textColor="?attr/textcolor"
                 android:textSize="20sp"
-                app:drawableStartCompat="@drawable/userdata_img"
-                app:drawableTint="?attr/textcolor" />
+                app:drawableStartCompat="@drawable/userdata_img" />
 
             <Button
                 android:id="@+id/btn_clear_data"
@@ -210,7 +198,6 @@
                 android:drawableEnd="@android:drawable/ic_menu_delete"
                 android:padding="8dp"
                 android:text="@string/btn_clear_data"
-                android:textColor="?attr/textcolor"
                 android:textSize="20sp" />
 
         </LinearLayout>

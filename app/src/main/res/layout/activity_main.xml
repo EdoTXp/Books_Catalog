@@ -17,155 +17,154 @@
     tools:context=".views.activities.MainActivity"
     tools:menu="@menu/menubar">
 
-    <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:contentDescription="@string/logo_AccessDescription"
+        app:layout_constraintEnd_toStartOf="@+id/textView9"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/booklogo_img" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="8dp"
+        android:text="@string/app_name"
+        android:textSize="@dimen/logo_text"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView8"
+        app:layout_constraintTop_toTopOf="@+id/imageView8" />
+
+    <Button
+        android:id="@+id/btnInsert"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/layout_border"
+        android:drawableEnd="@android:drawable/ic_menu_add"
+        android:elegantTextHeight="false"
+        android:padding="8dp"
+        android:text="@string/txt_cadastrar"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"
-        tools:ignore="UselessParent">
+        app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+    <TextView
+        android:id="@+id/textView10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/txt_pesquisarpor"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnInsert" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20sp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:scrollbars="horizontal|vertical"
-                tools:ignore="UseCompoundDrawables">
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10">
 
-                <ImageView
-                    android:layout_width="@dimen/logo_width"
-                    android:layout_height="@dimen/logo_height"
-                    android:contentDescription="@string/logo_AccessDescription"
-                    android:src="@drawable/booklogo_img" />
+        <RadioGroup
+            android:id="@+id/rdg_search_by"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="5dp"
-                    android:text="@string/app_name"
-                    android:textColor="?attr/textcolor"
-                    android:textSize="@dimen/logo_text" />
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btnInsert"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20sp"
-                android:background="@drawable/layout_border"
-                android:drawableEnd="@android:drawable/ic_menu_add"
-                android:elegantTextHeight="false"
-                android:padding="8dp"
-                android:text="@string/txt_cadastrar"
-                android:textColor="?attr/textcolor"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="@string/txt_pesquisarpor"
-                android:textColor="?attr/textcolor"
-                android:textSize="20sp" />
-
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-
-                <RadioGroup
-                    android:id="@+id/rdg_search_by"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rbPesquisarPorTitulo"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:buttonTint="?attr/colorAccent"
-                        android:checked="true"
-                        android:text="@string/txt_titulo"
-                        android:textColor="?attr/textcolor"
-                        android:textSize="20sp" />
-
-                    <RadioButton
-                        android:id="@+id/rbPesquisarPorAutor"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:buttonTint="?attr/colorAccent"
-                        android:text="@string/txt_autor"
-                        android:textColor="?attr/textcolor"
-                        android:textSize="20sp" />
-
-                    <RadioButton
-                        android:id="@+id/rbPesquisarPorAno"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:buttonTint="?attr/colorAccent"
-                        android:text="@string/txt_ano"
-                        android:textColor="?attr/textcolor"
-                        android:textSize="20sp" />
-
-                    <RadioButton
-                        android:id="@+id/rbPesquisarPorTodos"
-                        android:layout_width="match_parent"
-                        android:layout_height="48dp"
-                        android:buttonTint="?attr/colorAccent"
-                        android:text="@string/txt_pesquisar_todos"
-                        android:textColor="?attr/textcolor"
-                        android:textSize="20sp" />
-                </RadioGroup>
-            </HorizontalScrollView>
-
-            <EditText
-                android:id="@+id/edt_search"
+            <RadioButton
+                android:id="@+id/rbPesquisarPorTitulo"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:backgroundTint="?attr/textColorHint"
-                android:ellipsize="end"
-                android:focusable="auto"
-                android:foregroundTint="?attr/backgroundColor"
-                android:hint="@string/hint_titulo"
-                android:importantForAutofill="no"
-                android:inputType="textCapWords"
-                android:maxLength="100"
-                android:textColor="?attr/textcolor"
-                android:textColorHighlight="?attr/textcolor"
-                android:textColorHint="@color/colorTextHint" />
-
-            <Button
-                android:id="@+id/btnSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10sp"
-                android:background="@drawable/layout_border"
-                android:contentDescription="@string/SearchButton_AccessDescription"
-                android:drawableEnd="@android:drawable/ic_menu_search"
-                android:padding="8dp"
-                android:text="@string/btn_Pesquisar"
-                android:textAlignment="center"
-                android:textColor="?attr/textcolor"
+                android:buttonTint="?attr/colorAccent"
+                android:checked="true"
+                android:text="@string/txt_titulo"
                 android:textSize="20sp" />
 
-        </LinearLayout>
-    </ScrollView>
+            <RadioButton
+                android:id="@+id/rbPesquisarPorAutor"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:buttonTint="?attr/colorAccent"
+                android:text="@string/txt_autor"
+                android:textSize="20sp" />
 
+            <RadioButton
+                android:id="@+id/rbPesquisarPorAno"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:buttonTint="?attr/colorAccent"
+                android:text="@string/txt_ano"
+                android:textSize="20sp" />
+
+            <RadioButton
+                android:id="@+id/rbPesquisarPorTodos"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:buttonTint="?attr/colorAccent"
+                android:text="@string/txt_pesquisar_todos"
+                android:textSize="20sp" />
+        </RadioGroup>
+    </HorizontalScrollView>
+
+    <EditText
+        android:id="@+id/edt_search"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:ellipsize="end"
+        android:focusable="auto"
+        android:foregroundTint="@color/background"
+        android:hint="@string/hint_titulo"
+        android:importantForAutofill="no"
+        android:inputType="textCapWords"
+        android:maxLength="100"
+        android:textColorHint="@color/colorTextHint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+    <Button
+        android:id="@+id/btnSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/layout_border"
+        android:contentDescription="@string/SearchButton_AccessDescription"
+        android:drawableEnd="@android:drawable/ic_menu_search"
+        android:padding="8dp"
+        android:text="@string/btn_Pesquisar"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_search" />
 </androidx.constraintlayout.widget.ConstraintLayout>

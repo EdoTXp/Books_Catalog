@@ -33,12 +33,8 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setEdgeToEdgeLayout()
         setSupportActionBar()
+        setCheckedRadioButtonByTheme()
         initListeners()
-    }
-
-    override fun onStart() {
-        checkedRadioButtonByTheme()
-        super.onStart()
     }
 
     private fun initListeners() {
@@ -60,37 +56,46 @@ class SettingsActivity : AppCompatActivity() {
             )
         }
 
-        binding.radioGroupTheme.setOnCheckedChangeListener { _: RadioGroup?, checkedId: Int ->
-            when (checkedId) {
-                R.id.rb_lightTheme -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    settingsViewModel.setTheme(AppCompatDelegate.MODE_NIGHT_NO)
-                }
+        binding.radioGroupTheme.setOnCheckedChangeListener { radio: RadioGroup?, checkedId: Int ->
+            if (radio == null)
+                return@setOnCheckedChangeListener
 
-                R.id.rb_darkTheme -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    settingsViewModel.setTheme(AppCompatDelegate.MODE_NIGHT_YES)
-                }
+            val selectedMode = when (checkedId) {
+                R.id.rb_lightTheme -> AppCompatDelegate.MODE_NIGHT_NO
+                R.id.rb_darkTheme -> AppCompatDelegate.MODE_NIGHT_YES
+                R.id.rb_batteryTheme -> AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+                R.id.rb_systemTheme -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                else -> return@setOnCheckedChangeListener
+            }
 
-                R.id.rb_batteryTheme -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-                    settingsViewModel.setTheme(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
-                }
-
-                R.id.rb_systemTheme -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    settingsViewModel.setTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                }
+            if (settingsViewModel.getSavedTheme() != selectedMode) {
+                settingsViewModel.setTheme(selectedMode)
+                AppCompatDelegate.setDefaultNightMode(selectedMode)
             }
         }
     }
 
-    private fun checkedRadioButtonByTheme() {
+    private fun setCheckedRadioButtonByTheme() {
         when (settingsViewModel.getSavedTheme()) {
-            AppCompatDelegate.MODE_NIGHT_YES -> binding.radioGroupTheme.check(R.id.rb_darkTheme)
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> binding.radioGroupTheme.check(R.id.rb_systemTheme)
-            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> binding.radioGroupTheme.check(R.id.rb_batteryTheme)
-            AppCompatDelegate.MODE_NIGHT_NO -> binding.radioGroupTheme.check(R.id.rb_lightTheme)
+            AppCompatDelegate.MODE_NIGHT_YES -> {
+                binding.radioGroupTheme.check(R.id.rb_darkTheme)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
+
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
+                binding.radioGroupTheme.check(R.id.rb_systemTheme)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+            }
+
+            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> {
+                binding.radioGroupTheme.check(R.id.rb_batteryTheme)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY)
+            }
+
+            AppCompatDelegate.MODE_NIGHT_NO -> {
+                binding.radioGroupTheme.check(R.id.rb_lightTheme)
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
         }
     }
 

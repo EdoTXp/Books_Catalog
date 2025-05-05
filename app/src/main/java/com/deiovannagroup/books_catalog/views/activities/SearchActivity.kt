@@ -45,8 +45,6 @@ class SearchActivity : AppCompatActivity() {
     private var checked: Int = 0 // valor selecionado para executar o sort do bookAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        //Arrumando a Activity
         super.onCreate(savedInstanceState)
         setEdgeToEdgeLayout()
         setSupportActionBar()

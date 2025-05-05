@@ -2,6 +2,7 @@
   ~ Copyright (c) 2020. Está classe está sendo consedida para uso pessoal
   -->
 <resources>
+    <!-- Splash Screen Theme. -->
     <style name="Theme.AppSplash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/colorPrimary</item>
         <item name="windowSplashScreenAnimatedIcon">@mipmap/iconapp_foreground</item>

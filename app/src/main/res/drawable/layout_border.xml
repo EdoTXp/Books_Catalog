@@ -8,7 +8,7 @@
 
     <stroke
         android:width="1dip"
-        android:color="?attr/linebordercolor" />
+        android:color="@color/lineBorder" />
 
     <corners android:radius="5dip" />
 
