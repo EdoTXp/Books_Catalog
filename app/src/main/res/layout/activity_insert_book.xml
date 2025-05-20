@@ -10,7 +10,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
     android:isScrollContainer="true"
     android:scrollbars="horizontal|vertical"
     tools:context=".views.activities.InsertBookActivity">
@@ -34,6 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:text="@string/app_name"
         android:textSize="@dimen/logo_text"
         app:layout_constraintBottom_toBottomOf="@+id/imageView3"
@@ -58,12 +58,13 @@
             android:id="@+id/edt_book_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background"
+            android:background="@color/backgroundColor"
             android:hint="@string/hint_titulo"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textCapWords"
             android:maxLength="100"
+            android:textColor="@color/textColor"
             android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,13 +85,14 @@
             android:id="@+id/edt_book_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background"
+            android:background="@color/backgroundColor"
             android:ellipsize="end"
             android:hint="@string/hint_autor"
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:inputType="textCapWords|textPersonName"
             android:maxLength="100"
+            android:textColor="@color/textColor"
             android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,7 +113,7 @@
             android:id="@+id/edt_book_year"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background"
+            android:background="@color/backgroundColor"
             android:hint="@string/hint_ano"
             android:imeOptions="actionSend"
             android:importantForAutofill="no"
@@ -119,21 +121,25 @@
             android:maxLength="4"
             android:singleLine="true"
             android:soundEffectsEnabled="true"
+            android:textColor="@color/textColor"
             android:textSize="24sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_save_book"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/layout_border"
-        android:drawableEnd="@android:drawable/ic_menu_save"
-        android:padding="8dp"
+        android:padding="16dp"
         android:text="@string/btn_Salvar"
+        android:textColor="@color/white"
         android:textSize="20sp"
+        app:icon="@drawable/ic_save_24"
+        app:iconGravity="end"
+        app:iconTint="@color/white"
+        app:iconTintMode="src_in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

@@ -68,11 +68,9 @@
     <string name="hint_titulo">Inserire il titolo del libro…</string>
     <string name="hint_ano">Inserire l\'anno del libro…</string>
     <string name="hint_autor">Inserire il nome dell\'autore…</string>
-    <string name="hint_error">Questo campo è vuoto…</string>
     <string name="description_floatingActionButton">Ritorna alla posizione iniziale</string>
     <string name="description_empty_bookcase">Libreria Vuota!!</string>
     <string name="btn_newBook">Aggiungere Nuovo Libro</string>
-    <string name="AllBookDeleted">Tutti i libri sono stati cancellati!!</string>
     <string name="edit_item_Title">Modificare questo libro</string>
     <string name="btn_Accept">Accettare</string>
     <string name="canceled_operation">Operazione cancellata</string>

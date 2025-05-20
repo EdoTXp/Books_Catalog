@@ -3,7 +3,5 @@
   -->
 
 <resources>
-    <dimen name="logo_width">98dp</dimen>
-    <dimen name="logo_height">104dp</dimen>
-    <dimen name="logo_text">32sp</dimen>
+    <dimen name="logo_text">22sp</dimen>
 </resources>

@@ -5,19 +5,32 @@
         <item name="colorPrimaryVariant">@color/colorSecondary</item>
         <item name="colorPrimaryDark">@color/colorSecondary</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="backgroundColor">@color/background</item>
-        <item name="android:textColor">@color/colorPrimaryText</item>
-        <item name="android:textColorHint">@color/colorTextHint</item>
+        <item name="backgroundColor">@color/backgroundColor</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColorHint">@color/textColorHint</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:windowAnimationStyle">@style/WindowsAnimationTransition</item>
         <item name="android:itemBackground">@color/colorMenubarBackground</item>
         <item name="android:statusBarColor">@color/colorSecondary</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:textColorSecondary">@color/colorPrimaryText</item>
-        <item name="actionOverflowButtonStyle">
-            @style/ActionOverflowButton
-        </item>
+        <item name="android:textColorSecondary">@color/textColor</item>
+        <item name="actionOverflowButtonStyle">@style/ActionOverflowButton</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:textColor">@color/textColor</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="ActionOverflowButton" parent="Widget.AppCompat.ActionButton.Overflow">

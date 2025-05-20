@@ -5,15 +5,14 @@
 <resources>
     <color name="white">#FFFCFCFC</color>
     <color name="black">#FF000000</color>
+    <color name="red">#FFFF6362</color>
 
-    <color name="colorPrimary">#FF121212</color>
+    <color name="colorPrimary">#34372A</color>
     <color name="colorSecondary">#FF181818</color>
-    <color name="colorPrimaryText">@color/white</color>
+    <color name="textColor">@color/white</color>
     <color name="lineBorder">#FF008577</color>
     <color name="colorAccent">#FFD8D8D8</color>
-    <color name="errorBorder">#FFFF6362</color>
     <color name="colorMenubarBackground">#FF181818</color>
-    <color name="colorTextHint">#FF929E9D</color>
-    <color name="background">#FF080808</color>
-    <color name="windowPopUpBackground">#FF222222</color>
+    <color name="textColorHint">#FF929E9D</color>
+    <color name="backgroundColor">#FF080808</color>
 </resources>

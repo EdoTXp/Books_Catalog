@@ -191,14 +191,14 @@ class MainActivity : AppCompatActivity() {
                             setHintTextColor(
                                 ResourcesCompat.getColor(
                                     resources,
-                                    R.color.colorTextHint,
+                                    R.color.textColorHint,
                                     theme,
                                 ),
                             )
                             setTextColor(
                                 ResourcesCompat.getColor(
                                     resources,
-                                    R.color.colorPrimaryText,
+                                    R.color.textColor,
                                     theme,
                                 ),
                             )

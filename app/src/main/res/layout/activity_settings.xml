@@ -8,7 +8,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingTop="16dp"
@@ -35,7 +34,8 @@
                 android:drawablePadding="5dp"
                 android:text="@string/action_choose_Language"
                 android:textSize="20sp"
-                app:drawableStartCompat="@drawable/globe_img" />
+                app:drawableStartCompat="@drawable/ic_globe_24"
+                app:drawableTint="@color/textColor" />
 
             <HorizontalScrollView
                 android:layout_width="wrap_content"
@@ -112,7 +112,8 @@
                 android:drawablePadding="5dp"
                 android:text="@string/menu_darkMode"
                 android:textSize="20sp"
-                app:drawableStartCompat="@drawable/moon_img" />
+                app:drawableStartCompat="@drawable/ic_dark_mode_24"
+                app:drawableTint="@color/textColor" />
 
             <HorizontalScrollView
                 android:layout_width="wrap_content"
@@ -184,21 +185,24 @@
                 android:drawablePadding="5dp"
                 android:text="@string/menu_data"
                 android:textSize="20sp"
-                app:drawableStartCompat="@drawable/userdata_img" />
+                app:drawableStartCompat="@drawable/ic_data_usage_24"
+                app:drawableTint="@color/textColor" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_clear_data"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/layout_border"
-                android:drawableEnd="@android:drawable/ic_menu_delete"
-                android:padding="8dp"
+                android:padding="16dp"
                 android:text="@string/btn_clear_data"
-                android:textSize="20sp" />
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:icon="@drawable/ic_delete_24"
+                app:iconGravity="end"
+                app:iconTint="@color/white"
+                app:iconTintMode="src_in" />
 
         </LinearLayout>
     </ScrollView>

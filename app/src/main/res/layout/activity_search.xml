@@ -8,7 +8,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/backgroundColor"
     android:fadeScrollbars="false"
     android:isScrollContainer="true"
     android:orientation="vertical"
@@ -49,15 +48,19 @@
         android:id="@+id/fab_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
         android:clickable="true"
         android:contentDescription="@string/description_floatingActionButton"
         android:focusable="true"
+        android:foregroundTintMode="src_in"
+        android:src="@drawable/ic_arrow_up_24"
         android:visibility="invisible"
+        app:borderWidth="0dp"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/arrow_up_float" />
+        app:tint="@color/white" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

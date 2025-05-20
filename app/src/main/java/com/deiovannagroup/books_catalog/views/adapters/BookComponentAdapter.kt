@@ -4,7 +4,6 @@
 package com.deiovannagroup.books_catalog.views.adapters
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.DialogInterface
 import android.text.InputFilter
@@ -27,6 +26,7 @@ import com.deiovannagroup.books_catalog.models.BookItem
 import com.deiovannagroup.books_catalog.models.Order
 import com.deiovannagroup.books_catalog.helpers.DatabaseHelperImpl
 import com.deiovannagroup.books_catalog.views.activities.WindowPopUp
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.text.Normalizer
 import java.util.*
 
@@ -100,7 +100,7 @@ class BookComponentAdapter(
                 v.resources.getString(R.string.txt_autor) + ": " + bookItems[holder.adapterPosition].authorName,
                 v.resources.getString(R.string.txt_ano) + ": " + bookItems[holder.adapterPosition].bookYear.toString()
             )
-            val editDialog = AlertDialog.Builder(v.context)
+            val editDialog = MaterialAlertDialogBuilder(v.context)
             editDialog.setTitle(v.context.resources.getString(R.string.edit_item_Title))
             editDialog.setIcon(R.drawable.transparent_icon_app)
             editDialog.setSingleChoiceItems(editOption, -1) { dialog: DialogInterface, which: Int ->
@@ -111,7 +111,7 @@ class BookComponentAdapter(
             editDialog.show()
         }
         holder.imgExcluir.setOnClickListener { v: View ->
-            val deleteDialog = AlertDialog.Builder(v.context)
+            val deleteDialog = MaterialAlertDialogBuilder(v.context)
             deleteDialog.setTitle(holder.itemView.context.resources.getString(R.string.delete_item_Title) + bookItems[holder.adapterPosition].bookTitle)
             deleteDialog.setMessage(R.string.delete_item_msg)
             deleteDialog.setIcon(R.drawable.transparent_icon_app)
@@ -182,32 +182,32 @@ class BookComponentAdapter(
      * e atualizá-las na lista e no database e atualizando o recycleView.
      */
     private fun editElementAt(position: Int, @IntRange(from = 0, to = 2) choose: Int) {
+        val context = itemView.context
+
         // criação do AlertDialog
-        val editDialog = AlertDialog.Builder(itemView.context)
+        val editDialog = MaterialAlertDialogBuilder(context)
         editDialog.setMessage(R.string.fill_field_bellow)
         // criação do EditText
-        val textToChange = EditText(itemView.context)
+        val textToChange = EditText(context)
         //adicionando um filtro para o editText limitando para 100 caractéres
         textToChange.filters = arrayOf<InputFilter>(LengthFilter(100))
+        textToChange.setTextColor(context.getColor(R.color.textColor))
 
         /*
          * Dependendo do choose,
          * será colocado o ícone e, título do AlertDialog e o hint do editText*/
         when (choose) {
             0 -> {
-                editDialog.setIcon(R.drawable.book_img)
                 editDialog.setTitle(R.string.txt_titulo)
                 textToChange.setHint(R.string.hint_titulo)
             }
 
             1 -> {
-                editDialog.setIcon(R.drawable.author_img)
                 editDialog.setTitle(R.string.txt_autor)
                 textToChange.setHint(R.string.hint_autor)
             }
 
             else -> {
-                editDialog.setIcon(R.drawable.calendar_img)
                 editDialog.setTitle(R.string.txt_ano)
                 textToChange.setHint(R.string.hint_ano)
                 //adicionando um input de somente 4 números
@@ -219,7 +219,7 @@ class BookComponentAdapter(
         editDialog.setPositiveButton(R.string.btn_Accept) { _: DialogInterface?, _: Int ->
             if (textToChange.text.toString() != "") {
                 try {
-                    val db = DatabaseHelperImpl(itemView.context)
+                    val db = DatabaseHelperImpl(context)
                     val cv = ContentValues()
                     when (choose) {
                         0 -> {
@@ -244,29 +244,29 @@ class BookComponentAdapter(
                     }
                     notifyItemChanged(position)
                     VibratorService.vibrate(
-                        itemView.context,
+                        context,
                         100L,
                     )
 
                     Toast.makeText(
-                        itemView.context,
+                        context,
                         R.string.success_msg,
                         Toast.LENGTH_SHORT,
                     )
                         .show()
                 } catch (e: Exception) {
                     VibratorService.vibrate(
-                        itemView.context,
+                        context,
                         100L,
                     )
                     Toast.makeText(
-                        itemView.context,
+                        context,
                         R.string.error_msg.toString() + "\n" + e,
                         Toast.LENGTH_LONG
                     ).show()
                 }
             } else Toast.makeText(
-                itemView.context,
+                context,
                 R.string.email_notextinsert,
                 Toast.LENGTH_SHORT,
             )
@@ -274,7 +274,7 @@ class BookComponentAdapter(
         }
         editDialog.setNegativeButton(R.string.email_btn_cancel) { _: DialogInterface?, _: Int ->
             Toast.makeText(
-                itemView.context,
+                context,
                 itemView.resources.getString(R.string.canceled_operation),
                 Toast.LENGTH_SHORT
             ).show()

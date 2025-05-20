@@ -37,20 +37,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnNewBook"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/layout_border"
-        android:drawableEnd="@android:drawable/ic_menu_add"
-        android:elegantTextHeight="false"
-        android:padding="8dp"
+        android:padding="16dp"
         android:text="@string/btn_newBook"
-        android:textColor="@color/colorPrimaryText"
+        android:textColor="@color/white"
         android:textSize="20sp"
+        app:icon="@drawable/ic_add_24"
+        app:iconGravity="end"
+        app:iconTint="@color/white"
+        app:iconTintMode="src_in"
         app:layout_constraintDimensionRatio=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

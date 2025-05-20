@@ -4,11 +4,11 @@
 
 package com.deiovannagroup.books_catalog.services.app_services
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.view.View
 import com.deiovannagroup.books_catalog.R
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class AlertDialogService {
 
@@ -23,7 +23,7 @@ class AlertDialogService {
             positiveAction: () -> Unit,
             negativeAction: (() -> Unit?)? = null,
         ) {
-            AlertDialog.Builder(context).apply {
+            MaterialAlertDialogBuilder(context).apply {
                 setTitle(title)
                 setMessage(message)
                 setIcon(icon)
@@ -49,9 +49,7 @@ class AlertDialogService {
             negativeButton: String = context.resources.getString(R.string.no),
             negativeAction: ((DialogInterface, Int) -> Unit?)? = null,
         ) {
-            AlertDialog.Builder(
-                context
-            ).apply {
+            MaterialAlertDialogBuilder(context).apply {
                 setTitle(title)
                 setMessage(message)
                 setIcon(icon)
@@ -78,7 +76,7 @@ class AlertDialogService {
             negativeAction: (() -> Unit?)? = null
         ) {
 
-            AlertDialog.Builder(context).apply {
+            MaterialAlertDialogBuilder(context).apply {
                 setTitle(title)
                 setMessage(message)
                 setIcon(icon)

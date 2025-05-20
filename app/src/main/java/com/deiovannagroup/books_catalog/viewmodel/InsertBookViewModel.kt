@@ -11,8 +11,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class InsertBookViewModel @Inject constructor(private val bookRepository: BookRepository) :
-    ViewModel() {
+class InsertBookViewModel @Inject constructor(
+    private val bookRepository: BookRepository
+) : ViewModel() {
 
     fun insertBook(titleBook: String, authorBook: String, yearBook: String): Boolean {
         return bookRepository.insert(

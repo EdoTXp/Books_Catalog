@@ -8,16 +8,14 @@
     <!-- color of default theme -->
     <color name="white">#FFFCFCFC</color>
     <color name="black">#FF000000</color>
+    <color name="red">#FFFF2332</color>
 
     <color name="colorPrimary">#FF008577</color>
     <color name="colorSecondary">#FF00324B</color>
     <color name="lineBorder">#FF008577</color>
-    <color name="colorPrimaryText">@color/black</color>
+    <color name="textColor">@color/black</color>
     <color name="colorMenubarBackground">@color/white</color>
     <color name="colorAccent">#FF00A567</color>
-    <color name="errorBorder">#FFFF2332</color>
-    <color name="colorTextHint">#FF777777</color>
-    <color name="background">@color/white</color>
-    <color name="windowPopUpBackground">@color/white</color>
-
+    <color name="textColorHint">#FF777777</color>
+    <color name="backgroundColor">@color/white</color>
 </resources>
