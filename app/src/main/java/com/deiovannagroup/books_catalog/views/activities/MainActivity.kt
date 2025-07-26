@@ -5,15 +5,13 @@ package com.deiovannagroup.books_catalog.views.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputFilter
-import android.text.InputFilter.LengthFilter
-import android.text.InputType
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.view.View
 import android.widget.EditText
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -24,17 +22,17 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.deiovannagroup.books_catalog.BuildConfig
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.deiovannagroup.books_catalog.R
 import com.deiovannagroup.books_catalog.databinding.ActivityMainBinding
 import com.deiovannagroup.books_catalog.services.app_services.AlertDialogService
-import com.deiovannagroup.books_catalog.services.email_service.EmailService
 import com.deiovannagroup.books_catalog.utils.showToastAndVibrate
+import com.deiovannagroup.books_catalog.viewmodel.MainUiEvent
 import com.deiovannagroup.books_catalog.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -47,255 +45,177 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setDefaultTheme()
         installSplashScreen()
-        setEdgeToEdgeLayout()
+        super.onCreate(savedInstanceState)
+        setContentView(binding.root)
+
+        setupEdgeToEdge()
+        setupObservers()
         initMenuBar()
         initListeners()
-    }
 
-    private fun setDefaultTheme() {
-        when (mainViewModel.getSavedTheme()) {
-            AppCompatDelegate.MODE_NIGHT_YES -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_YES
-            )
-
-            AppCompatDelegate.MODE_NIGHT_NO -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_NO
-            )
-
-            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
-            )
-
-            AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY -> AppCompatDelegate.setDefaultNightMode(
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
-            )
+        if (savedInstanceState == null) {
+            binding.rdgSearchBy.check(R.id.rbSearchByAll)
+            mainViewModel.onSearchTypeSelected(binding.rdgSearchBy.checkedRadioButtonId)
         }
-
     }
 
-    private fun setEdgeToEdgeLayout() {
+    private fun setupEdgeToEdge() {
         enableEdgeToEdge()
-        setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom,
-            )
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
     }
 
-    private fun initListeners() {
-        binding.edtSearch.setOnKeyListener { _: View?, keyCode: Int, event: KeyEvent ->
-            /**
-             * When the event is invoked, a filtering will be done, capturing only the ACTION_UP action.
-             * Then, the enter key will be captured to call the @sendSearch action.
-             */
-            if (event.action == KeyEvent.ACTION_UP) {
-                if (keyCode == KeyEvent.KEYCODE_ENTER) {
-                    sendSearch()
-                    return@setOnKeyListener true
+    private fun setupObservers() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    mainViewModel.currentTheme.collect { themeMode ->
+                        AppCompatDelegate.setDefaultNightMode(themeMode)
+                    }
                 }
+
+                launch {
+                    mainViewModel.searchFieldState.collect { state ->
+                        binding.edtSearch.isEnabled = state.isEnabled
+                        binding.edtSearch.inputType = state.inputType
+                        binding.edtSearch.filters = state.filters
+                        binding.edtSearch.hint =
+                            if (state.hintResId != R.string.empty_field_error) getString(state.hintResId) else ""
+                        binding.edtSearch.contentDescription =
+                            getString(state.contentDescriptionResId)
+                    }
+                }
+
+                launch {
+                    mainViewModel.searchQuery.collect { query ->
+                        if (binding.edtSearch.text.toString() != query) {
+                            binding.edtSearch.setText(query)
+                            binding.edtSearch.setSelection(query.length)
+                        }
+                    }
+                }
+
+                launch {
+                    mainViewModel.uiEvents.collect { event ->
+                        when (event) {
+                            is MainUiEvent.ShowToast -> {
+                                val message =
+                                    if (event.messageResId != 0) getString(event.messageResId) else event.extraMessage
+                                        ?: ""
+                                showToastAndVibrate(message)
+                            }
+
+                            is MainUiEvent.NavigateToSearch -> {
+                                val intent =
+                                    Intent(this@MainActivity, SearchActivity::class.java).apply {
+                                        putExtra("tipo", event.searchTypeForIntent)
+                                        putExtra("chave", event.searchKey)
+                                    }
+                                startActivity(intent)
+                            }
+
+                            is MainUiEvent.ShowFeedbackDialog -> {
+                                showFeedbackEmailDialog()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun initListeners() {
+        binding.edtSearch.setOnKeyListener { _, keyCode, event ->
+            if (event.action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_ENTER) {
+                mainViewModel.onSearchRequested()
+                return@setOnKeyListener true
             }
             false
         }
+
+        binding.edtSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                mainViewModel.searchQuery.value = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
         binding.btnInsert.setOnClickListener {
             startActivity(
                 Intent(
                     this,
                     InsertBookActivity::class.java,
-                ),
+                )
             )
         }
 
-        binding.btnSearch.setOnClickListener { sendSearch() }
+        binding.btnSearch.setOnClickListener { mainViewModel.onSearchRequested() }
 
         binding.rdgSearchBy.setOnCheckedChangeListener { _, checkedId ->
-            binding.edtSearch.isEnabled = true
-            binding.edtSearch.setText("")
-            when (checkedId) {
-                R.id.rbPesquisarPorAno -> {
-                    binding.edtSearch.inputType = InputType.TYPE_CLASS_NUMBER
-                    binding.edtSearch.filters = arrayOf<InputFilter>(LengthFilter(4))
-                    binding.edtSearch.setHint(R.string.hint_ano)
-                    binding.edtSearch.contentDescription =
-                        getString(R.string.txt_AccessDescriptionYear)
-                }
-
-                R.id.rbPesquisarPorAutor -> {
-                    binding.edtSearch.filters = arrayOf<InputFilter>(LengthFilter(100))
-                    binding.edtSearch.setHint(R.string.hint_autor)
-                    binding.edtSearch.inputType =
-                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS
-                    binding.edtSearch.contentDescription =
-                        getString(R.string.txt_AccessDescriptionAuthor)
-                }
-
-                R.id.rbPesquisarPorTitulo -> {
-                    binding.edtSearch.filters = arrayOf<InputFilter>(LengthFilter(100))
-                    binding.edtSearch.setHint(R.string.hint_titulo)
-                    binding.edtSearch.inputType =
-                        InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS
-                    binding.edtSearch.contentDescription =
-                        getString(R.string.txt_AccessDescriptionTitle)
-                }
-
-                R.id.rbPesquisarPorTodos -> {
-                    binding.edtSearch.isEnabled = false
-                    binding.edtSearch.hint = ""
-                    binding.edtSearch.filters = arrayOf<InputFilter>(LengthFilter(0))
-                    binding.edtSearch.inputType = InputType.TYPE_NULL
-                    binding.edtSearch.contentDescription =
-                        getString(R.string.txt_AccessDescriptionAll)
-                }
-            }
+            mainViewModel.onSearchTypeSelected(checkedId)
         }
     }
 
     private fun initMenuBar() {
         addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(
-                menu: Menu, menuInflater: MenuInflater
-            ) {
-                val inflater = menuInflater
-                inflater.inflate(R.menu.menubar, menu)
-                true
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.menubar, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
+                return when (menuItem.itemId) {
                     R.id.menu_settings -> {
-                        //Iniciando a nova Tela Impostações
-                        startActivity(
-                            Intent(
-                                this@MainActivity,
-                                SettingsActivity::class.java,
-                            ),
-                        )
+                        startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                        true
                     }
 
                     R.id.menu_feedback -> {
-                        // Creating the AlertDialog to send the email
-                        val emailEditText = EditText(this@MainActivity).apply {
-                            inputType = InputType.TYPE_CLASS_TEXT
-                            gravity = Gravity.START or Gravity.TOP
-                            isSingleLine = false
-                            isHorizontalScrollBarEnabled = false
-                            hint = getString(R.string.email_textHint)
-                            setHintTextColor(
-                                ResourcesCompat.getColor(
-                                    resources,
-                                    R.color.textColorHint,
-                                    theme,
-                                ),
-                            )
-                            setTextColor(
-                                ResourcesCompat.getColor(
-                                    resources,
-                                    R.color.textColor,
-                                    theme,
-                                ),
-                            )
-                        }
-
-                        AlertDialogService.showDialogWithCustomView(
-                            this@MainActivity,
-                            getString(R.string.email_title),
-                            customView = emailEditText,
-                            positiveButton = getString(R.string.email_btn_send),
-                            negativeButton = getString(R.string.email_btn_cancel),
-                            positiveAction = {
-                                /**
-                                 * If the "emailBodyText" is not empty,
-                                 * the email header will be created with a title,
-                                 * a random number for the message code.
-                                 * The message body with the "emailEditText"
-                                 * along with the "local" date of the device.
-                                 * Else the emailEditText is empty,
-                                 * a message will be printed plus a vibration
-                                 */
-                                if (emailEditText.text.toString() != "") {
-
-                                    val random = (Math.random() * 1.0E14 + 1.0E9).toLong()
-                                    val subject =
-                                        getString(R.string.email_subject) +
-                                                "#" +
-                                                random.toString()
-
-                                    val time = getLocaleTime()
-
-                                    EmailService.sendEmail(
-                                        this@MainActivity,
-                                        emailBody = """
-                                                ${emailEditText.text}
-                                                ${getString(R.string.email_timegenerated)}$time
-                                            """.trimIndent(),
-                                        emailSubject = subject,
-                                    )
-                                } else {
-                                    showToastAndVibrate(
-                                        getString(R.string.email_notextinsert),
-                                    )
-                                }
-                            },
-                        )
+                        mainViewModel.onFeedbackMenuSelected()
+                        true
                     }
-                    // displaying the app version
+
                     R.id.menu_app_version -> {
-                        showToastAndVibrate(
-                            BuildConfig.VERSION_NAME,
-                        )
+                        mainViewModel.onAppVersionMenuSelected()
+                        true
                     }
 
-                    else -> return onOptionsItemSelected(menuItem)
+                    else -> false
                 }
-                return true
             }
-        })
+        }, this, Lifecycle.State.RESUMED)
     }
 
-    private fun sendSearch() {
-        if (binding.edtSearch.text.toString().isEmpty()
-            &&
-            binding.rdgSearchBy.checkedRadioButtonId != R.id.rbPesquisarPorTodos
-        ) {
-            showToastAndVibrate(
-                getString(R.string.FieldEmpty),
-            )
-            return
+    private fun showFeedbackEmailDialog() {
+        val emailEditText = EditText(this).apply {
+            inputType =
+                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
+            gravity = Gravity.START or Gravity.TOP
+            isSingleLine = false
+            minLines = 3
+            isHorizontalScrollBarEnabled = false
+            hint = getString(R.string.email_textHint)
+            setHintTextColor(ResourcesCompat.getColor(resources, R.color.textColorHint, theme))
+            setTextColor(ResourcesCompat.getColor(resources, R.color.textColor, theme))
         }
 
-        val intent = Intent(
-            this,
-            SearchActivity::class.java,
+        AlertDialogService.showDialogWithCustomView(
+            context = this,
+            title = getString(R.string.email_title),
+            customView = emailEditText,
+            positiveButton = getString(R.string.email_btn_send),
+            negativeButton = getString(R.string.email_btn_cancel),
+            positiveAction = {
+                mainViewModel.sendFeedbackEmail(
+                    emailEditText.text.toString(),
+                    this@MainActivity,
+                )
+            }
         )
-
-        intent.putExtra(
-            "tipo",
-            binding.rdgSearchBy.checkedRadioButtonId,
-        )
-        intent.putExtra(
-            "chave",
-            binding.edtSearch.text.toString(),
-        )
-
-        startActivity(intent)
-    }
-
-
-    private fun getLocaleTime(): String {
-        val dateFormat: SimpleDateFormat = if (Locale.getDefault().displayLanguage == "English") {
-            SimpleDateFormat("hh:mm a - MM/dd/yyyy", Locale.getDefault())
-        } else {
-            SimpleDateFormat("HH:mm - dd/MM/yyyy", Locale.getDefault())
-        }
-        return dateFormat.format(Calendar.getInstance().time)
-
     }
 }

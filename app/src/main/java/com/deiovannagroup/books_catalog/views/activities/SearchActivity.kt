@@ -165,11 +165,11 @@ class SearchActivity : AppCompatActivity() {
 
         //realização da busca por Título
         when (tipo) {
-            R.id.rbPesquisarPorTitulo -> {
+            R.id.rbSearchByTitle -> {
                 booksList = DatabaseHelperImpl(this).searchByTitle(chave)
             }
 
-            R.id.rbPesquisarPorAno -> {
+            R.id.rbSearchByYear -> {
                 booksList = try {
                     DatabaseHelperImpl(this).searchByYear(chave.toInt())
                 } catch (_: Exception) {
@@ -177,11 +177,11 @@ class SearchActivity : AppCompatActivity() {
                 }
             }
 
-            R.id.rbPesquisarPorAutor -> {
+            R.id.rbSearchByAuthor -> {
                 booksList = DatabaseHelperImpl(this).searchByAuthor(chave)
             }
 
-            R.id.rbPesquisarPorTodos -> {
+            R.id.rbSearchByAll -> {
                 booksList = DatabaseHelperImpl(this).searchAll()
             }
         }

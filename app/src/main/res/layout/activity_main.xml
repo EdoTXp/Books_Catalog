@@ -97,7 +97,7 @@
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/rbPesquisarPorTitulo"
+                android:id="@+id/rbSearchByTitle"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:buttonTint="?attr/colorAccent"
@@ -106,7 +106,7 @@
                 android:textSize="20sp" />
 
             <RadioButton
-                android:id="@+id/rbPesquisarPorAutor"
+                android:id="@+id/rbSearchByAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:buttonTint="?attr/colorAccent"
@@ -114,7 +114,7 @@
                 android:textSize="20sp" />
 
             <RadioButton
-                android:id="@+id/rbPesquisarPorAno"
+                android:id="@+id/rbSearchByYear"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:buttonTint="?attr/colorAccent"
@@ -122,7 +122,7 @@
                 android:textSize="20sp" />
 
             <RadioButton
-                android:id="@+id/rbPesquisarPorTodos"
+                android:id="@+id/rbSearchByAll"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:buttonTint="?attr/colorAccent"

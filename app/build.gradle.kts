@@ -64,6 +64,7 @@ dependencies {
 
     // View Model dependency
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     // View components dependencies
     implementation(libs.androidx.appcompat)
