@@ -70,23 +70,23 @@ codebase.
 
 ## 📸 Screenshots
 
-Below are some of ahe main screens of the app:
+Below are some of the main screens of the app:
 
 - **Main Screen**
-<br>
-![Main Screen](screenshots/main-screen.png)
+  
+  ![Main Screen](screenshots/main-screen.png)
 
 - **Book Register Screen**
-<br>
-![Book Details](screenshots/register-book-screen.png)
+  
+  ![Book Register Screen](screenshots/register-book-screen.png)
 
 - **Search Result Screen**
-<br>
-![Search Screen](screenshots/search-result-screen.png)
+  
+  ![Search Result Screen](screenshots/search-result-screen.png)
 
 - **Settings Screen**
-<br>
-![Settings Screen](screenshots/settings-screen.png)
+  
+  ![Settings Screen](screenshots/settings-screen.png)
 
 ---
 
