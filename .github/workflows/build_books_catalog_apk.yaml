@@ -33,11 +33,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
-      #4 Analyze Project (Lint + Check)
-      - name: Analyze Project
-        run: ./gradlew lint check
-
-      #5 Setup Keystore in root
+      #4 Setup Keystore in root
       - name: Setup Keystore
         run: |
           echo "${{ secrets.ANDROID_UPLOAD_KEYSTORE }}" | base64 --decode > keystore.jks
@@ -45,6 +41,10 @@ jobs:
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> key.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> key.properties
           echo "storeFile=keystore.jks" >> key.properties
+
+      #5 Analyze Project (Lint + Check)
+      - name: Analyze Project
+        run: ./gradlew lint check
 
       #6 Build Release APK (signed)
       - name: Build Release APK
