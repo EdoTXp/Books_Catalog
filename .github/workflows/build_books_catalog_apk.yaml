@@ -36,7 +36,7 @@ jobs:
       #4 Setup Keystore in root
       - name: Setup Keystore
         run: |
-          echo "${{ secrets.ANDROID_UPLOAD_KEYSTORE }}" | base64 --decode > keystore.jks
+          echo "${{ secrets.ANDROID_UPLOAD_KEYSTORE }}" | base64 --decode > ${{ env.main_project_module }}/keystore.jks
           echo "storePassword=${{ secrets.KEYSTORE_PASSWORD }}" > key.properties
           echo "keyPassword=${{ secrets.KEY_PASSWORD }}" >> key.properties
           echo "keyAlias=${{ secrets.KEY_ALIAS }}" >> key.properties
