@@ -65,7 +65,7 @@ jobs:
       - name: Extract version from Gradle
         id: extract_version
         run: |
-          version=$(./gradlew -q printVersionName | tail -n 1)
+          version=$(./gradlew -q printVersionNumber | tail -n 1)
           echo "VERSION=$version" >> $GITHUB_ENV
 
       #8 Check if Tag Exists

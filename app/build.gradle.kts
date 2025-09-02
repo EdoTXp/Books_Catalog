@@ -108,8 +108,10 @@ dependencies {
 }
 
 // Custom task to print the version name
-tasks.register("printVersionName") {
+tasks.register("printVersionNumber") {
     doLast {
-        println(android.defaultConfig.versionName)
+        val versionName = android.defaultConfig.versionName ?: ""
+        val versionNumber = versionName.split(" ")[0]
+        println(versionNumber)
     }
 }
