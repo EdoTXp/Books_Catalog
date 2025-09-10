@@ -13,7 +13,7 @@
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
-    tools:context=".views.activities.SettingsActivity">
+    tools:context=".ui.views.activities.SettingsActivity">
 
 
     <ScrollView
@@ -26,84 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:drawablePadding="5dp"
-                android:text="@string/action_choose_Language"
-                android:textSize="20sp"
-                app:drawableStartCompat="@drawable/ic_globe_24"
-                app:drawableTint="@color/textColor" />
-
-            <HorizontalScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <RadioGroup
-                        android:id="@+id/rg_language"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/rb_english"
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:buttonTint="?attr/colorAccent"
-                            android:checked="true"
-                            android:text="@string/english"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:id="@+id/rb_italy"
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:buttonTint="?attr/colorAccent"
-                            android:text="@string/italy"
-                            android:textSize="16sp" />
-
-                        <RadioButton
-                            android:id="@+id/rb_portuguese"
-                            android:layout_width="wrap_content"
-                            android:layout_height="50dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_marginBottom="10dp"
-                            android:buttonTint="?attr/colorAccent"
-                            android:text="@string/portuguese"
-                            android:textSize="16sp" />
-
-                    </RadioGroup>
-
-                </LinearLayout>
-            </HorizontalScrollView>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="32dp"
-                android:background="?android:attr/listDivider"
-                android:backgroundTint="@android:color/darker_gray" />
 
             <TextView
                 android:layout_width="match_parent"

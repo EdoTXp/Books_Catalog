@@ -7,13 +7,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:scrollY="0dp"
     android:scrollbarStyle="outsideOverlay"
     android:scrollbars="horizontal|vertical"
     android:soundEffectsEnabled="true"
-    tools:context=".views.activities.MainActivity"
+    app:layout_constraintBaseline_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:context=".ui.views.activities.MainActivity"
+    tools:layout_editor_absoluteY="56dp"
     tools:menu="@menu/menubar">
 
     <ImageView
@@ -65,98 +71,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView8" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/txt_pesquisarpor"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnInsert" />
-
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:scrollbars="none"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10">
-
-        <RadioGroup
-            android:id="@+id/rdg_search_by"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <RadioButton
-                android:id="@+id/rbSearchByTitle"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:buttonTint="?attr/colorAccent"
-                android:checked="true"
-                android:text="@string/txt_titulo"
-                android:textSize="20sp" />
-
-            <RadioButton
-                android:id="@+id/rbSearchByAuthor"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:buttonTint="?attr/colorAccent"
-                android:text="@string/txt_autor"
-                android:textSize="20sp" />
-
-            <RadioButton
-                android:id="@+id/rbSearchByYear"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:buttonTint="?attr/colorAccent"
-                android:text="@string/txt_ano"
-                android:textSize="20sp" />
-
-            <RadioButton
-                android:id="@+id/rbSearchByAll"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:buttonTint="?attr/colorAccent"
-                android:text="@string/txt_pesquisar_todos"
-                android:textSize="20sp" />
-        </RadioGroup>
-    </HorizontalScrollView>
-
-    <EditText
-        android:id="@+id/edt_search"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:ellipsize="end"
-        android:focusable="auto"
-        android:foregroundTint="@color/backgroundColor"
-        android:hint="@string/hint_titulo"
-        android:importantForAutofill="no"
-        android:inputType="textCapWords"
-        android:maxLength="100"
-        android:textColorHint="@color/textColorHint"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:contentDescription="@string/SearchButton_AccessDescription"
         android:padding="16dp"
@@ -171,5 +90,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edt_search" />
+        app:layout_constraintTop_toBottomOf="@+id/btnInsert" />
 </androidx.constraintlayout.widget.ConstraintLayout>

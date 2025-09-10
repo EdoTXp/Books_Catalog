@@ -5,8 +5,8 @@
 package com.deiovannagroup.books_catalog.di
 
 import android.content.Context
-import com.deiovannagroup.books_catalog.helpers.SharedPreferencesHelper
-import com.deiovannagroup.books_catalog.repositories.ThemeRepository
+import com.deiovannagroup.books_catalog.shared.helpers.SharedPreferencesHelper
+import com.deiovannagroup.books_catalog.data.repositories.theme_repository.ThemeRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -14,25 +14,25 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".views.activities.InsertBookActivity"
+            android:name="com.deiovannagroup.books_catalog.ui.views.activities.InsertBookActivity"
             android:exported="false"
             android:label="@string/title_activity_tela_cadastrar"
-            android:parentActivityName=".views.activities.MainActivity" />
+            android:parentActivityName="com.deiovannagroup.books_catalog.ui.views.activities.MainActivity" />
 
         <activity
-            android:name=".views.activities.SearchActivity"
+            android:name="com.deiovannagroup.books_catalog.ui.views.activities.SearchActivity"
             android:exported="false"
             android:label="@string/title_activity_tela_pesquisar"
-            android:parentActivityName=".views.activities.MainActivity" />
+            android:parentActivityName="com.deiovannagroup.books_catalog.ui.views.activities.MainActivity" />
 
         <activity
-            android:name=".views.activities.SettingsActivity"
+            android:name="com.deiovannagroup.books_catalog.ui.views.activities.SettingsActivity"
             android:exported="false"
             android:label="@string/menu_settings"
-            android:parentActivityName=".views.activities.MainActivity" />
+            android:parentActivityName="com.deiovannagroup.books_catalog.ui.views.activities.MainActivity" />
 
         <activity
-            android:name=".views.activities.MainActivity"
+            android:name="com.deiovannagroup.books_catalog.ui.views.activities.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.AppSplash">
             <intent-filter>

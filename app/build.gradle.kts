@@ -22,7 +22,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 8
-        versionName = "8.0.7 New Era"
+        versionName = "8.1.0 How Many Rooms"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -80,6 +80,11 @@ android {
 }
 
 dependencies {
+    // Room dependencies
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
     // KSP hilt dependency
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.android)
@@ -93,6 +98,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.androidx.room.testing)
 
     // View Model dependency
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

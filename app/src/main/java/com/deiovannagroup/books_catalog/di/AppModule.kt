@@ -5,10 +5,13 @@
 package com.deiovannagroup.books_catalog.di
 
 import android.content.Context
-import com.deiovannagroup.books_catalog.repositories.BookRepository
-import com.deiovannagroup.books_catalog.repositories.BookRepositoryImpl
-import com.deiovannagroup.books_catalog.helpers.DatabaseHelper
-import com.deiovannagroup.books_catalog.helpers.DatabaseHelperImpl
+import androidx.room.Room
+import com.deiovannagroup.books_catalog.data.dao.BookDao
+import com.deiovannagroup.books_catalog.data.database.AppDatabase
+import com.deiovannagroup.books_catalog.data.datasources.BookDataSource.BookDataSource
+import com.deiovannagroup.books_catalog.data.datasources.BookDataSource.LocalBookDataSourceImpl
+import com.deiovannagroup.books_catalog.data.repositories.book_repository.BookRepository
+import com.deiovannagroup.books_catalog.data.repositories.book_repository.BookRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,13 +24,29 @@ import javax.inject.Singleton
 object AppModule {
     @Provides
     @Singleton
-    fun provideBookDatabase(@ApplicationContext appContext: Context): DatabaseHelper {
-        return DatabaseHelperImpl(appContext)
+    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "books.db"
+        ).build()
     }
 
     @Provides
     @Singleton
-    fun provideBookRepository(bookDatabase: DatabaseHelper): BookRepository {
-        return BookRepositoryImpl(bookDatabase)
+    fun provideBookDao(appDatabase: AppDatabase): BookDao {
+        return appDatabase.bookDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideBookDataSource(bookDao: BookDao): BookDataSource {
+        return LocalBookDataSourceImpl(bookDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideBookRepository(bookDataSource: BookDataSource): BookRepository {
+        return BookRepositoryImpl(bookDataSource)
     }
 }

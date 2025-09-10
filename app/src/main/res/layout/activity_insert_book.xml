@@ -12,7 +12,7 @@
     android:layout_height="match_parent"
     android:isScrollContainer="true"
     android:scrollbars="horizontal|vertical"
-    tools:context=".views.activities.InsertBookActivity">
+    tools:context=".ui.views.activities.InsertBookActivity">
 
 
     <ImageView
