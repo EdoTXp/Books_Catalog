@@ -1,4 +1,3 @@
-// src/main/java/com/deiovannagroup/books_catalog/ui/views/activities/InsertBookActivity.kt
 package com.deiovannagroup.books_catalog.ui.views.activities
 
 import android.Manifest
@@ -7,21 +6,16 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
-import android.widget.ProgressBar
-import androidx.activity.enableEdgeToEdge
+import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -31,6 +25,8 @@ import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
 import com.deiovannagroup.books_catalog.ui.viewmodel.InsertBookViewModel
 import com.deiovannagroup.books_catalog.ui.viewmodel.InsertBookState
 import com.deiovannagroup.books_catalog.databinding.ActivityInsertBookBinding
+import com.deiovannagroup.books_catalog.shared.utils.handleNotificationPermissionRequest
+import com.deiovannagroup.books_catalog.shared.utils.setEdgeToEdgeLayout
 import com.google.android.material.textfield.TextInputLayout
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -43,16 +39,14 @@ class InsertBookActivity : AppCompatActivity() {
     private var notificationPermission = false
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        notificationPermission = isGranted
-    }
+    ) { isGranted: Boolean -> notificationPermission = isGranted }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setEdgeToEdgeLayout()
+        setEdgeToEdgeLayout(binding.root, binding.main)
         setSupportActionBar()
         initListeners()
-        getNotificationPermission()
+        notificationPermission = handleNotificationPermissionRequest(requestPermissionLauncher)
         observeViewModelState()
     }
 
@@ -67,27 +61,16 @@ class InsertBookActivity : AppCompatActivity() {
         binding.btnSaveBook.setOnClickListener { insertBook() }
     }
 
-    private fun setEdgeToEdgeLayout() {
-        enableEdgeToEdge()
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom,
-            )
-            insets
-        }
-    }
-
     private fun insertBook() {
         if (validateAllFields()) {
             val titleBook = binding.edtBookTitle.text.toString().trim()
             val authorBook = binding.edtBookAuthor.text.toString().trim()
             val yearBook = binding.edtBookYear.text.toString().trim()
-            insertBookViewModel.insertBook(titleBook, authorBook, yearBook)
+            insertBookViewModel.insertBook(
+                titleBook,
+                authorBook,
+                yearBook,
+            )
         }
     }
 
@@ -96,11 +79,23 @@ class InsertBookActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 insertBookViewModel.insertBookState.collect { state ->
                     when (state) {
+                        is InsertBookState.Initial -> {
+                            binding.apply {
+                                btnSaveBook.visibility = View.VISIBLE
+                                edtBookTitle.visibility = View.VISIBLE
+                                edtBookAuthor.visibility = View.VISIBLE
+                                edtBookYear.visibility = View.VISIBLE
+                                insertBookProgressBar.visibility = View.GONE
+                            }
+                        }
+
                         is InsertBookState.Loading -> {
-                            // Optionally show a progress bar
-                            ProgressBar(this@InsertBookActivity).apply {
-                                isIndeterminate = true
-                                visibility = ProgressBar.VISIBLE
+                            binding.apply {
+                                btnSaveBook.visibility = View.GONE
+                                edtBookTitle.visibility = View.GONE
+                                edtBookAuthor.visibility = View.GONE
+                                edtBookYear.visibility = View.GONE
+                                insertBookProgressBar.visibility = View.VISIBLE
                             }
                         }
 
@@ -113,10 +108,6 @@ class InsertBookActivity : AppCompatActivity() {
                             handleError()
                             insertBookViewModel.resetState()
                         }
-
-                        is InsertBookState.Idle -> {
-                            // Do nothing
-                        }
                     }
                 }
             }
@@ -125,15 +116,16 @@ class InsertBookActivity : AppCompatActivity() {
 
     private fun handleSuccess() {
         showNotification()
-        binding.edtBookTitle.text?.clear()
-        binding.edtBookAuthor.text?.clear()
-        binding.edtBookYear.text?.clear()
-        binding.edtBookTitle.requestFocus()
+        binding.apply {
+            edtBookTitle.text?.clear()
+            edtBookAuthor.text?.clear()
+            edtBookYear.text?.clear()
+            edtBookTitle.requestFocus()
+        }
     }
 
-    private fun handleError() {
-        showToastAndVibrate(getString(R.string.error_msg))
-    }
+    private fun handleError() = showToastAndVibrate(getString(R.string.error_msg))
+
 
     private fun showNotification() {
         if (notificationPermission) {
@@ -171,17 +163,6 @@ class InsertBookActivity : AppCompatActivity() {
             }
             NotificationManagerCompat.from(this).notify(notificationId, builder.build())
         }
-    }
-
-    private fun getNotificationPermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || ContextCompat.checkSelfPermission(
-                this, Manifest.permission.POST_NOTIFICATIONS
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            notificationPermission = true
-            return
-        }
-        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
     }
 
     private fun validateAllFields(): Boolean {

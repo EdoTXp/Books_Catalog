@@ -4,7 +4,7 @@
 
 package com.deiovannagroup.books_catalog.data.repositories.book_repository
 
-import com.deiovannagroup.books_catalog.data.datasources.BookDataSource.BookDataSource
+import com.deiovannagroup.books_catalog.data.datasources.book_data_source.BookDataSource
 import com.deiovannagroup.books_catalog.domain.models.Book
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

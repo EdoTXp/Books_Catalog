@@ -5,7 +5,7 @@
 package com.deiovannagroup.books_catalog.di
 
 import android.content.Context
-import com.deiovannagroup.books_catalog.shared.helpers.SharedPreferencesHelper
+import com.deiovannagroup.books_catalog.shared.helpers.ThemeSharedPreference
 import com.deiovannagroup.books_catalog.data.repositories.theme_repository.ThemeRepository
 import dagger.Module
 import dagger.Provides
@@ -21,15 +21,15 @@ object ThemeModule {
     @Singleton
     fun provideSharedPreferencesHelper(
         @ApplicationContext appContext: Context,
-    ): SharedPreferencesHelper {
-        return SharedPreferencesHelper(appContext)
+    ): ThemeSharedPreference {
+        return ThemeSharedPreference(appContext)
     }
 
     @Provides
     @Singleton
     fun provideThemeRepository(
-        sharedPreferencesHelper: SharedPreferencesHelper,
+        themeSharedPreference: ThemeSharedPreference,
     ): ThemeRepository {
-        return ThemeRepository(sharedPreferencesHelper)
+        return ThemeRepository(themeSharedPreference)
     }
 }

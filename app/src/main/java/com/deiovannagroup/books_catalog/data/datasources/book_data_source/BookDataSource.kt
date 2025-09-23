@@ -2,7 +2,7 @@
  * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
 
-package com.deiovannagroup.books_catalog.data.datasources.BookDataSource
+package com.deiovannagroup.books_catalog.data.datasources.book_data_source
 
 import com.deiovannagroup.books_catalog.domain.models.Book
 import kotlinx.coroutines.flow.Flow

@@ -8,7 +8,12 @@ import android.content.SharedPreferences
 import androidx.core.content.edit
 import javax.inject.Inject
 
-class SharedPreferencesHelper @Inject constructor(context: Context) {
+class ThemeSharedPreference @Inject constructor(context: Context) {
+
+    companion object {
+        private const val KEY_NIGHT_MODE = "NightModeChoice"
+        private const val THEME_UNDEFINED = -1
+    }
 
     private val sharedPrefs: SharedPreferences =
         context.getSharedPreferences(
@@ -16,11 +21,11 @@ class SharedPreferencesHelper @Inject constructor(context: Context) {
             Context.MODE_PRIVATE,
         )
 
-    fun putInt(key: String, value: Int) {
-        sharedPrefs.edit { putInt(key, value) }
+    fun setTheme(themeValue: Int) {
+        sharedPrefs.edit { putInt(KEY_NIGHT_MODE, themeValue) }
     }
 
-    fun getInt(key: String, default: Int = -1): Int {
-        return sharedPrefs.getInt(key, default)
+    fun getTheme(): Int {
+        return sharedPrefs.getInt(KEY_NIGHT_MODE, THEME_UNDEFINED)
     }
 }

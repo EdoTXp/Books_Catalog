@@ -4,18 +4,16 @@
 package com.deiovannagroup.books_catalog.ui.views.activities
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.deiovannagroup.books_catalog.R
 import com.deiovannagroup.books_catalog.databinding.ActivitySettingsBinding
 import com.deiovannagroup.books_catalog.domain.services.app_services.AlertDialogService
+import com.deiovannagroup.books_catalog.shared.utils.setEdgeToEdgeLayout
 import com.deiovannagroup.books_catalog.shared.utils.setSupportActionBar
 import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
 import com.deiovannagroup.books_catalog.ui.viewmodel.SettingsUiEvent
@@ -30,7 +28,7 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setEdgeToEdgeLayout()
+        setEdgeToEdgeLayout(binding.root, binding.main)
         setSupportActionBar()
         initListeners()
         setupObservers()
@@ -42,7 +40,6 @@ class SettingsActivity : AppCompatActivity() {
                 launch {
                     settingsViewModel.themeState.collect { themeMode ->
                         setCheckedRadioButton(themeMode)
-                        AppCompatDelegate.setDefaultNightMode(themeMode)
                     }
                 }
 
@@ -69,12 +66,13 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun initListeners() {
-        binding.btnClearData.setOnClickListener {
-            settingsViewModel.onClearDataClicked()
-        }
-
-        binding.radioGroupTheme.setOnCheckedChangeListener { _, checkedId ->
-            settingsViewModel.onThemeSelected(checkedId)
+        binding.apply {
+            btnClearData.setOnClickListener {
+                settingsViewModel.onClearDataClicked()
+            }
+            radioGroupTheme.setOnCheckedChangeListener { _, checkedId ->
+                settingsViewModel.onThemeSelected(checkedId)
+            }
         }
     }
 
@@ -87,20 +85,5 @@ class SettingsActivity : AppCompatActivity() {
             else -> return
         }
         binding.radioGroupTheme.check(buttonId)
-    }
-
-    private fun setEdgeToEdgeLayout() {
-        enableEdgeToEdge()
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom,
-            )
-            insets
-        }
     }
 }

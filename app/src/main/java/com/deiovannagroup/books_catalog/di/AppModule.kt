@@ -8,8 +8,8 @@ import android.content.Context
 import androidx.room.Room
 import com.deiovannagroup.books_catalog.data.dao.BookDao
 import com.deiovannagroup.books_catalog.data.database.AppDatabase
-import com.deiovannagroup.books_catalog.data.datasources.BookDataSource.BookDataSource
-import com.deiovannagroup.books_catalog.data.datasources.BookDataSource.LocalBookDataSourceImpl
+import com.deiovannagroup.books_catalog.data.datasources.book_data_source.BookDataSource
+import com.deiovannagroup.books_catalog.data.datasources.book_data_source.LocalBookDataSourceImpl
 import com.deiovannagroup.books_catalog.data.repositories.book_repository.BookRepository
 import com.deiovannagroup.books_catalog.data.repositories.book_repository.BookRepositoryImpl
 import dagger.Module

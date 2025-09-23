@@ -1,66 +1,158 @@
-<!--
-  ~ Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fadeScrollbars="false"
-    android:isScrollContainer="true"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     tools:context=".ui.views.activities.SearchActivity">
+
+    <LinearLayout
+        android:id="@+id/search_controls"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioGroup
+            android:id="@+id/rdgSearchBy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbSearchByTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/white"
+                android:checked="true"
+                android:text="@string/txt_titulo"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/rbSearchByAuthor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/white"
+                android:checked="false"
+                android:text="@string/txt_autor"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/rbSearchByYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/white"
+                android:text="@string/txt_ano"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/rbSearchByAll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:buttonTint="@color/white"
+                android:text="@string/txt_pesquisar_todos"
+                android:textColor="@color/white" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autofillHints=""
+            android:background="@color/backgroundColor"
+            android:hint="@string/hint_titulo"
+            android:inputType="text"
+            android:padding="12dp"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/textColorHint" />
+
+        <Button
+            android:id="@+id/btnSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
+            android:text="@string/btn_Pesquisar"
+            android:textColor="@color/colorPrimary"
+            app:icon="@drawable/ic_search_24"
+            app:iconGravity="textStart"
+            app:iconTint="@color/colorPrimary" />
+    </LinearLayout>
 
 
     <TextView
         android:id="@+id/txt_search_founded"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:drawablePadding="5dp"
-        android:text="@string/txt_pesquisar"
-        android:textSize="26sp"
-        android:visibility="visible"
-        app:drawableStartCompat="@drawable/book_founded_img"
+        android:padding="8dp"
+        android:text="@android:string/search_go"
+        android:textAlignment="center"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/search_controls" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_books"
+        android:id="@+id/rvBooks"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        android:contentDescription="@string/recycler_view_books_content_description"
+        android:visibility="gone"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_search_founded">
+        app:layout_constraintTop_toBottomOf="@id/txt_search_founded"
+        tools:listitem="@layout/book_component"
+        tools:visibility="gone" />
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_up"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/searchFragmentContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:clickable="true"
-        android:contentDescription="@string/description_floatingActionButton"
-        android:focusable="true"
-        android:foregroundTintMode="src_in"
-        android:src="@drawable/ic_arrow_up_24"
-        android:visibility="invisible"
-        app:borderWidth="0dp"
-        app:fabSize="mini"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:tint="@color/white" />
+        app:layout_constraintTop_toBottomOf="@id/txt_search_founded"
+        tools:layout="@layout/fragment_empty_book"
+        tools:visibility="visible" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:contentDescription="@string/description_floatingActionButton"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_arrow_up_24"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/search_controls"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

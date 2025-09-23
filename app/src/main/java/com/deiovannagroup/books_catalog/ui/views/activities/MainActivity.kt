@@ -10,19 +10,17 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.EditText
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import com.deiovannagroup.books_catalog.BuildConfig
 import com.deiovannagroup.books_catalog.R
 import com.deiovannagroup.books_catalog.databinding.ActivityMainBinding
 import com.deiovannagroup.books_catalog.domain.services.app_services.AlertDialogService
 import com.deiovannagroup.books_catalog.domain.services.email_service.EmailService
+import com.deiovannagroup.books_catalog.shared.utils.setEdgeToEdgeLayout
 import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -39,19 +37,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-        setupEdgeToEdge()
+        setEdgeToEdgeLayout(binding.root, binding.main)
         initMenuBar()
         initListeners()
-    }
-
-    private fun setupEdgeToEdge() {
-        enableEdgeToEdge()
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
     }
 
     private fun initListeners() {
@@ -86,7 +74,12 @@ class MainActivity : AppCompatActivity() {
                 override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                     return when (menuItem.itemId) {
                         R.id.menu_settings -> {
-                            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+                            startActivity(
+                                Intent(
+                                    this@MainActivity,
+                                    SettingsActivity::class.java,
+                                )
+                            )
                             true
                         }
 
@@ -131,7 +124,8 @@ class MainActivity : AppCompatActivity() {
                 sendFeedbackEmail(
                     emailEditText.text.toString()
                 )
-            })
+            },
+        )
     }
 
     private fun sendFeedbackEmail(feedbackText: String) {

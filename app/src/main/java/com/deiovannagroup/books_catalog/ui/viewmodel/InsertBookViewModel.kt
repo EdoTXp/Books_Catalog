@@ -5,18 +5,20 @@
 package com.deiovannagroup.books_catalog.ui.viewmodel
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deiovannagroup.books_catalog.data.repositories.book_repository.BookRepository
 import com.deiovannagroup.books_catalog.domain.models.Book
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 sealed class InsertBookState {
-    object Idle : InsertBookState()
+    object Initial : InsertBookState()
     object Loading : InsertBookState()
     object Success : InsertBookState()
     object Error : InsertBookState()
@@ -27,7 +29,7 @@ class InsertBookViewModel @Inject constructor(
     private val bookRepository: BookRepository
 ) : ViewModel() {
 
-    private val _insertBookState = MutableStateFlow<InsertBookState>(InsertBookState.Idle)
+    private val _insertBookState = MutableStateFlow<InsertBookState>(InsertBookState.Initial)
     val insertBookState: StateFlow<InsertBookState> = _insertBookState
 
     fun insertBook(title: String, author: String, year: String) {
@@ -38,18 +40,20 @@ class InsertBookViewModel @Inject constructor(
                     id = 0,
                     title = title,
                     author = author,
-                    year = year.toInt() // The view should ensure this is a valid Int
+                    year = year.toInt(),
                 )
                 bookRepository.insertBook(book)
+
+                delay(1000L) // 1 second delay to wait a loading animation
                 _insertBookState.value = InsertBookState.Success
-            } catch (_: Exception) {
-                // Log the exception for debugging
+            } catch (e: Exception) {
+                Log.e("InsertBookViewModel", "Error on insert book: ${e.message}")
                 _insertBookState.value = InsertBookState.Error
             }
         }
     }
 
     fun resetState() {
-        _insertBookState.value = InsertBookState.Idle
+        _insertBookState.value = InsertBookState.Initial
     }
 }

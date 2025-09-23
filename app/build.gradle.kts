@@ -22,7 +22,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 8
-        versionName = "8.1.0 How Many Rooms"
+        versionName = "8.3.0 How Many Rooms"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -76,7 +76,7 @@ android {
         viewBinding = true
     }
     buildToolsVersion = "36.0.0"
-    ndkVersion = "29.0.13846066 rc3"
+    ndkVersion = "29.0.14033849 rc4"
 }
 
 dependencies {

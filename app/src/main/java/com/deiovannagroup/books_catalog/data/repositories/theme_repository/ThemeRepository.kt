@@ -4,31 +4,21 @@
 
 package com.deiovannagroup.books_catalog.data.repositories.theme_repository
 
-import com.deiovannagroup.books_catalog.shared.helpers.SharedPreferencesHelper
+import com.deiovannagroup.books_catalog.shared.helpers.ThemeSharedPreference
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 class ThemeRepository @Inject constructor(
-    private val sharedPreferencesHelper: SharedPreferencesHelper
+    private val themeSharedPreference: ThemeSharedPreference
 ) {
-    companion object {
-        private const val KEY_NIGHT_MODE = "NightModeChoice"
-        const val THEME_UNDEFINED = -1
-    }
-
     private val _theme = MutableStateFlow(getTheme())
-    val theme: StateFlow<Int> = _theme.asStateFlow()
+    val theme: StateFlow<Int> = _theme
 
-    fun getTheme() = sharedPreferencesHelper.getInt(
-        KEY_NIGHT_MODE,
-        THEME_UNDEFINED,
-    )
+    fun getTheme(): Int = themeSharedPreference.getTheme()
 
     fun setTheme(value: Int) {
-        sharedPreferencesHelper.putInt(KEY_NIGHT_MODE, value)
+        themeSharedPreference.setTheme(value)
         _theme.value = value
     }
-
 }

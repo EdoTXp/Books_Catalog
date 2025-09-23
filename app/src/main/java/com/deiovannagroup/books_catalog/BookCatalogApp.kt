@@ -4,6 +4,7 @@
 package com.deiovannagroup.books_catalog
 
 import android.app.Application
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.deiovannagroup.books_catalog.data.repositories.theme_repository.ThemeRepository
 import dagger.hilt.android.HiltAndroidApp
@@ -27,6 +28,7 @@ class BookCatalogApp : Application() {
         CoroutineScope(Dispatchers.Main).launch {
             themeRepository.theme.collect { themeMode ->
                 AppCompatDelegate.setDefaultNightMode(themeMode)
+                Log.i("BookCatalogAppTAG", "Theme set to $themeMode")
             }
         }
     }

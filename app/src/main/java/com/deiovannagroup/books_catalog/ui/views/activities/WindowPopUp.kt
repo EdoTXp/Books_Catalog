@@ -3,7 +3,7 @@
  */
 package com.deiovannagroup.books_catalog.ui.views.activities
 
-import android.content.Context
+/*import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -29,7 +29,7 @@ class WindowPopUp {
         val inflater = (view.context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
         val popupView = inflater.inflate(
-            R.layout.popupwindow,
+            R.layout.popup_window,
             LinearLayout(view.context),
         )
         val width = LinearLayout.LayoutParams.MATCH_PARENT
@@ -89,4 +89,4 @@ class WindowPopUp {
             true
         }
     }
-}
+}*/

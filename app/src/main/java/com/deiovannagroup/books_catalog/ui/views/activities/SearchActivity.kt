@@ -1,275 +1,182 @@
-/*
- * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
- */
 package com.deiovannagroup.books_catalog.ui.views.activities
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.MenuProvider
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.deiovannagroup.books_catalog.R
-import com.deiovannagroup.books_catalog.shared.enums.Order
-import com.deiovannagroup.books_catalog.ui.adapters.BookComponentAdapter
 import com.deiovannagroup.books_catalog.databinding.ActivitySearchBinding
-import com.deiovannagroup.books_catalog.domain.services.app_services.AlertDialogService
-import com.deiovannagroup.books_catalog.shared.utils.setSupportActionBar
+import com.deiovannagroup.books_catalog.shared.utils.setEdgeToEdgeLayout
 import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
-//import com.deiovannagroup.books_catalog.ui.fragments.EmptyBookFragment
+import com.deiovannagroup.books_catalog.ui.adapters.BookComponentAdapter
+import com.deiovannagroup.books_catalog.ui.fragments.EmptyBookFragment
+import com.deiovannagroup.books_catalog.ui.viewmodel.SearchUiState
+import com.deiovannagroup.books_catalog.ui.viewmodel.SearchViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
 
     private val binding by lazy {
         ActivitySearchBinding.inflate(layoutInflater)
     }
 
- /*   private val emptyBookFragmentManager = supportFragmentManager.beginTransaction()
-        .replace(
-            R.id.main,
-            EmptyBookFragment(),
-        )*/
+    private val searchViewModel: SearchViewModel by viewModels()
 
     private lateinit var bookAdapter: BookComponentAdapter
-    private var checked: Int = 0 // valor selecionado para executar o sort do bookAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setEdgeToEdgeLayout()
-        setSupportActionBar()
-        initFilterMenu()
+        setEdgeToEdgeLayout(binding.root, binding.main)
+        setupFragmentContainer(savedInstanceState)
+        setupUI()
         initListeners()
-
-        /*
-         * Intent recebe dois parâmentros:
-         * o Tipo: recebe o id do RadioGroup passado na TelaPrincipal e
-         * na Notificação o id: R.id.rbPesquisarPorTodos
-         * a chave: O valor do texto recebido na TelaPrincipal e no caso da notificação, um texto vazio
-         * */
-        /*  val it = intent
-          if (it != null) {
-
-              // preenchimento dos parâmetros para passar à busca no database.
-              val tipo = it.getIntExtra("tipo", 0)
-              val chave = it.getStringExtra("chave")
-
-              //preenchimento da lista com os dados do database
-          //    val lista = null
-
-              /* Será feita a criação do RecyclerView
-               * onde vai preencher BookComponentAdapter
-               * e em seguida, adicioná-los ao RecyclerView
-               * */
-              if (lista.isNotEmpty()) {
-                  //preenchimeto do recyclerView com o file xml
-
-
-                  /* Será criado um Array de Livros e preencidos com os valores vindos da "lista".
-                   * Ao terminar o preenchimento de todos os livro,
-                   * será adicionado ao bookAdapter e em seguida,
-                   * adicionado ao RecycleView
-                   */
-
-                  //criação do Array de Livros
-                  val bookItems = ArrayList<Book>()
-                /*  for (cv in lista) {
-                      val bookItem = Book(
-                          cv.getAsInteger("id"),
-                          cv.getAsString("titulo"),
-                          cv.getAsString("autor"),
-                          cv.getAsInteger("ano")
-                      )
-                      bookItems.add(bookItem)
-                  }*/
-
-
-                  //adicionando os arrays de livros ao bookadapter
-                  bookAdapter = BookComponentAdapter(bookItems)
-
-                  //adicionando um contador de livros encontrados
-                  val bookResult = findViewById<TextView>(R.id.txt_search_founded)
-                  val quantityOfBookResult = "${getString(R.string.txt_pesquisar)} ${bookItems.size}"
-
-                  bookResult.text = quantityOfBookResult
-
-                  //adicionando o bookAdapter, ordenadamente, ao reclycerView e adicionado o layout
-                  binding.rvBooks.adapter = bookAdapter
-                  bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
-                  binding.rvBooks.layoutManager = LinearLayoutManager(this)
-
-                  /* Adicionando o evento de scroll onde se a posição do primeiro item for maior que zero,
-                   * aparecerá visível o botão upButton senão ficará invisível
-                   */
-                  binding.rvBooks.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                      override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                          binding.fabUp.visibility =
-                              if (recyclerView.computeVerticalScrollOffset() != 0) {
-                                  View.VISIBLE
-                              } else View.INVISIBLE
-                          super.onScrolled(recyclerView, dx, dy)
-                      }
-                  })
-
-                  // Quando o bookAdapter ficará vazio, será desabilitdo o botão do menu "btnFilter"
-                  bookAdapter.registerAdapterDataObserver(object : AdapterDataObserver() {
-                      override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
-                          if (bookAdapter.itemsIsEmpty()) {
-                              showEmptyBookFragment()
-                          }
-                      }
-                  })
-              } else
-                  showEmptyBookFragment()
-          }*/
+        setupObservers()
     }
 
-    /*private fun showEmptyBookFragment() {
-        binding.txtSearchFounded.visibility = View.INVISIBLE
-        emptyBookFragmentManager.commit()
-    }*/
+    private fun setupFragmentContainer(savedInstanceState: Bundle?) {
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction().replace(
+                binding.searchFragmentContainer.id,
+                EmptyBookFragment(),
+            ).commit()
+        }
+    }
+
+
+    private fun setupUI() {
+        bookAdapter = BookComponentAdapter(
+            onEditBook = { book ->
+                searchViewModel.updateBook(
+                    book.id,
+                    book.title,
+                    book.author,
+                    book.year.toString()
+                )
+                showToastAndVibrate(getString(R.string.success_msg))
+            }, onLongClickBook = { book ->
+
+            }, onDeleteBook = { book ->
+                searchViewModel.deleteBook(book)
+                showToastAndVibrate(getString(R.string.success_msg))
+            }
+        )
+
+        binding.rvBooks.apply {
+            layoutManager = LinearLayoutManager(this@SearchActivity)
+            adapter = bookAdapter
+        }
+    }
 
     private fun initListeners() {
-        binding.fabUp.setOnClickListener {
-            binding.rvBooks.scrollToPosition(0)
-            binding.fabUp.visibility = View.INVISIBLE
-        }
-    }
+        binding.rdgSearchBy.setOnCheckedChangeListener { _, checkedId ->
+            binding.edtSearch.text?.clear()
+            binding.edtSearch.isEnabled = true
 
-    private fun setEdgeToEdgeLayout() {
-        enableEdgeToEdge()
-        setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(
-                systemBars.left,
-                systemBars.top,
-                systemBars.right,
-                systemBars.bottom,
-            )
-            insets
-        }
-    }
+            when (checkedId) {
+                R.id.rbSearchByTitle -> binding.edtSearch.hint =
+                    getString(R.string.hint_titulo)
 
-    /*   private fun getContentValuesList(tipo: Int, chave: String): List<ContentValues> {
-          var booksList: List<ContentValues> = ArrayList()
+                R.id.rbSearchByAuthor -> binding.edtSearch.hint =
+                    getString(R.string.hint_autor)
 
-          //realização da busca por Título
-         when (tipo) {
-              R.id.rbSearchByTitle -> {
-                  booksList = DatabaseHelperImpl(this).searchByTitle(chave)
-              }
+                R.id.rbSearchByYear -> binding.edtSearch.hint =
+                    getString(R.string.hint_ano)
 
-              R.id.rbSearchByYear -> {
-                  booksList = try {
-                      DatabaseHelperImpl(this).searchByYear(chave.toInt())
-                  } catch (_: Exception) {
-                      DatabaseHelperImpl(this).searchAll()
-                  }
-              }
-
-              R.id.rbSearchByAuthor -> {
-                  booksList = DatabaseHelperImpl(this).searchByAuthor(chave)
-              }
-
-              R.id.rbSearchByAll -> {
-                  booksList = DatabaseHelperImpl(this).searchAll()
-              }
-          }
-        return booksList
-    }*/
-
-    private fun initFilterMenu() {
-        addMenuProvider(object : MenuProvider {
-            override fun onCreateMenu(
-                menu: Menu,
-                menuInflater: MenuInflater
-            ) {
-              /*  if (DatabaseHelperImpl(this@SearchActivity).tableExist()) {
-                    menuInflater.inflate(R.menu.filter_item_bar, menu)
-                    true
-                }*/
-                false
+                R.id.rbSearchByAll -> {
+                    binding.edtSearch.isEnabled = false
+                    binding.edtSearch.hint = getString(R.string.txt_pesquisar_todos)
+                }
             }
+        }
 
+        binding.btnSearch.setOnClickListener {
+            val query = binding.edtSearch.text.toString().trim()
+            if (query.isNotEmpty()) {
+                when (binding.rdgSearchBy.checkedRadioButtonId) {
+                    R.id.rbSearchByTitle -> {
+                        searchViewModel.searchBookByTitle(query)
+                    }
 
-            override fun onMenuItemSelected(item: MenuItem): Boolean {
-                /*
-        * Opções para escolher como ordenar os livros
-        * */
-                if (item.itemId == R.id.btn_filter && bookAdapter.itemCount > 0) {
-                    val orderOptions = arrayOf(
-                        getString(R.string.txt_titulo) + " ↑",
-                        getString(R.string.txt_titulo) + " ↓",
-                        getString(R.string.txt_autor) + " ↑",
-                        getString(R.string.txt_autor) + " ↓",
-                        getString(R.string.txt_ano) + " ↑",
-                        getString(R.string.txt_ano) + " ↓"
-                    )
+                    R.id.rbSearchByAuthor -> {
+                        searchViewModel.searchBookByAuthor(query)
+                    }
 
-                    AlertDialogService.showDialogWithSingleChoiceItems(
-                        this@SearchActivity,
-                        getString(R.string.order_txt),
-                        items = orderOptions,
-                        checkedItem = checked,
-                        negativeButton = getString(R.string.email_btn_cancel),
-                        checkedAction = { dialog, which ->
-                            when (which) {
-                                0 -> {
-                                    bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
-                                    dialog.dismiss()
-                                    checked = 0
-                                }
+                    R.id.rbSearchByYear -> {
+                        val year = query.toIntOrNull()
+                        if (year != null) {
+                            searchViewModel.searchBookByYear(year)
+                        } else {
+                            showToastAndVibrate(getString(R.string.error_msg))
+                        }
+                    }
+                }
+            } else if (binding.rdgSearchBy.checkedRadioButtonId == R.id.rbSearchByAll) {
+                searchViewModel.searchAllBooks()
+            } else {
+                showToastAndVibrate(getString(R.string.empty_field_error))
+            }
+        }
 
-                                1 -> {
-                                    bookAdapter.setSortOfAdapterView(1, Order.DESCENDANT)
-                                    dialog.dismiss()
-                                    checked = which
-                                }
+        binding.fabUp.setOnClickListener {
+            binding.rvBooks.smoothScrollToPosition(0)
+        }
+    }
 
-                                2 -> {
-                                    bookAdapter.setSortOfAdapterView(2, Order.ASCENDANT)
-                                    dialog.dismiss()
-                                    checked = which
-                                }
+    private fun setupObservers() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    searchViewModel.searchState.collect { state ->
+                        resetViews()
 
-                                3 -> {
-                                    bookAdapter.setSortOfAdapterView(2, Order.DESCENDANT)
-                                    dialog.dismiss()
-                                    checked = which
-                                }
+                        when (state) {
+                            is SearchUiState.Initial -> {}
 
-                                4 -> {
-                                    bookAdapter.setSortOfAdapterView(3, Order.ASCENDANT)
-                                    dialog.dismiss()
-                                    checked = which
-                                }
+                            is SearchUiState.Loading -> binding.progressBar.visibility =
+                                View.VISIBLE
 
-                                5 -> {
-                                    bookAdapter.setSortOfAdapterView(3, Order.DESCENDANT)
-                                    dialog.dismiss()
-                                    checked = which
-                                }
+                            is SearchUiState.Empty -> binding.searchFragmentContainer.visibility =
+                                View.VISIBLE
 
-                                else -> {
-                                    bookAdapter.setSortOfAdapterView(1, Order.ASCENDANT)
-                                    dialog.dismiss()
-                                    checked = 0
+                            is SearchUiState.Success -> {
+                                binding.apply {
+                                    rvBooks.visibility = View.VISIBLE
+                                    fabUp.visibility = View.VISIBLE
+                                    txtSearchFounded.visibility = View.VISIBLE
 
-                                    showToastAndVibrate(
-                                        getString(R.string.error_msg),
-                                    )
+                                    bookAdapter.submitList(state.books)
+
+                                    val booksFounded =
+                                        getString(R.string.txt_pesquisar) + "${state.books.size}"
+
+                                    txtSearchFounded.text = booksFounded
                                 }
                             }
-                        },
-                    )
-                }
-                return true
-            }
 
-        })
+                            is SearchUiState.Error -> showToastAndVibrate(
+                                getString(R.string.error_msg) + ": " + state.message,
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun resetViews() {
+        binding.apply {
+            progressBar.visibility = View.GONE
+            rvBooks.visibility = View.GONE
+            searchFragmentContainer.visibility = View.GONE
+            fabUp.visibility = View.GONE
+            txtSearchFounded.visibility = View.GONE
+        }
     }
 }
