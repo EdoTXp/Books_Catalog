@@ -13,6 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,25 +30,19 @@ class SearchViewModel @Inject constructor(
     private val bookRepository: BookRepository,
 ) : ViewModel() {
 
-
     private val _searchState = MutableStateFlow<SearchUiState>(SearchUiState.Initial)
     val searchState: StateFlow<SearchUiState> = _searchState
-
 
     fun searchBookByTitle(title: String) {
         viewModelScope.launch {
             _searchState.value = SearchUiState.Loading
             try {
-                val books = bookRepository.getBooksByTitle(title)
+                val books = bookRepository.getBooksByTitle(title).first()
+                delay(1000L) // 1 second delay to wait a loading animation
 
-                books.collect { books ->
-                    delay(1000L) // 1 second delay to wait a loading animation
-                    if (books.isEmpty()) {
-                        _searchState.value = SearchUiState.Empty
-                    } else {
-                        _searchState.value = SearchUiState.Success(books)
-                    }
-                }
+                _searchState.value = if (books.isEmpty()) SearchUiState.Empty
+                else SearchUiState.Success(books)
+
             } catch (e: Exception) {
                 _searchState.value =
                     SearchUiState.Error("Error searching books by title: ${e.message}")
@@ -61,16 +56,12 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             _searchState.value = SearchUiState.Loading
             try {
-                val books = bookRepository.getBooksByAuthor(author)
+                val books = bookRepository.getBooksByAuthor(author).first()
+                delay(1000L) // 1 second delay to wait a loading animation
 
-                books.collect { books ->
-                    delay(1000L) // 1 second delay to wait a loading animation
-                    if (books.isEmpty()) {
-                        _searchState.value = SearchUiState.Empty
-                    } else {
-                        _searchState.value = SearchUiState.Success(books)
-                    }
-                }
+                _searchState.value = if (books.isEmpty()) SearchUiState.Empty
+                else SearchUiState.Success(books)
+
             } catch (e: Exception) {
                 _searchState.value =
                     SearchUiState.Error("Error searching books by author: ${e.message}")
@@ -84,16 +75,12 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             _searchState.value = SearchUiState.Loading
             try {
-                val books = bookRepository.getBooksByYear(year)
+                val books = bookRepository.getBooksByYear(year).first()
+                delay(1000L) // 1 second delay to wait a loading animation
 
-                books.collect { books ->
-                    delay(1000L) // 1 second delay to wait a loading animation
-                    if (books.isEmpty()) {
-                        _searchState.value = SearchUiState.Empty
-                    } else {
-                        _searchState.value = SearchUiState.Success(books)
-                    }
-                }
+                _searchState.value = if (books.isEmpty()) SearchUiState.Empty
+                else SearchUiState.Success(books)
+
             } catch (e: Exception) {
                 _searchState.value =
                     SearchUiState.Error("Error searching books by year: ${e.message}")
@@ -107,19 +94,16 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             _searchState.value = SearchUiState.Loading
             try {
-                val books = bookRepository.getAllBooks()
+                val books = bookRepository.getAllBooks().first()
+                delay(1000L) // 1 second delay to wait a loading animation
 
-                books.collect { books ->
-                    delay(1000L) // 1 second delay to wait a loading animation
-                    if (books.isEmpty()) {
-                        _searchState.value = SearchUiState.Empty
-                    } else {
-                        _searchState.value = SearchUiState.Success(books)
-                    }
-                }
+                _searchState.value = if (books.isEmpty())
+                    SearchUiState.Empty
+                else
+                    SearchUiState.Success(books)
+
             } catch (e: Exception) {
-                _searchState.value =
-                    SearchUiState.Error("Error searching all books: ${e.message}")
+                _searchState.value = SearchUiState.Error("Error searching all books: ${e.message}")
                 delay(2000L)
                 resetState()
             }
@@ -137,9 +121,9 @@ class SearchViewModel @Inject constructor(
 
             try {
                 bookRepository.updateBook(book)
+                searchAllBooks()
             } catch (e: Exception) {
-                _searchState.value =
-                    SearchUiState.Error("Error updating book: ${e.message}")
+                _searchState.value = SearchUiState.Error("Error updating book: ${e.message}")
                 delay(2000L)
                 resetState()
             }
@@ -150,9 +134,9 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 bookRepository.deleteBook(book)
+                searchAllBooks()
             } catch (e: Exception) {
-                _searchState.value =
-                    SearchUiState.Error("Error deleting book: ${e.message}")
+                _searchState.value = SearchUiState.Error("Error deleting book: ${e.message}")
                 delay(2000L)
                 resetState()
             }

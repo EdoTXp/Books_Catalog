@@ -13,14 +13,13 @@
         <item name="android:itemBackground">@color/colorMenubarBackground</item>
         <item name="android:statusBarColor">@color/colorSecondary</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorPrimary">@color/textColor</item>
         <item name="android:textColorSecondary">@color/textColor</item>
         <item name="actionOverflowButtonStyle">@style/ActionOverflowButton</item>
         <item name="materialAlertDialogTheme">@style/AlertDialogTheme</item>
     </style>
 
     <style name="AlertDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="android:textColor">@color/textColor</item>
         <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
     </style>

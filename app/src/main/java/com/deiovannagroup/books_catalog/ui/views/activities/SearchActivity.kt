@@ -10,10 +10,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deiovannagroup.books_catalog.R
 import com.deiovannagroup.books_catalog.databinding.ActivitySearchBinding
+import com.deiovannagroup.books_catalog.domain.services.app_services.AlertDialogService
 import com.deiovannagroup.books_catalog.shared.utils.setEdgeToEdgeLayout
 import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
 import com.deiovannagroup.books_catalog.ui.adapters.BookComponentAdapter
-import com.deiovannagroup.books_catalog.ui.fragments.EmptyBookFragment
+import com.deiovannagroup.books_catalog.ui.fragments.BookOptionsDialogFragment
+import com.deiovannagroup.books_catalog.ui.fragments.EmptyBookSearchFragment
 import com.deiovannagroup.books_catalog.ui.viewmodel.SearchUiState
 import com.deiovannagroup.books_catalog.ui.viewmodel.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,8 +45,8 @@ class SearchActivity : AppCompatActivity() {
     private fun setupFragmentContainer(savedInstanceState: Bundle?) {
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(
-                binding.searchFragmentContainer.id,
-                EmptyBookFragment(),
+                binding.emptyBookSearchFragmentContainer.id,
+                EmptyBookSearchFragment(),
             ).commit()
         }
     }
@@ -60,11 +62,25 @@ class SearchActivity : AppCompatActivity() {
                     book.year.toString()
                 )
                 showToastAndVibrate(getString(R.string.success_msg))
+                binding.rdgSearchBy.check(binding.rbSearchByAll.id)
             }, onLongClickBook = { book ->
+                val dialog = BookOptionsDialogFragment.newInstance(
+                    book.title,
+                    book.author,
+                )
+                dialog.show(supportFragmentManager, "BookOptionsDialog")
 
             }, onDeleteBook = { book ->
-                searchViewModel.deleteBook(book)
-                showToastAndVibrate(getString(R.string.success_msg))
+                AlertDialogService.showDialog(
+                    this,
+                    getString(R.string.delete_item_Title) + " " + book.title + " ?",
+                    getString(R.string.delete_item_msg),
+                    positiveAction = {
+                        searchViewModel.deleteBook(book)
+                        showToastAndVibrate(getString(R.string.success_msg))
+                        binding.rdgSearchBy.check(binding.rbSearchByAll.id)
+                    }
+                )
             }
         )
 
@@ -142,8 +158,9 @@ class SearchActivity : AppCompatActivity() {
                             is SearchUiState.Loading -> binding.progressBar.visibility =
                                 View.VISIBLE
 
-                            is SearchUiState.Empty -> binding.searchFragmentContainer.visibility =
-                                View.VISIBLE
+                            is SearchUiState.Empty ->
+                                binding.emptyBookSearchFragmentContainer.visibility =
+                                    View.VISIBLE
 
                             is SearchUiState.Success -> {
                                 binding.apply {
@@ -174,7 +191,7 @@ class SearchActivity : AppCompatActivity() {
         binding.apply {
             progressBar.visibility = View.GONE
             rvBooks.visibility = View.GONE
-            searchFragmentContainer.visibility = View.GONE
+            emptyBookSearchFragmentContainer.visibility = View.GONE
             fabUp.visibility = View.GONE
             txtSearchFounded.visibility = View.GONE
         }

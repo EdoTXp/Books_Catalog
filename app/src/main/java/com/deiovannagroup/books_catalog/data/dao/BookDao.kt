@@ -36,6 +36,6 @@ interface BookDao {
     @Query("SELECT * FROM books WHERE author LIKE :author")
     fun getBooksByAuthor(author: String): Flow<List<BookEntity>>
 
-    @Query("SELECT * FROM books WHERE year = :year")
-    fun getBooksByYear(year: Int): Flow<List<BookEntity>>
+    @Query("SELECT * FROM books WHERE year LIKE :year")
+    fun getBooksByYear(year: String): Flow<List<BookEntity>>
 }

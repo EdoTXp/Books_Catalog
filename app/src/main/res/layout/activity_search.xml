@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".ui.views.activities.SearchActivity">
 
     <LinearLayout
@@ -90,15 +90,14 @@
             app:iconTint="@color/colorPrimary" />
     </LinearLayout>
 
-
     <TextView
         android:id="@+id/txt_search_founded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:text="@android:string/search_go"
+        android:text="@string/txt_pesquisar"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/textColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_controls" />
@@ -115,10 +114,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_search_founded"
         tools:listitem="@layout/book_component"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/searchFragmentContainer"
+        android:id="@+id/emptyBookSearchFragmentContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
@@ -126,8 +125,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_search_founded"
-        tools:layout="@layout/fragment_empty_book"
-        tools:visibility="visible" />
+        tools:layout="@layout/fragment_empty_book_search"
+        tools:visibility="gone" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabUp"
@@ -153,6 +152,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/search_controls"
-        tools:visibility="visible" />
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

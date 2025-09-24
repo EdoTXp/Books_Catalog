@@ -21,6 +21,7 @@
 
         <activity
             android:name="com.deiovannagroup.books_catalog.ui.views.activities.SearchActivity"
+            android:configChanges="orientation|screenSize"
             android:exported="false"
             android:label="@string/title_activity_tela_pesquisar"
             android:parentActivityName="com.deiovannagroup.books_catalog.ui.views.activities.MainActivity" />

@@ -36,14 +36,23 @@ class LocalBookDataSourceImpl @Inject constructor(
     }
 
     override fun getBooksByTitle(title: String): Flow<List<Book>> {
-        return bookDao.getBooksByTitle(title).map { books -> books.map { it.toBook() } }
+        val jollyTitleSearch = "%$title%"
+        return bookDao.getBooksByTitle(jollyTitleSearch).map { books ->
+            books.map { it.toBook() }
+        }
     }
 
     override fun getBooksByAuthor(author: String): Flow<List<Book>> {
-        return bookDao.getBooksByAuthor(author).map { books -> books.map { it.toBook() } }
+        val jollyAuthorSearch = "%$author%"
+        return bookDao.getBooksByAuthor(jollyAuthorSearch).map { books ->
+            books.map { it.toBook() }
+        }
     }
 
     override fun getBooksByYear(year: Int): Flow<List<Book>> {
-        return bookDao.getBooksByYear(year).map { books -> books.map { it.toBook() } }
+        val jollyYearSearch = "%$year%"
+        return bookDao.getBooksByYear(jollyYearSearch).map { books ->
+            books.map { it.toBook() }
+        }
     }
 }

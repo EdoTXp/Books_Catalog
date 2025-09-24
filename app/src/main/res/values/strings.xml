@@ -82,4 +82,5 @@
     <string name="btn_Pesquisar">Search</string>
     <string name="empty_field_error">This field must not be empty</string>
     <string name="recycler_view_books_content_description">List of Books</string>
+    <string name="share_text">I\'m reading %1$s by %2$s. I recommend it.!</string>
 </resources>

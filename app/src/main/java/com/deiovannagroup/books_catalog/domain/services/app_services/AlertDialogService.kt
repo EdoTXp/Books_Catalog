@@ -5,7 +5,6 @@
 package com.deiovannagroup.books_catalog.domain.services.app_services
 
 import android.content.Context
-import android.content.DialogInterface
 import android.view.View
 import com.deiovannagroup.books_catalog.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -23,7 +22,7 @@ class AlertDialogService {
             positiveAction: () -> Unit,
             negativeAction: (() -> Unit?)? = null,
         ) {
-            MaterialAlertDialogBuilder(context).apply {
+            MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme).apply {
                 setTitle(title)
                 setMessage(message)
                 setIcon(icon)
@@ -32,32 +31,6 @@ class AlertDialogService {
                 }
                 setNegativeButton(negativeButton) { _, _ ->
                     negativeAction?.invoke()
-                }
-                create()
-                show()
-            }
-        }
-
-        fun showDialogWithSingleChoiceItems(
-            context: Context,
-            title: String,
-            message: String? = null,
-            icon: Int = R.drawable.transparent_icon_app,
-            items: Array<String>,
-            checkedItem: Int,
-            checkedAction: (DialogInterface, Int) -> Unit,
-            negativeButton: String = context.resources.getString(R.string.no),
-            negativeAction: ((DialogInterface, Int) -> Unit?)? = null,
-        ) {
-            MaterialAlertDialogBuilder(context).apply {
-                setTitle(title)
-                setMessage(message)
-                setIcon(icon)
-                setSingleChoiceItems(items, checkedItem) { dialog, checkedItem ->
-                    checkedAction(dialog, checkedItem)
-                }
-                setNegativeButton(negativeButton) { dialog, checkedItem ->
-                    negativeAction?.invoke(dialog, checkedItem)
                 }
                 create()
                 show()
@@ -76,7 +49,7 @@ class AlertDialogService {
             negativeAction: (() -> Unit?)? = null
         ) {
 
-            MaterialAlertDialogBuilder(context).apply {
+            MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme).apply {
                 setTitle(title)
                 setMessage(message)
                 setIcon(icon)
