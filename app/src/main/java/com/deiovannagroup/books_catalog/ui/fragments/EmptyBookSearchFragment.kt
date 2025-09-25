@@ -15,19 +15,15 @@ import com.deiovannagroup.books_catalog.databinding.FragmentEmptyBookSearchBindi
 import com.deiovannagroup.books_catalog.ui.views.activities.InsertBookActivity
 
 class EmptyBookSearchFragment : Fragment() {
-    private lateinit var binding: FragmentEmptyBookSearchBinding
+    private val binding by lazy {
+        FragmentEmptyBookSearchBinding.inflate(layoutInflater)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentEmptyBookSearchBinding.inflate(
-            inflater,
-            container,
-            false,
-        )
-
         binding.btnNewBook.setOnClickListener {
             val intent = Intent(
                 requireContext(),

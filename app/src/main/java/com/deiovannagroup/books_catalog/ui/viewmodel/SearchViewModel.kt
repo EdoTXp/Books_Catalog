@@ -33,6 +33,19 @@ class SearchViewModel @Inject constructor(
     private val _searchState = MutableStateFlow<SearchUiState>(SearchUiState.Initial)
     val searchState: StateFlow<SearchUiState> = _searchState
 
+    private val _bookPendingDeletion = MutableStateFlow<Book?>(null)
+
+    fun setBookPendingDeletion(book: Book) {
+        _bookPendingDeletion.value = book
+    }
+
+    fun confirmDeleteBook() {
+        _bookPendingDeletion.value?.let { book ->
+            deleteBook(book)
+            _bookPendingDeletion.value = null
+        }
+    }
+
     fun searchBookByTitle(title: String) {
         viewModelScope.launch {
             _searchState.value = SearchUiState.Loading
@@ -130,7 +143,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun deleteBook(book: Book) {
+    private fun deleteBook(book: Book) {
         viewModelScope.launch {
             try {
                 bookRepository.deleteBook(book)

@@ -12,10 +12,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.deiovannagroup.books_catalog.R
 import com.deiovannagroup.books_catalog.databinding.ActivitySettingsBinding
-import com.deiovannagroup.books_catalog.domain.services.app_services.AlertDialogService
 import com.deiovannagroup.books_catalog.shared.utils.setEdgeToEdgeLayout
 import com.deiovannagroup.books_catalog.shared.utils.setSupportActionBar
 import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
+import com.deiovannagroup.books_catalog.ui.fragments.ConfirmationDialogFragment
 import com.deiovannagroup.books_catalog.ui.viewmodel.SettingsUiEvent
 import com.deiovannagroup.books_catalog.ui.viewmodel.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +32,15 @@ class SettingsActivity : AppCompatActivity() {
         setSupportActionBar()
         initListeners()
         setupObservers()
+        setupFragmentResultListener()
+    }
+
+    private fun setupFragmentResultListener() {
+        supportFragmentManager.setFragmentResultListener(
+            REQUEST_KEY_CLEAR_DATA, this
+        ) { requestKey, result ->
+            settingsViewModel.onConfirmClearData()
+        }
     }
 
     private fun setupObservers() {
@@ -51,11 +60,13 @@ class SettingsActivity : AppCompatActivity() {
                             )
 
                             is SettingsUiEvent.ShowConfirmationDialog -> {
-                                AlertDialogService.showDialog(
-                                    context = this@SettingsActivity,
-                                    message = getString(event.messageId),
-                                    title = getString(event.titleId),
-                                    positiveAction = { event.onConfirm() }
+                                ConfirmationDialogFragment.newInstance(
+                                    getString(event.titleId),
+                                    getString(event.messageId),
+                                    REQUEST_KEY_CLEAR_DATA
+                                ).show(
+                                    supportFragmentManager,
+                                    "ConfirmationDialog",
                                 )
                             }
                         }
@@ -85,5 +96,9 @@ class SettingsActivity : AppCompatActivity() {
             else -> return
         }
         binding.radioGroupTheme.check(buttonId)
+    }
+
+    companion object {
+        const val REQUEST_KEY_CLEAR_DATA = "request_key_clear_data"
     }
 }

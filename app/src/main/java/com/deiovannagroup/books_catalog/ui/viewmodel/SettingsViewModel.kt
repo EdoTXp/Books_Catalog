@@ -22,7 +22,7 @@ import javax.inject.Inject
 sealed class SettingsUiEvent {
     data class ShowToast(val messageId: Int) : SettingsUiEvent()
     data class ShowConfirmationDialog(
-        val titleId: Int, val messageId: Int, val onConfirm: () -> Unit
+        val titleId: Int, val messageId: Int
     ) : SettingsUiEvent()
 }
 
@@ -63,11 +63,13 @@ class SettingsViewModel @Inject constructor(
             _uiEvents.send(
                 SettingsUiEvent.ShowConfirmationDialog(
                     titleId = R.string.btn_clear_data,
-                    messageId = R.string.alert_dialog_message,
-                    onConfirm = { clearApplicationData() })
+                    messageId = R.string.alert_dialog_message
+                )
             )
         }
     }
+
+    fun onConfirmClearData() = clearApplicationData()
 
     private fun clearApplicationData() {
         viewModelScope.launch {

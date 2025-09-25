@@ -5,23 +5,20 @@ package com.deiovannagroup.books_catalog.ui.views.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.MenuProvider
 import androidx.lifecycle.Lifecycle
 import com.deiovannagroup.books_catalog.BuildConfig
 import com.deiovannagroup.books_catalog.R
 import com.deiovannagroup.books_catalog.databinding.ActivityMainBinding
-import com.deiovannagroup.books_catalog.domain.services.app_services.AlertDialogService
 import com.deiovannagroup.books_catalog.domain.services.email_service.EmailService
 import com.deiovannagroup.books_catalog.shared.utils.setEdgeToEdgeLayout
 import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
+import com.deiovannagroup.books_catalog.ui.fragments.EmailFeedbackDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -40,6 +37,17 @@ class MainActivity : AppCompatActivity() {
         setEdgeToEdgeLayout(binding.root, binding.main)
         initMenuBar()
         initListeners()
+        setupFragmentResultListener()
+    }
+
+    private fun setupFragmentResultListener() {
+        supportFragmentManager.setFragmentResultListener(
+            REQUEST_KEY_EMAIL_FEEDBACK, this
+        ) { requestKey, bundle ->
+            val feedbackText = bundle.getString(EmailFeedbackDialogFragment.RESULT_FEEDBACK_TEXT)
+
+            if (feedbackText != null) sendFeedbackEmail(feedbackText)
+        }
     }
 
     private fun initListeners() {
@@ -84,7 +92,13 @@ class MainActivity : AppCompatActivity() {
                         }
 
                         R.id.menu_feedback -> {
-                            showFeedbackEmailDialog()
+                            EmailFeedbackDialogFragment.newInstance(
+                                REQUEST_KEY_EMAIL_FEEDBACK,
+                            )
+                                .show(
+                                    supportFragmentManager,
+                                    "EmailFeedbackDialog",
+                                )
                             true
                         }
 
@@ -98,33 +112,6 @@ class MainActivity : AppCompatActivity() {
                 }
             },
             this, Lifecycle.State.RESUMED,
-        )
-    }
-
-    private fun showFeedbackEmailDialog() {
-        val emailEditText = EditText(this).apply {
-            inputType =
-                android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE
-            gravity = Gravity.START or Gravity.TOP
-            isSingleLine = false
-            minLines = 3
-            isHorizontalScrollBarEnabled = false
-            hint = getString(R.string.email_textHint)
-            setHintTextColor(ResourcesCompat.getColor(resources, R.color.textColorHint, theme))
-            setTextColor(ResourcesCompat.getColor(resources, R.color.textColor, theme))
-        }
-
-        AlertDialogService.showDialogWithCustomView(
-            context = this,
-            title = getString(R.string.email_title),
-            customView = emailEditText,
-            positiveButton = getString(R.string.email_btn_send),
-            negativeButton = getString(R.string.email_btn_cancel),
-            positiveAction = {
-                sendFeedbackEmail(
-                    emailEditText.text.toString()
-                )
-            },
         )
     }
 
@@ -152,5 +139,9 @@ class MainActivity : AppCompatActivity() {
             SimpleDateFormat("HH:mm - dd/MM/yyyy", userLocale)
         }
         return dateFormat.format(Calendar.getInstance(userLocale).time)
+    }
+
+    companion object {
+        const val REQUEST_KEY_EMAIL_FEEDBACK = "request_key_email_feedback"
     }
 }
