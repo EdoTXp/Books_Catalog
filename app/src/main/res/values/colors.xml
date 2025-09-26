@@ -4,7 +4,6 @@
   -->
 
 <resources>
-
     <!-- color of default theme -->
     <color name="white">#FFFCFCFC</color>
     <color name="black">#FF000000</color>

@@ -22,7 +22,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 8
-        versionName = "8.4.0 How Many Rooms"
+        versionName = "8.4.1 How Many Rooms"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

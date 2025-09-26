@@ -40,7 +40,7 @@
     <string name="email_subject">"Assistenza Catalogo Libri,  codice messaggio:  "</string>
     <string name="email_title">Scrivi il Messaggio</string>
     <string name="email_btn_send">INVIA</string>
-    <string name="email_btn_cancel">ANNULLA</string>
+    <string name="btn_cancel">ANNULLA</string>
     <string name="email_chooseapp">Scegli un\'app per inviare l\'e-mail:</string>
     <string name="email_notextinsert">Nessun testo inserito.</string>
     <string name="email_timegenerated">"Messaggio generato alle: "</string>

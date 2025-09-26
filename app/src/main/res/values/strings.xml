@@ -45,7 +45,7 @@
     <string name="email_subject">"Book Catalog Assistance, message code: "</string>
     <string name="email_title">Write your Message</string>
     <string name="email_btn_send">SEND</string>
-    <string name="email_btn_cancel">@android:string/cancel</string>
+    <string name="btn_cancel">@android:string/cancel</string>
     <string name="email_chooseapp">Choose an app to send the email:</string>
     <string name="email_notextinsert">No text inserted.</string>
     <string name="email_timegenerated">"Message generated at: "</string>

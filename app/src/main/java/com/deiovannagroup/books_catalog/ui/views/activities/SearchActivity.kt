@@ -15,6 +15,7 @@ import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
 import com.deiovannagroup.books_catalog.ui.adapters.BookComponentAdapter
 import com.deiovannagroup.books_catalog.ui.fragments.BookOptionsDialogFragment
 import com.deiovannagroup.books_catalog.ui.fragments.ConfirmationDialogFragment
+import com.deiovannagroup.books_catalog.ui.fragments.EditBookDialogFragment
 import com.deiovannagroup.books_catalog.ui.fragments.EmptyBookSearchFragment
 import com.deiovannagroup.books_catalog.ui.viewmodel.SearchUiState
 import com.deiovannagroup.books_catalog.ui.viewmodel.SearchViewModel
@@ -53,10 +54,24 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun setupFragmentResultListener() {
+        // Listener for delete book confirmation
         supportFragmentManager.setFragmentResultListener(
             REQUEST_KEY_DELETE_BOOK, this
-        ) { requestKey, result ->
+        ) { _, result ->
             searchViewModel.confirmDeleteBook()
+            showToastAndVibrate(getString(R.string.success_msg))
+            binding.rdgSearchBy.check(binding.rbSearchByAll.id)
+        }
+
+        // Listener for edit book
+        supportFragmentManager.setFragmentResultListener(REQUEST_KEY_EDIT_BOOK, this)
+        { _, bundle ->
+            val id = bundle.getInt(EditBookDialogFragment.RESULT_BOOK_ID)
+            val title = bundle.getString(EditBookDialogFragment.RESULT_BOOK_TITLE, "")
+            val author = bundle.getString(EditBookDialogFragment.RESULT_BOOK_AUTHOR, "")
+            val year = bundle.getString(EditBookDialogFragment.RESULT_BOOK_YEAR, "")
+
+            searchViewModel.updateBook(id, title, author, year)
             showToastAndVibrate(getString(R.string.success_msg))
             binding.rdgSearchBy.check(binding.rbSearchByAll.id)
         }
@@ -66,14 +81,17 @@ class SearchActivity : AppCompatActivity() {
     private fun setupUI() {
         bookAdapter = BookComponentAdapter(
             onEditBook = { book ->
-                searchViewModel.updateBook(
+                EditBookDialogFragment.newInstance(
+                    REQUEST_KEY_EDIT_BOOK,
                     book.id,
                     book.title,
                     book.author,
-                    book.year.toString()
+                    book.year,
+                ).show(
+                    supportFragmentManager,
+                    "EditBookDialog",
                 )
-                showToastAndVibrate(getString(R.string.success_msg))
-                binding.rdgSearchBy.check(binding.rbSearchByAll.id)
+
             }, onLongClickBook = { book ->
                 BookOptionsDialogFragment.newInstance(
                     book.title,
@@ -212,5 +230,6 @@ class SearchActivity : AppCompatActivity() {
 
     companion object {
         const val REQUEST_KEY_DELETE_BOOK = "request_key_delete_book"
+        const val REQUEST_KEY_EDIT_BOOK = "request_key_edit_book"
     }
 }

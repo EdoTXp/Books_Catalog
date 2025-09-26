@@ -38,7 +38,7 @@ class EmailFeedbackDialogFragment : DialogFragment() {
                     )
                 }
             }.setNegativeButton(
-                context?.resources?.getString(R.string.email_btn_cancel),
+                context?.resources?.getString(R.string.btn_cancel),
                 null,
             ).create()
     }
