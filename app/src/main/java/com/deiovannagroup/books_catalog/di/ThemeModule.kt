@@ -5,8 +5,10 @@
 package com.deiovannagroup.books_catalog.di
 
 import android.content.Context
-import com.deiovannagroup.books_catalog.shared.helpers.ThemeSharedPreference
+import com.deiovannagroup.books_catalog.data.datasources.theme_data_source.ThemeDataSource
 import com.deiovannagroup.books_catalog.data.repositories.theme_repository.ThemeRepository
+import com.deiovannagroup.books_catalog.data.datasources.theme_data_source.ThemeSharedPreferenceDataSourceImpl
+import com.deiovannagroup.books_catalog.data.repositories.theme_repository.ThemeRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,15 +23,15 @@ object ThemeModule {
     @Singleton
     fun provideSharedPreferencesHelper(
         @ApplicationContext appContext: Context,
-    ): ThemeSharedPreference {
-        return ThemeSharedPreference(appContext)
+    ): ThemeDataSource {
+        return ThemeSharedPreferenceDataSourceImpl(appContext)
     }
 
     @Provides
     @Singleton
     fun provideThemeRepository(
-        themeSharedPreference: ThemeSharedPreference,
+        themeDataSource: ThemeSharedPreferenceDataSourceImpl,
     ): ThemeRepository {
-        return ThemeRepository(themeSharedPreference)
+        return ThemeRepositoryImpl(themeDataSource)
     }
 }

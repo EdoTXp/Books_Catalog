@@ -2,14 +2,14 @@
  * Copyright (c) 2023. Esta classe está sendo consedida para uso personal
  */
 
-package com.deiovannagroup.books_catalog.ui.viewmodel
+package com.deiovannagroup.books_catalog.ui.viewmodels
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.deiovannagroup.books_catalog.R
-import com.deiovannagroup.books_catalog.data.repositories.theme_repository.ThemeRepository
 import com.deiovannagroup.books_catalog.data.repositories.data_repository.DataRepository
+import com.deiovannagroup.books_catalog.data.repositories.theme_repository.ThemeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,7 +32,7 @@ class SettingsViewModel @Inject constructor(
     private val dataRepository: DataRepository,
 ) : ViewModel() {
 
-    private val _themeState = MutableStateFlow(themeRepository.getTheme())
+    private val _themeState = MutableStateFlow(themeRepository.theme.value)
     val themeState: StateFlow<Int> = _themeState.asStateFlow()
 
     private val _uiEvents = Channel<SettingsUiEvent>()
@@ -69,12 +69,13 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun onConfirmClearData() = clearApplicationData()
-
-    private fun clearApplicationData() {
+    fun onConfirmClearData() {
         viewModelScope.launch {
             dataRepository.clearApplicationData().collect { success ->
-                val messageId = if (success) R.string.success_msg else R.string.error_msg
+                val messageId =
+                    if (success) R.string.success_msg
+                    else R.string.error_msg
+
                 _uiEvents.send(SettingsUiEvent.ShowToast(messageId))
             }
         }

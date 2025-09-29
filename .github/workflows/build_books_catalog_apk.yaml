@@ -57,18 +57,22 @@ jobs:
       - name: Analyze Project
         run: ./gradlew lint check
 
-      #6 Build Release APK (signed)
+      #6 Test Project
+      - name: Analyze Project
+        run: ./gradlew test
+
+      #7 Build Release APK (signed)
       - name: Build Release APK
         run: ./gradlew assembleRelease
 
-      #7 Extract Version Name
+      #8 Extract Version Name
       - name: Extract version from Gradle
         id: extract_version
         run: |
           version=$(./gradlew -q printVersionNumber | tail -n 1)
           echo "VERSION=$version" >> $GITHUB_ENV
 
-      #8 Check if Tag Exists
+      #9 Check if Tag Exists
       - name: Check if Tag Exists
         id: check_tag
         run: |
@@ -78,14 +82,14 @@ jobs:
             echo "TAG_EXISTS=false" >> $GITHUB_ENV
           fi
 
-      #9 Modify Tag if it Exists
+      #10 Modify Tag if it Exists
       - name: Modify Tag
         if: env.TAG_EXISTS == 'true'
         run: |
           new_version="${{ env.VERSION }}-build-${{ github.run_number }}"
           echo "VERSION=$new_version" >> $GITHUB_ENV
 
-      #10 Create Release
+      #11 Create Release
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:

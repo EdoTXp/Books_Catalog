@@ -2,7 +2,7 @@
  * Copyright (c) 2023. Está classe está sendo consedida para uso pessoal
  */
 
-package com.deiovannagroup.books_catalog.shared.utils
+package com.deiovannagroup.books_catalog.ui.extensions
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.deiovannagroup.books_catalog.domain.services.app_services.VibratorService
+import com.deiovannagroup.books_catalog.domain.services.vibrator_service.VibratorService
 
 fun AppCompatActivity.setEdgeToEdgeLayout(bindingRoot: View, mainView: View) {
     enableEdgeToEdge()

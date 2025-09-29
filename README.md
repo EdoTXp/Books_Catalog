@@ -22,7 +22,7 @@ apply and master modern Android development best practices, including:
 - **Kotlin Flow:** For reactive and asynchronous data stream management.
 - **Hilt:** For robust dependency injection.
 
-This application is **currently a work in progress**. I am dedicated to continuously learning,
+I am dedicated to continuously learning,
 applying new techniques, and iteratively improving its structure, features, and overall code
 quality.
 

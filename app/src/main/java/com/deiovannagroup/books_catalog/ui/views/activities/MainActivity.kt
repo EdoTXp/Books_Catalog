@@ -16,8 +16,8 @@ import com.deiovannagroup.books_catalog.BuildConfig
 import com.deiovannagroup.books_catalog.R
 import com.deiovannagroup.books_catalog.databinding.ActivityMainBinding
 import com.deiovannagroup.books_catalog.domain.services.email_service.EmailService
-import com.deiovannagroup.books_catalog.shared.utils.setEdgeToEdgeLayout
-import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
+import com.deiovannagroup.books_catalog.ui.extensions.setEdgeToEdgeLayout
+import com.deiovannagroup.books_catalog.ui.extensions.showToastAndVibrate
 import com.deiovannagroup.books_catalog.ui.fragments.EmailFeedbackDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat

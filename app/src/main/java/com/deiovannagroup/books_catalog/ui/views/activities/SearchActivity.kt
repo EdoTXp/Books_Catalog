@@ -10,15 +10,15 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deiovannagroup.books_catalog.R
 import com.deiovannagroup.books_catalog.databinding.ActivitySearchBinding
-import com.deiovannagroup.books_catalog.shared.utils.setEdgeToEdgeLayout
-import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
+import com.deiovannagroup.books_catalog.ui.extensions.setEdgeToEdgeLayout
+import com.deiovannagroup.books_catalog.ui.extensions.showToastAndVibrate
 import com.deiovannagroup.books_catalog.ui.adapters.BookComponentAdapter
 import com.deiovannagroup.books_catalog.ui.fragments.BookOptionsDialogFragment
 import com.deiovannagroup.books_catalog.ui.fragments.ConfirmationDialogFragment
 import com.deiovannagroup.books_catalog.ui.fragments.EditBookDialogFragment
 import com.deiovannagroup.books_catalog.ui.fragments.EmptyBookSearchFragment
-import com.deiovannagroup.books_catalog.ui.viewmodel.SearchUiState
-import com.deiovannagroup.books_catalog.ui.viewmodel.SearchViewModel
+import com.deiovannagroup.books_catalog.ui.viewmodels.SearchUiState
+import com.deiovannagroup.books_catalog.ui.viewmodels.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

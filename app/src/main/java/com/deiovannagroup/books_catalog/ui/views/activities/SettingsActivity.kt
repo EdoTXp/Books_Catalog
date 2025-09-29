@@ -12,12 +12,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.deiovannagroup.books_catalog.R
 import com.deiovannagroup.books_catalog.databinding.ActivitySettingsBinding
-import com.deiovannagroup.books_catalog.shared.utils.setEdgeToEdgeLayout
-import com.deiovannagroup.books_catalog.shared.utils.setSupportActionBar
-import com.deiovannagroup.books_catalog.shared.utils.showToastAndVibrate
+import com.deiovannagroup.books_catalog.ui.extensions.setEdgeToEdgeLayout
+import com.deiovannagroup.books_catalog.ui.extensions.setSupportActionBar
+import com.deiovannagroup.books_catalog.ui.extensions.showToastAndVibrate
 import com.deiovannagroup.books_catalog.ui.fragments.ConfirmationDialogFragment
-import com.deiovannagroup.books_catalog.ui.viewmodel.SettingsUiEvent
-import com.deiovannagroup.books_catalog.ui.viewmodel.SettingsViewModel
+import com.deiovannagroup.books_catalog.ui.viewmodels.SettingsUiEvent
+import com.deiovannagroup.books_catalog.ui.viewmodels.SettingsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

@@ -7,6 +7,5 @@ package com.deiovannagroup.books_catalog.data.repositories.data_repository
 import kotlinx.coroutines.flow.Flow
 
 interface DataRepository {
-
     suspend fun clearApplicationData(): Flow<Boolean>
 }
