@@ -58,7 +58,7 @@ jobs:
         run: ./gradlew lint check
 
       #6 Test Project
-      - name: Analyze Project
+      - name: Test Project
         run: ./gradlew test
 
       #7 Build Release APK (signed)
